@@ -1,0 +1,42 @@
+﻿@inherits LayoutComponentBase
+
+<style>
+    body {
+        background-image: url('images/ecu911-plantacentral.jpg');
+        height: 100%;
+        Width: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+<PageTitle>Inicio</PageTitle>
+
+
+<MudCardContent Class="d-flex align-center">
+    <MudPaper Height="200px" Width="25%" Style="margin: 200px; color=transparent" Elevation="10">
+        <MudItem xs="12" Class="d-flex justify-center align-center">
+            <MudText Typo="Typo.h5">Bienvenido</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField Label="Usuario" @bind-Value="usuario" Variant="Variant.Outlined"></MudTextField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField Label="Contraseña" @bind-Value="password" Variant="Variant.Outlined"></MudTextField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudButton Class="d-flex justify-center align-center" Color="Color.Primary">Olvidaste tu contraseña?</MudButton>
+        </MudItem>
+        <MudItem xs="12" Class="d-flex justify-center align-center">
+            <MudButton Variant="Variant.Filled" Class="align-self-center mt-6" Color="Color.Primary">Ingresar</MudButton>
+        </MudItem>
+    </MudPaper>
+</MudCardContent>
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+@code {
+    private string usuario = " ", password = "", TextValue = "", _tokenModel = "";
+    User model = new User();
+}
+

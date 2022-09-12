@@ -1,0 +1,31 @@
+﻿@page "/etapaprecontractual"
+<PageTitle>Etapa Pre-Contractual</PageTitle>
+<MudText Align="Align.Center" Typo="Typo.h3" >EtapaPreContractual</MudText>
+
+<MudGrid Style="padding:50px">
+
+    <MudItem xs="12" sm="4" md="4">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+    </MudItem>
+
+    <MudItem xs="10" sm="4" md="4">
+        <MudNumericField Immediate="false" HideSpinButtons="true" Label="Valor adjudicadao(con IVA)" Format="N2" T="double?" @bind-Value="_valueEn" HelperText="@_valueEn.ToString()" Min="0.0" />
+    </MudItem>
+
+    <MudItem xs="8" sm="4" md="4">
+        <MudTextField @bind-Value="TextValue" Label="Administrador del cotrato" Variant="Variant.Text"></MudTextField>
+    </MudItem>
+
+</MudGrid>
+
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">Guardar</MudButton>
+</MudContainer>
+
+@code { 
+    public double? _valueEn = 0000.00;
+    private string value1 = " ", value2 = "", TextValue = "";
+
+}
+
+

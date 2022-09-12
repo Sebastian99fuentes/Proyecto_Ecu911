@@ -1,0 +1,143 @@
+﻿
+@page "/crearproceso"
+<PageTitle>Crear Proceso</PageTitle>
+
+    <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso</MudText>
+<MudGrid Style="padding:50px">
+
+    <MudItem xs="12" sm="6" md="6">
+        <MudAutocomplete T="string" Label="Planta Central/Zonal/Local" @bind-Value="value2" SearchFunc="Search1"
+                         ResetValueOnEmptyText="@resetValueOnEmptyText"
+                         CoerceText="@coerceText" CoerceValue="@coerceValue"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="6">
+        <MudAutocomplete T="string" Label="Unidad" @bind-Value="value2" SearchFunc=" BusquedaUnidad"
+                         ResetValueOnEmptyText="@resetValueOnEmptyText"
+                         CoerceText="@coerceText" CoerceValue="@coerceValue"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
+    </MudItem>
+
+    <MudItem xs="10" sm="6" md="6">
+        <MudAutocomplete T="string" Label="Unidad" @bind-Value="value2" SearchFunc="BusquedaAreaRequiriente"
+                         ResetValueOnEmptyText="@resetValueOnEmptyText"
+                         CoerceText="@coerceText" CoerceValue="@coerceValue"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />     
+    </MudItem>
+
+    <MudItem xs="10" sm="6" md="6">
+        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="CPC" Variant="Variant.Text" Min="0" />
+    </MudItem>
+
+    <MudItem xs="8" sm="6" md="6">
+        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Grupo de Gasto" Variant="Variant.Text" Min="0" />
+    </MudItem>
+
+    <MudItem xs="8" sm="6" md="6">
+        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Item Presupuestario" Variant="Variant.Text" Min="0" />
+    </MudItem>
+
+    <MudItem xs="6" sm="6" md="4">
+
+        <MudAutocomplete T="string" Label="Procedimiento de Contratación" @bind-Value="value2" SearchFunc="BusquedaProcedimientoContratacion"
+                         ResetValueOnEmptyText="@resetValueOnEmptyText"
+                         CoerceText="@coerceText" CoerceValue="@coerceValue"
+                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
+    </MudItem>
+
+    <MudItem xs="6" sm="6" md="4"> 
+        <MudNumericField Immediate="false"HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="double?" @bind-Value="_valueEn" HelperText="@_valueEn.ToString()" Min="0.0" />
+    </MudItem>
+
+    <MudItem xs="6" sm="6" md="4">
+        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Cuatrimestre Planificado" Variant="Variant.Text" Min="0" Max="4" />
+    </MudItem>
+
+    <MudItem xs="4" sm="12" md="12">
+        <MudTextField T="string" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="10" />
+    </MudItem>
+
+    </MudGrid>
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">Guardar Proceso</MudButton>
+</MudContainer>
+
+@code {
+    private bool resetValueOnEmptyText;
+    private bool coerceText;
+    private bool coerceValue;
+    private double doubleValue;
+    public double? _valueEn = 0000.00;
+    public int? IntValue;
+    private string value1 = " ", value2 = "", TextValue= "";
+
+   
+    //public string TextValue { get; set; }
+
+    private string[] PlantCentrdata =
+    {
+        "Planta Central", "Centro Zonal","Planta Central/Zonal/Local", "x"
+    };
+    private string[] Unidad =
+    {
+        "Dirección de Administración de Recursos Humanos", "Dirección Financiera","Dirección Administrativa"
+    };
+    private string[] AreaRequiriente =
+    {
+        "Dirección de Recursos Humanos", "Dirección Financiera","Dirección Administrativa"
+    };
+    private string[] ProcedimientoContratacion =
+       {
+        "Catálogo electronico", "Ínfima cuantía","Subasta Inversa", "Menor Cuantía", "Consultoría Contratación Directa", "Régimen Especial"
+    };
+
+    private async Task<IEnumerable<string>> Search1(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return PlantCentrdata;
+        return PlantCentrdata.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+
+    private async Task<IEnumerable<string>> BusquedaUnidad(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return Unidad;
+        return Unidad.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+
+    private async Task<IEnumerable<string>> BusquedaAreaRequiriente(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return AreaRequiriente;
+        return AreaRequiriente.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+    private async Task<IEnumerable<string>> BusquedaProcedimientoContratacion(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return ProcedimientoContratacion;
+        return ProcedimientoContratacion.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+
+
+}
+
