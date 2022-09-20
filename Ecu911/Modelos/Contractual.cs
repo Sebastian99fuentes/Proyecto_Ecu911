@@ -7,11 +7,10 @@ namespace Ecu911.Modelos
     public partial class Contractual
     {
         [Key]
-        [Required]
-        public Guid ContractualId { get; set; }
+        public string? ContractualId { get; set; }
 
         [ForeignKey("IdPrecontractual")]
-        public Guid? IdPrecontractual { get; set; }
+        public string? IdPrecontractual { get; set; }
         public Precontractual? Precontractual { get; set; }
 
         [Display(Name = "Fecha de suscripción")]
@@ -23,12 +22,13 @@ namespace Ecu911.Modelos
         public DateOnly fechaFinalizacion { get; set; }
 
         [Required]
-        public int rucOferente { get; set; }
+        public string rucOferente { get; set; }
 
         [Required]
         [StringLength(40)]
         public string nombreProveedor { get; set; }
 
-
+        [Required]
+        public string plazoContrato { get; set; }
     }
 }

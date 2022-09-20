@@ -3,59 +3,62 @@
 <PageTitle>Crear Proceso</PageTitle>
 
     <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso</MudText>
+
+<EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
 
     <MudItem xs="12" sm="6" md="6">
-        <MudAutocomplete T="string" Label="Planta Central/Zonal/Local" @bind-Value="value2" SearchFunc="Search1"
+        <MudAutocomplete T="string" Label="Planta Central/Zonal/Local" @bind-Value="respuesta" SearchFunc="Search1"
                          ResetValueOnEmptyText="@resetValueOnEmptyText"
                          CoerceText="@coerceText" CoerceValue="@coerceValue"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
     </MudItem>
 
     <MudItem xs="12" sm="6" md="6">
-        <MudAutocomplete T="string" Label="Unidad" @bind-Value="value2" SearchFunc=" BusquedaUnidad"
+            <MudAutocomplete T="string" Label="Unidad" @bind-Value="respuesta" SearchFunc=" BusquedaUnidad"
                          ResetValueOnEmptyText="@resetValueOnEmptyText"
                          CoerceText="@coerceText" CoerceValue="@coerceValue"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
     </MudItem>
 
     <MudItem xs="10" sm="6" md="6">
-        <MudAutocomplete T="string" Label="Unidad" @bind-Value="value2" SearchFunc="BusquedaAreaRequiriente"
+        <MudAutocomplete T="String" Label="Area" @bind-Value="respuesta" SearchFunc="BusquedaAreaRequiriente"
                          ResetValueOnEmptyText="@resetValueOnEmptyText"
                          CoerceText="@coerceText" CoerceValue="@coerceValue"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />     
     </MudItem>
 
     <MudItem xs="10" sm="6" md="6">
-        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="CPC" Variant="Variant.Text" Min="0" />
+
+            <MudNumericField HideSpinButtons="true" T="String" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text"  />
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
-        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Grupo de Gasto" Variant="Variant.Text" Min="0" />
+        <MudNumericField HideSpinButtons="true" T="String" @bind-Value="registro.grupoGasto" Label="Grupo de Gasto" Variant="Variant.Text" />
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
-        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Item Presupuestario" Variant="Variant.Text" Min="0" />
+        <MudNumericField HideSpinButtons="true" T="String" @bind-Value="registro.itemPresup" Label="Item Presupuestario" Variant="Variant.Text"  />
     </MudItem>
 
     <MudItem xs="6" sm="6" md="4">
 
-        <MudAutocomplete T="string" Label="Procedimiento de Contratación" @bind-Value="value2" SearchFunc="BusquedaProcedimientoContratacion"
+        <MudAutocomplete  Label="Procedimiento de Contratación" @bind-Value="registro2Procedimiento.tipoProcedimiento" SearchFunc="BusquedaProcedimientoContratacion"
                          ResetValueOnEmptyText="@resetValueOnEmptyText"
                          CoerceText="@coerceText" CoerceValue="@coerceValue"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
     </MudItem>
 
     <MudItem xs="6" sm="6" md="4"> 
-        <MudNumericField Immediate="false"HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="double?" @bind-Value="_valueEn" HelperText="@_valueEn.ToString()" Min="0.0" />
+        <MudNumericField Immediate="false"HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total"  />
     </MudItem>
 
     <MudItem xs="6" sm="6" md="4">
-        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Cuatrimestre Planificado" Variant="Variant.Text" Min="0" Max="4" />
+        <MudNumericField HideSpinButtons="true" @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado" Variant="Variant.Text" Min="0" Max="4" />
     </MudItem>
 
     <MudItem xs="4" sm="12" md="12">
-        <MudTextField T="string" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="10" />
+            <MudTextField T="string" @bind-Value="registro.descripcion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
     </MudItem>
 
     </MudGrid>
@@ -63,16 +66,22 @@
     <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">Guardar Proceso</MudButton>
 </MudContainer>
 
+
+</EditForm>
 @code {
+
+    ProcesoCompra registro = new();
+
+    ProcedimientoContratacion registro2Procedimiento = new();
+
+
+
     private bool resetValueOnEmptyText;
     private bool coerceText;
     private bool coerceValue;
-    private double doubleValue;
-    public double? _valueEn = 0000.00;
-    public int? IntValue;
-    private string value1 = " ", value2 = "", TextValue= "";
 
-   
+    private string respuesta;
+
     //public string TextValue { get; set; }
 
     private string[] PlantCentrdata =
@@ -137,6 +146,56 @@
         return ProcedimientoContratacion.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
     }
 
+
+    //Tablas  para llenar  ESTADOS, ETAPAS, PLANTAUNIDADAREA, ProcedimientoContraci[ones]
+
+    //Para crear un usuario necesita de pantaunidadarea
+
+    //Tabla Proceso compras requiere todo esto, Preparatoria requiere proceso compras
+
+    //Precontractual REquiere preparatoria y contractual requiere contractual 
+
+    //observaciones necesita que exista un proceso compras = que alertas 
+
+    //Tablas de fecha reasignacion Ida y Vuelta necesita plana unidad area y proceso de compras
+
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    HttpClient poo = new HttpClient();
+    //Variant data = JsonSerializer
+
+
+    //protected async void HandleValidSumbit()
+    //{
+        //await apiService.SetAuthHeaders();
+        //HttpResponseMessage response = new();
+        //try
+        //{
+        //    response = await apiService.HttpClient.PostAsJsonAsync("estadosoperativos", registro);
+        //}
+        //catch (NotAuthorizedException)
+        //{
+        //    await logOutService.LogOut();
+        //}
+
+        //try
+        //{
+        //    response.EnsureSuccessStatusCode();
+        //    var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
+        //    snackBar.Add("Estado operativo agregado!", Severity.Success);
+        //    NavigationManager.NavigateTo("estadosoperativos");
+
+        //}
+        //catch (HttpRequestException)
+        //{
+        //    var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+        //    snackBar.Add($"{data.Message}", Severity.Error);
+        //}
+
+    }
 
 
 }

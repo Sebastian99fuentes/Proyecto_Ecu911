@@ -2,38 +2,40 @@
 
 <PageTitle>Etapa Contractual</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3">Etapa Contractual</MudText>
+<EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
 
-    <MudItem xs="12" sm="6" md="6">      
-        <MudDatePicker PickerVariant="PickerVariant.Dialog"  HelperText="Fecha de suscripción del contrato/orden de compra" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+    <MudItem xs="12" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de suscripción del contrato/orden de compra" @bind-Value="registro.fechaSuscripcion" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
     </MudItem>
 
     <MudItem xs="12" sm="6" md="6">
-        <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de finalización del contrato/orden de compra" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de finalización del contrato/orden de compra" @bind-Value="registro.fechaFinalizacion"  DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
 
-        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Número de Ruc del Oferente Adjudicado" Variant="Variant.Text" Min="0" />
+            <MudTextField @bind-Value="registro.rucOferente" Label="Número de Ruc del Oferente Adjudicado" Variant="Variant.Text"></MudTextField>
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
-        <MudTextField @bind-Value="TextValue" Label="Nombre del Proveedor" Variant="Variant.Text"></MudTextField>
+        <MudTextField @bind-Value="registro.nombreProveedor" Label="Nombre del Proveedor" Variant="Variant.Text"></MudTextField>
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
-        <MudNumericField HideSpinButtons="true" @bind-Value="IntValue" Label="Plazo del contrato meses" Variant="Variant.Text" Min="0" />
+            <MudTextField @bind-Value="registro.plazoContrato" Label="Plazo del contrato meses" Variant="Variant.Text"></MudTextField>
     </MudItem>
 
     
 </MudGrid>
+</EditForm>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
     <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">Guardar</MudButton>
 </MudContainer>
 @code {
-    public double? _valueEn ;
-    public int? IntValue;
-    private string value1 = " ", value2 = "", TextValue = "";
+
+    Contractual registro = new();
+    
 
     
     

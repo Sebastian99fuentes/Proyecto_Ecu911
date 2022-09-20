@@ -6,18 +6,17 @@ namespace Ecu911.Modelos
     public partial class FechaReasignacionVuelta
     {
         [Key]
-        [Required]
-        public Guid IdVuelta { get; set; }
+        public string? IdVuelta { get; set; }
 
         [Required]
         [ForeignKey("ProcesoId")]
-        public Guid ProcesoId { get; set; }
-        public ProcesoCompra ProcesoCompra { get; set; } 
+        public string ProcesoId { get; set; }
+        public ProcesoCompra? Proceso { get; set; }
 
         [Required]
         [ForeignKey("AreaId")]
-        public Guid AreaId { get; set; }
-        public PlantaUnidadArea Area { get; set; } 
+        public string AreaId { get; set; }
+        public PlantaUnidadArea? Area { get; set; }
 
         [Required]
         public DateTime fechaVuelta { get; set; }

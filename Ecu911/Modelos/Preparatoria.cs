@@ -7,16 +7,12 @@ namespace Ecu911.Modelos
     public partial class Preparatoria
     {
         [Key]
-        [Required]
-        public Guid PreparatoriaId { get; set; }
+        public string? PreparatoriaId { get; set; }
 
 
         [ForeignKey("IdProcesoCompra")]
-        public Guid? IdProcesoCompra { get; set; }
+        public string? IdProcesoCompra { get; set; }
         public ProcesoCompra? ProcesoCompra { get; set; }
-
-        [ForeignKey("IdPreparatoria")]
-        public ICollection<Precontractual> Precontractuales { get; set; }
 
         [Display(Name = "Fecha programada de revisión")]
         [DataType(DataType.Date)]
@@ -48,7 +44,7 @@ namespace Ecu911.Modelos
 
         [Display(Name = "Fecha de autorización")]
         [DataType(DataType.Date)]
-        public DateTime fechaAutorizacion { get; set; }
+        public DateOnly fechaAutorizacion { get; set; }
 
         [Display(Name = "Fecha de publicación")]
         [DataType(DataType.Date)]

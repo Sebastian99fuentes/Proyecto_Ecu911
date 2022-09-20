@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
@@ -8,9 +8,7 @@ namespace Ecu911.Modelos
     public partial class ProcesoCompra
     {
         [Key]
-        [Required]
-          
-        public Guid ProcesoCompraId { get; set; }
+        public string? ProcesoCompraId { get; set; }
 
         [ForeignKey("IdProcesoCompra")]
         public ICollection<Preparatoria>? Preparatorias { get; set; }
@@ -18,43 +16,42 @@ namespace Ecu911.Modelos
 
         [Required]
         [ForeignKey("EstadoId")]
-        public Guid EstadoId { get; set;}
-
-        public Estado Estado { get; set;}
+        public string EstadoId { get; set; }
+        public Estado? Estado { get; set; }
 
 
         [Required]
         [ForeignKey("EtapaId")]
-        public Guid EtapaId { get; set; }
-        public Etapa Etapa { get; set; }
+        public string EtapaId { get; set; }
+        public Etapa? Etapa { get; set; }
 
         [Required]
         [ForeignKey("PlantaId")]
-        public Guid PlantaId { get; set; }
-        public PlantaUnidadArea PlantaUnidadArea { get; set; }
+        public string PlantaId { get; set; }
+        public PlantaUnidadArea? Planta { get; set; }
 
         [Required]
         [Display(Name = "Nro. Proceso")]
         [RegularExpression("([1-9][0-9]*)")]
-        public int numProceso { get; set; }
+        public string numProceso { get; set; }
 
         [Required]
-        public long cpc { get; set; }
+        public string cpc { get; set; }
 
         [Required]
         [Display(Name = "Grupo de gasto")]
         [RegularExpression("([1-9][0-9]*)")]
-        public int grupoGasto { get; set; }
+        public string grupoGasto { get; set; }
 
         [Required]
         [Display(Name = "Item Presupuestario")]
         [RegularExpression("([1-9][0-9]*)")]
-        public long itemPresup { get; set; }
+        public string itemPresup { get; set; }
 
         [Required]
         [StringLength(100)]
         [Display(Name = "Descripción")]
-        public string descripcion { get; set; } = "";
+        public string descripcion { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(15,2)")]
@@ -73,9 +70,9 @@ namespace Ecu911.Modelos
         public string mesPlanificado { get; set; }
 
 
-        public ICollection<AlertaDSPPP> AlertasDSPPP { get; set; }
-        public ICollection<Observacion> Observaciones { get; set; }
+        public ICollection<AlertaDSPPP>? AlertasDSPPP { get; set; }
+        public ICollection<Observacion>? Observaciones { get; set; }
 
     }
-    
+
 }

@@ -6,8 +6,8 @@ namespace Ecu911.Modelos
 {
     public partial class User : IdentityUser
     {
-        public Guid AreaId { get; set; }
+        public string AreaId { get; set; }
         [ForeignKey("AreaId")]
-        public PlantaUnidadArea area { get; set; }
+        public PlantaUnidadArea? Area { get; set; }
     }
 }

@@ -1,43 +1,50 @@
 ﻿@page "/"
-@using Ecu911.Data
-@inject WeatherForecastService ForecastService
+
 
 
 <PageTitle>Procesos Activos</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">Procesos Activos</MudText>
 <MudText Class="mb-8">Tus procesos son:</MudText>
-@if (forecasts == null)
+
+@if (todoItems == null)
 {
-    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    <p>No Todo Items found.</p>
 }
 else
 {
-    <MudTable Items="forecasts" Hover="true" SortLabel="Sort By" Elevation="0">
-        <HeaderContent>
-            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<WeatherForecast, object>(x=>x.Date)">Date</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<WeatherForecast, object>(x=>x.TemperatureC)">Temp. (C)</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<WeatherForecast, object>(x=>x.TemperatureF)">Temp. (F)</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<WeatherForecast, object>(x=>x.Summary!)">Summary</MudTableSortLabel></MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="ID Proceso">@context.Date</MudTd>
-            <MudTd DataLabel="XXXXX">@context.TemperatureC</MudTd>
-            <MudTd DataLabel="XXXXX">@context.TemperatureF</MudTd>
-            <MudTd DataLabel="XXXXX">@context.Summary</MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[]{10, 20}" />
-        </PagerContent>
-    </MudTable>
+    <ul>
+        @foreach (var item in todoItems)
+        {
+            <li>@item.numProceso</li>
+            <li>@item.cpc</li>
+            <li>@item.Planta</li>
+        }
+    </ul>
 }
 
-
 @code {
-    private WeatherForecast[]? forecasts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-    }
+    private List<ProcesoCompra>? todoItems = new();
+
+    protected override async Task OnInitializedAsync() => 
+        todoItems = await Http.GetFromJsonAsync<List<ProcesoCompra>>("https://localhost:7167/api/ProcesoCompra");
+
+    //     protected async Task GetAmbulanciasAsync()
+    //{
+    //    await apiService.SetAuthHeaders();
+    //    var response = await apiService.HttpClient.GetAsync("ambulancias?ToRegister=true");
+    //    try
+    //    {
+    //        response.EnsureSuccessStatusCode();
+    //        ambulancias = await response.Content.ReadFromJsonAsync<List<ProcesoCompra>>(EncodingHelper.WithReferences());
+    //    }
+    //    catch (HttpRequestException)
+    //    {
+
+    //    }
+    //}
+
+
+}
 }

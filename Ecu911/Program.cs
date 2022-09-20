@@ -1,7 +1,8 @@
-using Ecu911.Data;
+using Ecu911.Servicios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
+using MudBlazor;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,15 +12,19 @@ StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configurat
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+//builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
+builder.Services.AddHttpClient();
 
-//conecct BD
+//builder.Services.AddScoped<Servicios_Api>;
 
-builder.Services.AddDbContext<DatabaseContext>(options =>
+
+builder.Services.AddHttpClient("api", options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiUrl"));
 });
+
+builder.Services.AddTransient<Servicios_Api>();
 
 
 var app = builder.Build();
