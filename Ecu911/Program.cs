@@ -14,7 +14,6 @@ StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configurat
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-//builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
 builder.Services.AddHttpClient();
 
@@ -24,8 +23,6 @@ builder.Services.AddScoped(sp =>
     {
         BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiUrl"))
     });
-//builder.Services.AddScoped<Servicios_Api>;
-
 
 builder.Services.AddScoped<Servicios_Api>();
 
