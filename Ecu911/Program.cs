@@ -2,8 +2,10 @@ using Ecu911.Servicios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
+using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using MudBlazor.Services;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,15 +18,16 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddHttpClient();
 
+
+builder.Services.AddScoped(sp =>
+    new HttpClient
+    {
+        BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiUrl"))
+    });
 //builder.Services.AddScoped<Servicios_Api>;
 
 
-builder.Services.AddHttpClient("api", options =>
-{
-    options.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiUrl"));
-});
-
-builder.Services.AddTransient<Servicios_Api>();
+builder.Services.AddScoped<Servicios_Api>();
 
 
 var app = builder.Build();
