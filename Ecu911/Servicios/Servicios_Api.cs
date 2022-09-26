@@ -10,9 +10,6 @@ namespace Ecu911.Servicios
     {
 
 
-
-
-
         //private static string _clave;
         //private static string _usuario;
         //private static string _baseUrl;

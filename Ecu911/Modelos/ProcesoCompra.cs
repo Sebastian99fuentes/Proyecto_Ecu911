@@ -19,6 +19,11 @@ namespace Ecu911.Modelos
         public string EstadoId { get; set; }
         public Estado? Estado { get; set; }
 
+        [Required]
+        [ForeignKey("ProcedimientoId")]
+        public string ProcedimientoId { get; set; }
+        public ProcedimientoContratacion? Procedimiento { get; set; }
+
 
         [Required]
         [ForeignKey("EtapaId")]

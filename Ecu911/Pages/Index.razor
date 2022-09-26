@@ -7,23 +7,56 @@
 <MudText Typo="Typo.h3" GutterBottom="true">Procesos Activos</MudText>
 <MudText Class="mb-8">Tus procesos son:</MudText>
 
-@if (Procesos == null)
-{
-    <p>No Todo Items found.</p>
-}
-else
-{
-    <ul>
-        @foreach (var item in Procesos)
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>No. </th>
+            <th>Descripcion </th>
+            <th>Estado </th>
+            <th>Etapa </th>
+            <th>Proceso de Contratacion</th>
+            <th>Mes Planificado </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in procesos)
         {
-            <li>@item.Planta</li>
+            <tr>
+                <td>@item.numProceso</td>
+                <td>@item.descripcion</td>
+                <td>@item.Estado.tipoEstado</td>
+                <td>@item.Etapa.tipoEtapa</td>
+                <td>@item.Procedimiento.tipoProcedimiento</td>
+                <td>@item.mesPlanificado</td>
+            </tr>
         }
-    </ul>
-}
+    </tbody>
+</table>
+
+
 
 @code {
-    private ProcesoCompra[]? Procesos;
+    List<ProcesoCompra> procesos = new();
 
-    protected override async Task OnInitializedAsync() =>
-        Procesos = await Http.GetFromJsonAsync<ProcesoCompra[]>("Api/ProcesoCompra");
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await apiService.HttpClient.GetAsync("/api/ProcesoCompra");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            procesos = await response.Content.ReadFromJsonAsync<List<ProcesoCompra>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
 }
+

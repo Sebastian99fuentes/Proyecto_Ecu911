@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Ecu911.Servicios;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -9,22 +10,37 @@ using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
+//StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
+
+builder.Services.AddMudServices(config =>
+{
+    config.SnackbarConfiguration.PreventDuplicates = false;
+    config.SnackbarConfiguration.NewestOnTop = true;
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+//builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
-builder.Services.AddHttpClient();
+builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddHttpClient("api", options =>
+{
+    options.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiUrl"));
+});
+builder.Services.AddTransient<ApiService>();
 
 
-builder.Services.AddScoped(sp =>
+/*builder.Services.AddScoped(sp =>
     new HttpClient
     {
         BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiUrl"))
-    });
+    });*/
+//builder.Services.AddScoped<Servicios_Api>;
 
-builder.Services.AddScoped<Servicios_Api>();
+
+//builder.Services.AddScoped<Servicios_Api>();
 
 
 var app = builder.Build();

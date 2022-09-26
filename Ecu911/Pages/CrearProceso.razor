@@ -63,11 +63,26 @@
 
     </MudGrid>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">Guardar Proceso</MudButton>
+        <MudButton Disabled="@_processing" OnClick="ProcessSomething" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+           
+            @if (_processing)
+    {
+        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+        <MudText Class="ms-2">Processing</MudText>
+    }
+    else
+    {
+                <MudText> Guardar Proceso</MudText>
+    }
+    </MudButton>
+       
 </MudContainer>
 
 
 </EditForm>
+
+
+
 @code {
 
     ProcesoCompra registro = new();
@@ -79,10 +94,17 @@
     private bool resetValueOnEmptyText;
     private bool coerceText;
     private bool coerceValue;
-
     private string respuesta;
 
-    //public string TextValue { get; set; }
+
+    private bool _processing = false;
+
+   private async Task ProcessSomething()
+    {
+        _processing = true;
+        await Task.Delay(2000);
+        _processing = false;
+    }
 
     private string[] PlantCentrdata =
     {
@@ -153,50 +175,47 @@
 
     //Tabla Proceso compras requiere todo esto, Preparatoria requiere proceso compras
 
-    //Precontractual REquiere preparatoria y contractual requiere contractual 
+    //Precontractual REquiere preparatoria y contractual requiere contractual
 
-    //observaciones necesita que exista un proceso compras = que alertas 
+    //observaciones necesita que exista un proceso compras = que alertas
 
     //Tablas de fecha reasignacion Ida y Vuelta necesita plana unidad area y proceso de compras
 
 
-    protected override async Task OnInitializedAsync()
-    {
-    }
 
-    HttpClient poo = new HttpClient();
-    //Variant data = JsonSerializer
-
-
-    //protected async void HandleValidSumbit()
+    //protected override async Task OnInitializedAsync()
     //{
-        //await apiService.SetAuthHeaders();
-        //HttpResponseMessage response = new();
-        //try
-        //{
-        //    response = await apiService.HttpClient.PostAsJsonAsync("estadosoperativos", registro);
-        //}
-        //catch (NotAuthorizedException)
-        //{
-        //    await logOutService.LogOut();
-        //}
+    //    ProcesoCompra procesos = new();
 
-        //try
-        //{
-        //    response.EnsureSuccessStatusCode();
-        //    var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-        //    snackBar.Add("Estado operativo agregado!", Severity.Success);
-        //    NavigationManager.NavigateTo("estadosoperativos");
+    //    HttpResponseMessage? response = new();
 
-        //}
-        //catch (HttpRequestException)
-        //{
-        //    var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-        //    snackBar.Add($"{data.Message}", Severity.Error);
-        //}
+    //    try
+    //    {
+    //        response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
+    //    }
+    //    catch (HttpRequestException)
+    //    {
+    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+    //        snackBar.Add($"{data.Message}", Severity.Error);
+    //    }
+    //    try
+    //    {
+    //        response.EnsureSuccessStatusCode();
+    //        var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
+    //        snackBar.Add("Proceso agregado!", Severity.Success);
 
-    }
+    //    }
+    //    catch (HttpRequestException)
+    //    {
+    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+    //        snackBar.Add($"{data.Message}", Severity.Error);
+    //    }
+
+    //}
+
+
 
 
 }
+
 
