@@ -30,13 +30,68 @@
 </MudGrid>
 </EditForm>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">Guardar</MudButton>
+    <MudButton Disabled="@_procesando" OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+        @if (_procesando)
+        {
+            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+            <MudText Class="ms-2">Procesando</MudText>
+        }
+        else
+        {
+            <MudText> Guardar</MudText>
+        }
+        </MudButton>
 </MudContainer>
+
+
 @code {
 
     Contractual registro = new();
-    
+    private bool _procesando = false;
 
-    
+
+    private async Task ProcessSomething()
+    {
+
+
+        _procesando = true;
+        await Task.Delay(2000);
+        _procesando = false;
+
+
+    }
+
+    protected async void Subir()
+    {
+        HttpResponseMessage? response = new();
+
+        try
+        {
+            //PROBLEMAS DE SEREALIZACION DE DATETIMEONLY Serialization and deserialization of 'System.DateOnly' instances are not supported. Path: $.fechaSuscripcion.'
+            //Serialization and deserialization of 'System.DateOnly' instances are not supported.
+
+
+            response = await apiService.HttpClient.PostAsJsonAsync("Contractual", registro);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
+            snackBar.Add("Proceso agregado!", Severity.Success);
+
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+
+        await ProcessSomething(); 
+    }
     
 }

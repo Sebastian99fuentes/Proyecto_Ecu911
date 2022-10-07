@@ -7,37 +7,43 @@
         Width: 100%;
         background-repeat: no-repeat;
         background-size: cover;
+
+           /* <MudAvatar Class="z-30 ma-n2" Color="Color.Primary" Size="Size.Large">M</MudAvatar>*/
     }
 </style>
 <PageTitle>Inicio</PageTitle>
+<EditForm Model="@model">
+<MudGrid Style="padding:50px">
 
-
-<MudCardContent Class="d-flex align-center">
-    <MudPaper Height="200px" Width="25%" Style="margin: 200px; color=transparent" Elevation="10">
-        <MudItem xs="12" Class="d-flex justify-center align-center">
-            <MudText Typo="Typo.h5">Bienvenido</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField Label="Usuario" @bind-Value="usuario" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField Label="Contraseña" @bind-Value="password" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-        <MudItem xs="12">
-            <MudButton Class="d-flex justify-center align-center" Color="Color.Primary">Olvidaste tu contraseña?</MudButton>
-        </MudItem>
-        <MudItem xs="12" Class="d-flex justify-center align-center">
-            <MudButton Variant="Variant.Filled" Class="align-self-center mt-6" Color="Color.Primary">Ingresar</MudButton>
-        </MudItem>
-    </MudPaper>
-</MudCardContent>
-
+    <MudContainer Class="d-flex flex-column  justify-center" Style="width: 80%; height:100%; padding:10%;">
+        <MudCardContent Class="d-flex  flex-column  align-center  ">
+            <MudItem xs="12">
+                <MudText Typo="Typo.h5">Bienvenido</MudText>
+            </MudItem>
+            <MudItem xs="12">
+                    <MudTextField Label="Usuario" Immediate="true" @bind-Value="model.Email" Variant="Variant.Outlined" ></MudTextField>
+                    <MudTextField Label="Contraseña" Immediate="true" @bind-Value="model.PasswordHash" Variant="Variant.Outlined" InputType="InputType.Password"
+                              RequiredError="Password is required!"></MudTextField>
+            </MudItem>
+            <MudButton Color="Color.Error">
+                Olvidaste tu contraseña?
+            </MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Error">Ingresar</MudButton>
+        </MudCardContent>
+    </MudContainer>
+    
+</MudGrid>
+</EditForm>
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 @code {
     private string usuario = " ", password = "", TextValue = "", _tokenModel = "";
-    //User model = new User();
+
+    User model = new User();
+
+
+  
 }
 

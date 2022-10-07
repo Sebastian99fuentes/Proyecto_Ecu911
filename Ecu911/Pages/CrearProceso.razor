@@ -29,28 +29,28 @@
     </MudItem>
 
     <MudItem xs="10" sm="6" md="6">
-
-            <MudNumericField HideSpinButtons="true" T="String" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text"  />
+            <MudTextField T="string" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text"  Lines="1" />
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
-        <MudNumericField HideSpinButtons="true" T="String" @bind-Value="registro.grupoGasto" Label="Grupo de Gasto" Variant="Variant.Text" />
+            <MudTextField T="string" @bind-Value="registro.grupoGasto" Label="Grupo de Gasto" Variant="Variant.Text" Lines="1" />
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
-        <MudNumericField HideSpinButtons="true" T="String" @bind-Value="registro.itemPresup" Label="Item Presupuestario" Variant="Variant.Text"  />
+
+            <MudTextField T="string" @bind-Value="registro.itemPresup" Label="Item Presupuestario" Variant="Variant.Text" Lines="1" />
     </MudItem>
 
     <MudItem xs="6" sm="6" md="4">
 
-        <MudAutocomplete  Label="Procedimiento de Contratación" @bind-Value="registro2Procedimiento.tipoProcedimiento" SearchFunc="BusquedaProcedimientoContratacion"
+        <MudAutocomplete  Label="Procedimiento de Contratación" @bind-Value="registroProcedimiento.tipoProcedimiento" SearchFunc="BusquedaProcedimientoContratacion"
                          ResetValueOnEmptyText="@resetValueOnEmptyText"
                          CoerceText="@coerceText" CoerceValue="@coerceValue"
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
     </MudItem>
 
     <MudItem xs="6" sm="6" md="4"> 
-        <MudNumericField Immediate="false"HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total"  />
+        <MudNumericField Immediate="false" HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total"  />
     </MudItem>
 
     <MudItem xs="6" sm="6" md="4">
@@ -63,12 +63,12 @@
 
     </MudGrid>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-        <MudButton Disabled="@_processing" OnClick="ProcessSomething" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+        <MudButton Disabled="@_procesando" OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
            
-            @if (_processing)
+            @if (_procesando)
     {
         <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
-        <MudText Class="ms-2">Processing</MudText>
+                <MudText Class="ms-2">Procesando</MudText>
     }
     else
     {
@@ -86,8 +86,7 @@
 @code {
 
     ProcesoCompra registro = new();
-
-    ProcedimientoContratacion registro2Procedimiento = new();
+    ProcedimientoContratacion registroProcedimiento = new();
 
 
 
@@ -97,13 +96,17 @@
     private string respuesta;
 
 
-    private bool _processing = false;
+    private bool _procesando = false;
 
-   private async Task ProcessSomething()
+    protected async  Task ProcessSomething()
     {
-        _processing = true;
+        _procesando = true;
         await Task.Delay(2000);
-        _processing = false;
+        _procesando = false;
+
+        
+
+
     }
 
     private string[] PlantCentrdata =
@@ -117,7 +120,7 @@
     private string[] AreaRequiriente =
     {
         "Dirección de Recursos Humanos", "Dirección Financiera","Dirección Administrativa"
-    };
+    }; 
     private string[] ProcedimientoContratacion =
        {
         "Catálogo electronico", "Ínfima cuantía","Subasta Inversa", "Menor Cuantía", "Consultoría Contratación Directa", "Régimen Especial"
@@ -183,35 +186,41 @@
 
 
 
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    ProcesoCompra procesos = new();
+    protected  async void Subir()
+    {
 
-    //    HttpResponseMessage? response = new();
 
-    //    try
-    //    {
-    //        response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
-    //    }
-    //    catch (HttpRequestException)
-    //    {
-    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-    //        snackBar.Add($"{data.Message}", Severity.Error);
-    //    }
-    //    try
-    //    {
-    //        response.EnsureSuccessStatusCode();
-    //        var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-    //        snackBar.Add("Proceso agregado!", Severity.Success);
+        HttpResponseMessage? response = new();
 
-    //    }
-    //    catch (HttpRequestException)
-    //    {
-    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-    //        snackBar.Add($"{data.Message}", Severity.Error);
-    //    }
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
+            response = await apiService.HttpClient.PostAsJsonAsync("ProcedimientoContratacion", registroProcedimiento);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
+            snackBar.Add("Proceso agregado!", Severity.Success);
 
-    //}
+        }
+        catch (HttpRequestException)
+        {
+
+            //The input does not contain any JSON tokens. Expected the input to start with a valid JSON token, when isFinalBlock is true. Path: $ | LineNumber: 0 | BytePositionInLine: 0.'
+
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+
+        await ProcessSomething();
+
+    }
 
 
 
