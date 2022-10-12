@@ -5,41 +5,40 @@
 <EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
     <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha programada para revisión de la documentacióna" @bind-Value="registro.fechaProgramada" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha programada para revisión de la documentacióna" @bind-Date="registro.fechaProgramada" DateFormat="yyyy-MM-dd" ></MudDatePicker>
     </MudItem>
 
     <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de solicitud de revisión documentación" @bind-Value="registro.fechaSolicitud" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de solicitud de revisión documentación" @bind-Date="registro.fechaSolicitud" DateFormat="yyyy-MM-dd"></MudDatePicker>
     </MudItem>
 
     <MudItem xs="10" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de respuesta efectiva Dirección Administrativa" @bind-Value="registro.fechaRespuesta" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de respuesta efectiva Dirección Administrativa" @bind-Date="registro.fechaRespuesta" DateFormat="yyyy-MM-dd" ></MudDatePicker>
     </MudItem>
 
     <MudItem xs="10" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de mesa consultiva(con 48 horas,excepto infimas)" @bind-Value="registro.fechaMesa" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de mesa consultiva(con 48 horas,excepto infimas)" @bind-Date="registro.fechaMesa" DateFormat="yyyy-MM-dd" ></MudDatePicker>
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de emisión de certificación presupuestaria" @bind-Value="registro.fechaEmision" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de emisión de certificación presupuestaria" @bind-Date="registro.fechaEmision" DateFormat="yyyy-MM-dd" ></MudDatePicker>
     </MudItem>
-  
-  @*  Decimal *@
+
     <MudItem xs="8" sm="6" md="6">
         <MudNumericField Immediate="false" HideSpinButtons="true" Label="Valor certificado" Format="N2" T="Decimal" @bind-Value="registro.valorCertificado" HelperText="@_valueEn.ToString()"  />
 
     </MudItem>
 
     <MudItem xs="6" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha real de solicitud de inicio de proceso a la subdirección" @bind-Value="registro.fechaSolicitud" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha real de solicitud de inicio de proceso a la subdirección" @bind-Date="registro.fechaSolicitud" DateFormat="yyyy-MM-dd" ></MudDatePicker>
     </MudItem>
 
       <MudItem xs="6" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de autorización de incio de proceso" @bind-Value="registro.fechaAutorizacion" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de autorización de incio de proceso" @bind-Date="registro.fechaAutorizacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
     </MudItem>
 
           <MudItem xs="4" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de publicación del proceso" @bind-Value="registro.fechaPublicacion" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de publicación del proceso" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
     </MudItem>
 
 </MudGrid>

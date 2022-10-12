@@ -14,7 +14,7 @@ namespace Ecu911.Modelos
         public Preparatoria? Preparatoria {get; set; }
 
         [DataType(DataType.Date)]
-        public DateOnly fechaAdjudicacion { get; set; }
+        public DateTime? fechaAdjudicacion { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(15,2)")]

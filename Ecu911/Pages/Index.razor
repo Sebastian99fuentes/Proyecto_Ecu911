@@ -37,10 +37,19 @@
     </tbody>
 </table>
 
+<MudItem xs="12" sm="4" md="4">
+    <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" @bind-DateOnly="res" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="yyyy-MM-dd"></MudDatePicker>
+    <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" @bind-Date="datesf" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="yyyy-MM-dd"></MudDatePicker>
+</MudItem>
 
 
+<MudText><b>Date:</b> @res</MudText>
+<MudText><b>Date:</b> @datesf</MudText>
 @code {
     List<ProcesoCompra> procesos = new();
+
+    DateOnly? res = new DateOnly();
+    DateTime? datesf = null;
 
 
     protected override async Task OnInitializedAsync()
@@ -57,6 +66,13 @@
             snackBar.Add($"{data.Message}", severity: Severity.Error);
         }
     }
+   
+    // Creating DateOnly instance
+//    DateOnly dateOnly = new DateOnly(2021, 9, 16);
+//    // Converting DateOnly to DateTime by providing Time Info
+//    DateTime testDateTime = dateOnly.ToDateTime(TimeOnly.Parse("10:00 PM"));
+//    Console.WriteLine(testDateTime);
+////Output -> 09/16/2021 22:00:00
 
 }
 

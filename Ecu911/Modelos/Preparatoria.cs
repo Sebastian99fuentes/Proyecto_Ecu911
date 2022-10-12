@@ -16,23 +16,23 @@ namespace Ecu911.Modelos
 
         [Display(Name = "Fecha programada de revisión")]
         [DataType(DataType.Date)]
-        public DateOnly fechaProgramada { get; set; }
+        public DateTime? fechaProgramada { get; set; }
 
         [Display(Name = "Fecha de solicitud de revisión")]
         [DataType(DataType.Date)]
-        public DateOnly fechaSolicitud { get; set; }
+        public DateTime? fechaSolicitud { get; set; }
 
         [Display(Name = "Fecha de respuesta efectiva")]
         [DataType(DataType.Date)]
-        public DateOnly fechaRespuesta { get; set; }
+        public DateTime? fechaRespuesta { get; set; }
 
         [Display(Name = "Fecha de mesa consultiva")]
         [DataType(DataType.Date)]
-        public DateOnly fechaMesa { get; set; }
+        public DateTime? fechaMesa { get; set; }
 
         [Display(Name = "Fecha de emisión")]
         [DataType(DataType.Date)]
-        public DateOnly fechaEmision { get; set; }
+        public DateTime? fechaEmision { get; set; }
 
         [Display(Name = "Valor Certificado")]
         [DataType(DataType.Date)]
@@ -40,15 +40,15 @@ namespace Ecu911.Modelos
 
         [Display(Name = "Fecha real de solicitud")]
         [DataType(DataType.Date)]
-        public DateOnly fechaReal { get; set; }
+        public DateTime? fechaReal { get; set; }
 
         [Display(Name = "Fecha de autorización")]
         [DataType(DataType.Date)]
-        public DateOnly fechaAutorizacion { get; set; }
+        public DateTime? fechaAutorizacion { get; set; }
 
         [Display(Name = "Fecha de publicación")]
         [DataType(DataType.Date)]
-        public DateOnly fechaPublicacion { get; set; }
+        public DateTime? fechaPublicacion { get; set; }
 
     }
 

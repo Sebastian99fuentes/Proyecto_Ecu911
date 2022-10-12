@@ -4,13 +4,13 @@
 <MudText Align="Align.Center" Typo="Typo.h3">Etapa Contractual</MudText>
 <EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
-
+        @*   yyyy/MM/dd*@
     <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de suscripción del contrato/orden de compra" @bind-Value="registro.fechaSuscripcion" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de suscripción del contrato/orden de compra" @bind-Date="registro.fechaSuscripcion" DateFormat="yyyy-MM-dd"></MudDatePicker>
     </MudItem>
 
     <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de finalización del contrato/orden de compra" @bind-Value="registro.fechaFinalizacion"  DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de finalización del contrato/orden de compra" @bind-Date="registro.fechaFinalizacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
     </MudItem>
 
     <MudItem xs="8" sm="6" md="6">

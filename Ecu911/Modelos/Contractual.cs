@@ -15,11 +15,11 @@ namespace Ecu911.Modelos
 
         [Display(Name = "Fecha de suscripción")]
         [DataType(DataType.Date)]
-        public DateOnly fechaSuscripcion { get; set; }
+        public DateTime? fechaSuscripcion { get; set; }
 
         [Display(Name = "Fecha de finalización")]
         [DataType(DataType.Date)]
-        public DateOnly fechaFinalizacion { get; set; }
+        public DateTime? fechaFinalizacion { get; set; }
 
         [Required]
         public string rucOferente { get; set; }

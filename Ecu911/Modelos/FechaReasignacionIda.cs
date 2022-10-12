@@ -19,7 +19,8 @@ namespace Ecu911.Modelos
         public PlantaUnidadArea? Area { get; set; }
 
         [Required]
-        public DateTime fechaIda { get; set; }
+
+        public DateTime? fechaIda { get; set; }
     }
 
 }

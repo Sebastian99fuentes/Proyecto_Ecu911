@@ -6,7 +6,7 @@
 <MudGrid Style="padding:50px">
 
     <MudItem xs="12" sm="4" md="4">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" @bind-Value="registro.fechaAdjudicacion" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="dd/MM/yyyy" Date="@(new System.DateTime(2022,8,19))"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" @bind-Date="registro.fechaAdjudicacion" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="yyyy-MM-dd"></MudDatePicker>
     </MudItem>
 
     <MudItem xs="10" sm="4" md="4">
@@ -36,9 +36,6 @@
 
 @code {
     Precontractual registro = new();
-    public double? _valueEn = 0000.00;
-    private string value1 = " ", value2 = "", TextValue = "";
-
     private bool _procesando = false;
 
     private  async Task ProcessSomething()
@@ -58,6 +55,9 @@
 
         try
         {
+
+            //ya esta arreglado
+
             //'Serialization and deserialization of 'System.DateOnly' instances are not supported. Path: $.fechaAdjudicacion.'
             //NotSupportedException: Serialization and deserialization of 'System.DateOnly' instances are not supported.
 
@@ -78,6 +78,9 @@
         }
         catch (HttpRequestException)
         {
+
+            //The input does not contain any JSON tokens. Expected the input to start with a valid JSON token, when isFinalBlock is true. Path: $ | LineNumber: 0 | BytePositionInLine: 0.'
+
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
         }
