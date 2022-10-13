@@ -1,55 +1,53 @@
 ﻿@page "/"
 
 
-
+@*<style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" >;
+</style>*@
 <PageTitle>Procesos Activos</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Procesos Activos</MudText>
-<MudText Class="mb-8">Tus procesos son:</MudText>
+ <MudCardContent Class="d-flex  flex-column  align-center  ">
+
+    <MudText Typo="Typo.h3" GutterBottom="true">Procesos Activos</MudText>
+    <MudText Class="mb-8">Tus procesos son:</MudText>
+    <MudGrid>
+        <MudSimpleTable Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th>No. </th>
+                    <th>Descripcion </th>
+                    <th>Estado </th>
+                    <th>Etapa </th>
+                    <th>Proceso de Contratacion</th>
+                    <th>Mes Planificado </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in procesos)
+                {
+                    <tr>
+                        <td>@item.numProceso</td>
+                        <td>@item.descripcion</td>
+                        <td>@item.Estado.tipoEstado</td>
+                        <td>@item.Etapa.tipoEtapa</td>
+                        <td>@item.Procedimiento.tipoProcedimiento</td>
+                        <td>@item.mesPlanificado</td>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    </MudGrid>
 
 
+     </MudCardContent>
 
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>No. </th>
-            <th>Descripcion </th>
-            <th>Estado </th>
-            <th>Etapa </th>
-            <th>Proceso de Contratacion</th>
-            <th>Mes Planificado </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in procesos)
-        {
-            <tr>
-                <td>@item.numProceso</td>
-                <td>@item.descripcion</td>
-                <td>@item.Estado.tipoEstado</td>
-                <td>@item.Etapa.tipoEtapa</td>
-                <td>@item.Procedimiento.tipoProcedimiento</td>
-                <td>@item.mesPlanificado</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<MudItem xs="12" sm="4" md="4">
-    <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" @bind-DateOnly="res" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="yyyy-MM-dd"></MudDatePicker>
-    <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" @bind-Date="datesf" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="yyyy-MM-dd"></MudDatePicker>
-</MudItem>
-
-
-<MudText><b>Date:</b> @res</MudText>
+<MudDatePicker PickerVariant="PickerVariant.Dialog" Color="Color.Secondary" HelperText="Fecha de finalización del contrato/orden de compra" @bind-Date="datesf" DateFormat="yyyy-MM-dd"></MudDatePicker>
 <MudText><b>Date:</b> @datesf</MudText>
 @code {
-    List<ProcesoCompra> procesos = new();
 
-    DateOnly? res = new DateOnly();
-    DateTime? datesf = null;
+    DateTime? datesf;
+    List<ProcesoCompra> procesos = new();
 
 
     protected override async Task OnInitializedAsync()
@@ -66,13 +64,5 @@
             snackBar.Add($"{data.Message}", severity: Severity.Error);
         }
     }
-   
-    // Creating DateOnly instance
-//    DateOnly dateOnly = new DateOnly(2021, 9, 16);
-//    // Converting DateOnly to DateTime by providing Time Info
-//    DateTime testDateTime = dateOnly.ToDateTime(TimeOnly.Parse("10:00 PM"));
-//    Console.WriteLine(testDateTime);
-////Output -> 09/16/2021 22:00:00
-
 }
 

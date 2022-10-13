@@ -67,8 +67,8 @@
 
         try
         {
-            //PROBLEMAS DE SEREALIZACION DE DATETIMEONLY Serialization and deserialization of 'System.DateOnly' instances are not supported. Path: $.fechaSuscripcion.'
-            //Serialization and deserialization of 'System.DateOnly' instances are not supported.
+            //PROBLEMAS DE SEREALIZACION DE DATETIMEONLY Serialization and deserialization of 'System.DateTime?' instances are not supported. Path: $.fechaSuscripcion.'
+            //Serialization and deserialization of 'System.DateTime?' instances are not supported.
 
 
             response = await apiService.HttpClient.PostAsJsonAsync("Contractual", registro);

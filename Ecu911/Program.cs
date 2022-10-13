@@ -16,17 +16,16 @@ builder.Services.AddMudServices(config =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-//builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
 builder.Services.AddBlazoredLocalStorage();
 
 
-//controlador para dateonly
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
-    });
+//controlador para DateTime?
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.Converters.Add(new DateTime?JsonConverter());
+//    });
 
 builder.Services.AddHttpClient("api", options =>
 {

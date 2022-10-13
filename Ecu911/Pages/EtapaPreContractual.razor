@@ -58,8 +58,8 @@
 
             //ya esta arreglado
 
-            //'Serialization and deserialization of 'System.DateOnly' instances are not supported. Path: $.fechaAdjudicacion.'
-            //NotSupportedException: Serialization and deserialization of 'System.DateOnly' instances are not supported.
+            //'Serialization and deserialization of 'System.DateTime?' instances are not supported. Path: $.fechaAdjudicacion.'
+            //NotSupportedException: Serialization and deserialization of 'System.DateTime?' instances are not supported.
 
 
             response = await apiService.HttpClient.PostAsJsonAsync("Precontractual", registro);
