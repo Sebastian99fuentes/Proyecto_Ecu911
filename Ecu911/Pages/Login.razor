@@ -1,4 +1,113 @@
 ﻿@page "/login"
-@layout _EmptyLayout
+@using Microsoft.AspNetCore.WebUtilities
+@*@layout _EmptyLayout*@
 
 
+<style>
+    body {
+        background-image: url('images/EcuBackground.jpg');
+        height: 100%;
+        Width: 100%;
+        background-repeat: no-repeat;
+        /*ckground-size: cover;*/
+        background-position: left;
+        /* <MudAvatar Class="z-30 ma-n2" Color="Color.Primary" Size="Size.Large">M</MudAvatar>*/
+    }
+</style>
+<PageTitle>Inicio</PageTitle>
+<EditForm Model="@login" OnValidSubmit="@ValidateUser">
+    <MudGrid Class="align-center" Style="padding:50px">
+
+        <MudContainer Class="d-flex flex-column align-center" Style="width: 60%; height:100%; padding:10%; margin-right:0px;">
+            <MudCardContent Class="d-flex  flex-column  align-center  ">
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h5">Bienvenido</MudText>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Label="Usuario" Immediate="true" @bind-Value="login.userName" Variant="Variant.Outlined"></MudTextField>
+                    <MudTextField Immediate="true" T="string" InputType="@inputType" Label="Password" @attributes="@InputPasswdAttributes" @bind-Value="@login.password" 
+                                  Variant="Variant.Outlined" For="@(() => login.password)" Adornment="@Adornment.End" AdornmentIcon="@watchPwd" OnAdornmentClick="@ShowNotShowPwd" />
+                </MudItem>
+            </MudCardContent>
+            <MudCardActions>
+                <div class="center-button rigth-element">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info">Ingresar</MudButton>
+                </div>
+            </MudCardActions>
+        </MudContainer>
+
+    </MudGrid>
+</EditForm>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+@code {
+    private string usuario = " ", password = "", TextValue = "", _tokenModel = "";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputPasswdAttributes { get; set; } =
+    new Dictionary<string, object>()
+        {
+        { "autocomplete", "current-password" }
+        };
+    public Dictionary<string, object> InputUserAttributes { get; set; } =
+    new Dictionary<string, object>()
+        {
+        { "autocomplete", "username" }
+        };
+
+    LoginModel login = new LoginModel();
+
+    readonly static string show = Icons.Material.Filled.Visibility;
+    readonly static string notShow = Icons.Material.Filled.VisibilityOff;
+    const InputType inputTypePass = InputType.Password;
+    const InputType inputTypeText = InputType.Text;
+    bool shown = false;
+
+    string watchPwd = show;
+    InputType inputType = inputTypePass;
+
+
+    private async Task ValidateUser(){
+        //await ((CustomAuthenticationStateProvider)authProvider).SetUserAsAuthenticated(login.userName);
+        //navManager.NavigateTo("/");
+
+        //await sessionStorage.SetItemAsync("userName", login.userName);
+
+        //return await Task.FromResult(true);
+
+        var uri = navManager.ToAbsoluteUri(navManager.Uri);
+        var tempUrl = QueryHelpers.ParseQuery(uri.Query).TryGetValue("ReturnUrl", out var ReturnUrl);
+        var response = await apiService.HttpClient.PostAsJsonAsync("Identity/login", login);
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadFromJsonAsync<SuccessfulLogin>();
+            await ((CustomAuthenticationStateProvider)authProvider).SetUserAsAuthenticated(data);
+            navManager.NavigateTo($"/{ReturnUrl}", true);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+    }
+
+    protected void ShowNotShowPwd()
+    {
+        if (!shown)
+        {
+            watchPwd = notShow;
+            inputType = inputTypeText;
+            shown = true;
+        }
+        else
+        {
+            watchPwd = show;
+            inputType = inputTypePass;
+            shown = false;
+        }
+    }
+
+}

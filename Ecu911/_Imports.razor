@@ -18,9 +18,15 @@
 @using System.Threading.Tasks
 @*@using System.Runtime.dll;*@
 
+@using Ecu911.ResponseModels
+@using Ecu911.Data
+
 @inject IHttpClientFactory ClientFactory
 @inject HttpClient Http
 @inject ISnackbar snackBar
 @inject ApiService apiService
+@inject AuthenticationStateProvider authProvider
+@inject NavigationManager navManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 @*@inject Servicios.Servicios_Api.Servicios_Api*@

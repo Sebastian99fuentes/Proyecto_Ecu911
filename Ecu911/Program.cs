@@ -1,5 +1,9 @@
 using Blazored.LocalStorage;
+using Blazored.SessionStorage;
+using Ecu911.Data;
+using Ecu911.ResponseModels;
 using Ecu911.Servicios;
+using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor.Services;
 
 
@@ -16,6 +20,15 @@ builder.Services.AddMudServices(config =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddBlazoredSessionStorage();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+var jwtTokenConfig = builder.Configuration.GetSection("JwtTokenConfig").Get<JwtTokenModel>();
+builder.Services.AddSingleton(jwtTokenConfig);
+builder.Services.AddScoped<JwtTokenGenerator>();
+
+
 builder.Services.AddMudServices();
 builder.Services.AddBlazoredLocalStorage();
 
@@ -52,6 +65,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
