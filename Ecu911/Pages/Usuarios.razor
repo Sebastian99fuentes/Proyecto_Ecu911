@@ -1,0 +1,105 @@
+﻿@page "/usuarios"
+<PageTitle>Administración de Usuarios</PageTitle>
+
+
+    <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso</MudText>
+
+<EditForm Model="@registro" >
+<MudGrid Style="padding:50px">
+
+    <MudItem xs="10" sm="6" md="6">
+            <MudTextField T="string" @bind-Value="registro.userName" Label="Nombre" Variant="Variant.Text"  Lines="1" />
+    </MudItem>
+
+    <MudItem xs="8" sm="6" md="6">
+            <MudTextField T="string" @bind-Value="registro.email" Label="E-mail" Variant="Variant.Text" Lines="1" InputType="InputType.Email" />
+    </MudItem>
+
+    <MudItem xs="8" sm="6" md="6">
+
+            <MudTextField T="string" @bind-Value="registro.password" Label="Item Presupuestario" Variant="Variant.Text" Lines="1" />
+    </MudItem>
+
+
+        @*    <MudItem xs="10" sm="6" md="6">
+        <MudAutocomplete T="String" Label="Area" @bind-Value="respuesta" SearchFunc="BusquedaAreaRequiriente"
+        ResetValueOnEmptyText="@resetValueOnEmptyText"
+        CoerceText="@coerceText" CoerceValue="@coerceValue"
+        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
+        </MudItem>*@
+
+    <MudItem xs="6" sm="6" md="4">
+
+       
+    </MudItem>
+
+
+
+    </MudGrid>
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+        @*<MudButton Disabled="@_procesando" OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+
+            @if (_procesando)
+            {
+            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                    <MudText Class="ms-2">Procesando</MudText>
+            }
+            else
+            {
+                    <MudText> Guardar Proceso</MudText>
+            }
+    </MudButton>*@
+
+</MudContainer>
+
+
+</EditForm>
+
+
+
+@code {
+    UserRegisterRequest registro = new();
+
+    private string[] Planta =
+    {};
+    private string[] Unidad =
+    {};
+    private string[] Area =
+    {};
+
+
+    private async Task<IEnumerable<string>> BuscarPlanta(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return Planta;
+        return Planta.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+
+    private async Task<IEnumerable<string>> BusquedaUnidad(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return Unidad;
+        return Unidad.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+
+    private async Task<IEnumerable<string>> BusquedaAreaRequiriente(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return Area;
+        return Area.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+}

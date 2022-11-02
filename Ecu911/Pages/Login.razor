@@ -70,13 +70,6 @@
 
 
     private async Task ValidateUser(){
-        //await ((CustomAuthenticationStateProvider)authProvider).SetUserAsAuthenticated(login.userName);
-        //navManager.NavigateTo("/");
-
-        //await sessionStorage.SetItemAsync("userName", login.userName);
-
-        //return await Task.FromResult(true);
-
         var uri = navManager.ToAbsoluteUri(navManager.Uri);
         var tempUrl = QueryHelpers.ParseQuery(uri.Query).TryGetValue("ReturnUrl", out var ReturnUrl);
         var response = await apiService.HttpClient.PostAsJsonAsync("Identity/login", login);
@@ -89,6 +82,7 @@
         }
         catch (HttpRequestException)
         {
+            snackBar.Add("Usuario o contraseña incorrectos");
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
         }
