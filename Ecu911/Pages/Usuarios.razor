@@ -7,22 +7,17 @@
 <EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
 
-    <MudItem xs="10" sm="6" md="6">
+    <MudItem xs="12" sm="6" md="6">
             <MudTextField T="string" @bind-Value="registro.userName" Label="Nombre" Variant="Variant.Text"  Lines="1" />
-    </MudItem>
-
-    <MudItem xs="8" sm="6" md="6">
             <MudTextField T="string" @bind-Value="registro.email" Label="E-mail" Variant="Variant.Text" Lines="1" InputType="InputType.Email" />
-    </MudItem>
-
-    <MudItem xs="8" sm="6" md="6">
-
             <MudTextField T="string" @bind-Value="registro.password" Label="Contraseña" Variant="Variant.Text" Lines="1" />
     </MudItem>
 
+   
+
 
         <MudItem xs="10" sm="6" md="6">
-            <MudSelect Placeholder="Seleccione una Planta" T="PlantaUnidadArea" @bind-Value="Planta" Label="Planta" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarPlanta">
+            <MudSelect Placeholder="Seleccione una Planta" T="PlantaUnidadArea" @bind-Value="Planta" Label="Planta" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarPlanta" onchange="vaciar">
                 @foreach(var planta in Plantas){
                     <MudSelectItem T="PlantaUnidadArea" Value="@planta">@planta.nombre</MudSelectItem>
                 }
@@ -35,35 +30,29 @@
                 }
             </MudSelect>
 
-            <MudSelect T="PlantaUnidadArea" Placeholder="Seleccione un Area" @bind-Value="Area" Label="Unidad" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarArea">
+            <MudSelect T="PlantaUnidadArea" Placeholder="Seleccione un Area" @bind-Value="registro.planta" Label="Area" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarArea">
                 @foreach (var area in Areas)
                 {
                     <MudSelectItem T="PlantaUnidadArea" Value="@area">@area.nombre</MudSelectItem>
                 }
             </MudSelect>
+           
         </MudItem>
 
-    <MudItem xs="6" sm="6" md="4">
-
-       
-    </MudItem>
-
-
+        <MudItem xs="12" sm="6" md="6">
+            <MudSelect T="string" Placeholder="Seleccione un Rol" @bind-Value="registro.rol" Label="Rol" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarRol">
+                @foreach (var rol in Roles)
+                {
+                    <MudSelectItem T="string" Value="@rol">@rol</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
 
     </MudGrid>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-        @*<MudButton Disabled="@_procesando" OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
-
-            @if (_procesando)
-            {
-            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
-                    <MudText Class="ms-2">Procesando</MudText>
-            }
-            else
-            {
-                    <MudText> Guardar Proceso</MudText>
-            }
-    </MudButton>*@
+        <MudButton OnClick="RegistrarUsuario" Variant="Variant.Filled" StartIcon="@Icons.Filled.EmojiPeople" Color="Color.Primary" Size="Size.Large">
+            <MudText> Registrar Usuario</MudText>
+    </MudButton>
 
 </MudContainer>
 
@@ -80,8 +69,8 @@
     List<PlantaUnidadArea> Unidades = new();
     PlantaUnidadArea Unidad;
     List<PlantaUnidadArea> Areas = new();
-    PlantaUnidadArea Area;
 
+    List<string> Roles = new();
 
 
     private async Task BuscarPlanta()
@@ -126,5 +115,40 @@
             snackBar.Add($"{data.Message}", Severity.Error);
         }
         return zonas;
+    }
+
+    private async Task BuscarRol()
+    {
+        var response = await apiService.HttpClient.GetAsync("Roles");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            Roles = await response.Content.ReadFromJsonAsync<List<string>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+    }
+
+    private async Task RegistrarUsuario()
+    {
+        var response = await apiService.HttpClient.PostAsJsonAsync("Identity/register", registro);
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            Roles = await response.Content.ReadFromJsonAsync<List<string>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+    }
+
+    private void Vaciar(){
+        Unidades = null;
+        Areas = null;
     }
 }
