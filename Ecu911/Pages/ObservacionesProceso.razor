@@ -1,10 +1,10 @@
-﻿@page "/Observaciones/{idObservacion}"
+﻿@page "/Observaciones/{Proceso}"
 
 <MudCardContent Class="d-flex  flex-column  align-center  ">
 
     <MudText Typo="Typo.h3" GutterBottom="true">Observaciones Proceso</MudText>
     <MudText Class="mb-12">Observaciones encontradas:</MudText>
-    <MudText Class="mb-12"> id  @idObservacion!</MudText>
+    <MudText Class="mb-12"> id  @Proceso</MudText>
     <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center" >
          <MudGrid>
         <MudSimpleTable >
@@ -12,6 +12,7 @@
                 <tr>
                     <th>No. </th>
                     <th>observacion </th>
+                        <th>fechaObsservacion </th>
                 </tr>
             </thead>
             <tbody>
@@ -20,7 +21,7 @@
                     <tr>
                         <td>@item.ObservacionId</td>
                         <td>@item.descripcionObservacion</td>
-
+                         <td>@item.fechaObsservacion</td>
                     </tr>
                 }
             </tbody>
@@ -37,20 +38,16 @@
     <MudItem xs="12" sm="12" md="12">
         <MudTextField T="string" @bind-Value="observacion.descripcionObservacion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
     </MudItem>
-
-
     <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-    <MudButton Disabled="@_procesando" OnClick="agregarObservacion" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
-        @if (_procesando)
-        {
-            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-            <MudText Class="ms-2">Procesando</MudText>
-        }
-        else
-        {
+        <MudButton OnClick="agregarObservacion" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
             <MudText> Guardar Observacion</MudText>
-        }
-    </MudButton>
+        </MudButton>
+    </MudContainer>
+
+    <MudContainer>
+        <MudButton OnClick="NavigateInicio" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" Size="Size.Large">
+            <MudText> Regresar</MudText>
+        </MudButton>
     </MudContainer>
 </EditForm>
 
@@ -58,18 +55,28 @@
 @code {
 
     Observacion observacion = new Observacion();
+    ProcesoCompra procesocompra = new ProcesoCompra();
     List<Observacion> observaciones = new();
 
+
     [Parameter]
-    public string idObservacion { get; set; }
+    public string Proceso { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await apiService.HttpClient.GetAsync("/api/Observacion");
+        var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Proceso}");
+        observacion.ProcesoId = Proceso;
+        observacion.fechaObsservacion = DateTime.Now;
         try
-        {
+        {         
             response.EnsureSuccessStatusCode();
-            observaciones = await response.Content.ReadFromJsonAsync<List<Observacion>>();
+            procesocompra = await response.Content.ReadFromJsonAsync <ProcesoCompra> ();
+
+            foreach (var item in procesocompra.Observaciones){
+
+                observaciones.Add(item);
+            }           
         }
         catch (HttpRequestException)
         {
@@ -86,7 +93,7 @@
 
 
         HttpResponseMessage? response = new();
-
+        
         try
         {
             response = await apiService.HttpClient.PostAsJsonAsync("Observacion", observacion);
@@ -116,17 +123,9 @@
 
     }
 
-    private bool _procesando = false;
-
-    protected async Task ProcessSomething()
+    void NavigateInicio()
     {
-        _procesando = true;
-        await Task.Delay(2000);
-        _procesando = false;
-
-
-
-
+        navManager.NavigateTo($"/");
     }
 
 }

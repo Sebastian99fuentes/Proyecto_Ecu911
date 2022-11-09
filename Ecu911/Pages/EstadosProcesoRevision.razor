@@ -2,35 +2,231 @@
 
 
 
+<MudCardContent Class="d-flex  flex-column  align-center  ">
+    @if (preparatoria.fechaReal != null)
+    {
+        <MudText Typo="Typo.h3" GutterBottom="true">Etapa Preparatoria</MudText>
+        <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
+            <MudGrid>
+                <MudSimpleTable>
+                    <thead>
+                        <tr>
+                            <th>fechaProgramada </th>
+                            <th>fechaSolicitud </th>
+                            <th>fechaRespuesta </th>
+                            <th>fechaMesa </th>
+                            <th>fechaEmision </th>
 
-    <MudText Typo="Typo.h3" GutterBottom="true">Estados Proceso </MudText>
-    <MudText Class="mb-12">Observaciones encontradas: @Id! </MudText>
-    <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center" >
-    <MudGrid>
-        <MudSimpleTable >
-            <thead>
-                <tr>
-                    <th>No. </th>
-                    <th>observacion </th>
-                    <th>descripcion </th>
-                    <th>Estado </th>
-                    <th>Procedimiento </th>
-                </tr>
-            </thead>
-            <tbody>
-                    <tr>
-                    <td>@proceso.numProceso</td>
-                    <td>@proceso.descripcion</td>
-                    <td>@proceso.Estado</td>
-                    <td>@proceso.Observaciones</td>
-                    </tr>   
-            </tbody>
-        </MudSimpleTable>
-    </MudGrid>
-    </MudItem>
+                            <th>valorCertificado </th>
+                            <th>fechaReal </th>
+                            <th>fechaAutorizacion </th>
+                            <th>fechaPublicacion </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@preparatoria.fechaProgramada</td>
+                            <td>@preparatoria.fechaSolicitud</td>
+                            <td>@preparatoria.fechaRespuesta</td>
+                            <td>@preparatoria.fechaMesa</td>
+
+                            <td>@preparatoria.fechaEmision</td>
+                            <td>@preparatoria.valorCertificado</td>
+                            <td>@preparatoria.fechaReal</td>
+                            <td>@preparatoria.fechaAutorizacion</td>
+                            <td>@preparatoria.fechaPublicacion</td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudGrid>
+        </MudItem>
+    }
+    else
+    {
+        <MudText Class="mb-12">Aun no en etapa Preparatoria kk </MudText>
+    }
 </MudCardContent>
+
+
+<MudCardContent Class="d-flex  flex-column  align-center  ">
+    @if (precontracualObj.IdPrecontractual != null)
+    {
+    <MudText Class="mb-12"> </MudText>
+        <MudText Typo="Typo.h3" GutterBottom="true">Etapa Precontractual</MudText>
+    <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
+        <MudGrid>
+            <MudSimpleTable>
+                <thead>
+                    <tr>
+                        <th>fechaAdjudicacion. </th>
+                        <th>valorAdjudicado </th>
+                        <th>administradorContrato </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@precontracualObj.fechaAdjudicacion</td>
+                        <td>@precontracualObj.valorAdjudicado</td>
+                        <td>@precontracualObj.administradorContrato</td>
+
+                    </tr>
+                </tbody>
+            </MudSimpleTable>
+        </MudGrid>
+    </MudItem>
+    }
+    else
+    {
+    <MudText Class="mb-12">Aun no en etapa Precontractual </MudText>
+    }
+</MudCardContent>
+
+<MudCardContent Class="d-flex  flex-column  align-center  ">
+    @if (contractualObj.IdPrecontractual != null)
+    {
+
+        <MudText Typo="Typo.h3" GutterBottom="true">Etapa Contractual</MudText>
+    <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
+        <MudGrid>
+            <MudSimpleTable>
+                <thead>
+                    <tr>
+                        <th>No. </th>
+                        <th>observacion </th>
+                        <th>descripcion </th>
+                        <th>Estado </th>
+                        <th>Procedimiento </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@contractualObj.fechaSuscripcion</td>
+                        <td>@contractualObj.fechaFinalizacion</td>
+                        <td>@contractualObj.rucOferente</td>
+                        <td>@contractualObj.nombreProveedor</td>
+                        <td>@contractualObj.plazoContrato</td>
+                    </tr>
+                </tbody>
+            </MudSimpleTable>
+        </MudGrid>
+    </MudItem>
+    }
+    else
+    {
+    <MudText Class="mb-12">Aun no en etapa Contractual </MudText>
+    }
+</MudCardContent> 
+
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton OnClick="NavigateInicio" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" Size="Size.Large">
+        <MudText> Regresar</MudText>
+    </MudButton>
+</MudContainer>
+
+
+
+@code{
 
     ProcesoCompra proceso = new ProcesoCompra();
 
+    List<Preparatoria> preparatorias = new();
+    Preparatoria preparatoria = new();
 
+    List<Precontractual> precontracual = new();
+    Precontractual precontracualObj = new();
+
+    List<Contractual> contractual = new();
+    Contractual contractualObj = new();
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Id}");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            proceso = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
+            await buscarPreparatoria();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
+    private async Task buscarPreparatoria()
+    {
+
+        var response = await apiService.HttpClient.GetAsync($"Preparatoria");
+
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            preparatorias = await response.Content.ReadFromJsonAsync<List<Preparatoria>>();
+
+            foreach (var item in preparatorias)
+            {
+                if (item.IdProcesoCompra == Id)
+                {
+                    preparatoria = item;
+
+                    response = await apiService.HttpClient.GetAsync($"Precontractual");
+                    try
+                    {
+                        response.EnsureSuccessStatusCode();
+                        precontracual = await response.Content.ReadFromJsonAsync<List<Precontractual>>();
+                        foreach (var item2 in precontracual)
+                        {
+                            if (item2.IdPreparatoria == preparatoria.PreparatoriaId)
+                            {
+                                precontracualObj = item2;
+                                response = await apiService.HttpClient.GetAsync($"Contractual");
+                                try
+                                {
+                                    response.EnsureSuccessStatusCode();
+                                    contractual = await response.Content.ReadFromJsonAsync<List<Contractual>>();
+                                    foreach (var item3 in contractual)
+                                    {
+                                        if (item3.IdPrecontractual == precontracualObj.IdPreparatoria)
+                                        {
+                                            contractualObj = item3;
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                catch (HttpRequestException)
+                                {
+                                    var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+                                    snackBar.Add($"{data.Message}", severity: Severity.Error);
+                                }
+
+                            }
+                        }
+                    }
+                    catch (HttpRequestException)
+                    {
+                        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+                        snackBar.Add($"{data.Message}", severity: Severity.Error);
+                    }
+                    
+                }
+            }
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
+
+
+    void NavigateInicio()
+    {
+        navManager.NavigateTo($"/");
+    }
 }

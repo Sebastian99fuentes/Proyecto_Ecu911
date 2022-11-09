@@ -1,10 +1,10 @@
-﻿@page "/Alertas/{idPro}"
+﻿@page "/Alertas/{Proceso}"
 <h3></h3>
 
 <MudCardContent Class="d-flex  flex-column  align-center  ">
 
     <MudText Typo="Typo.h3" GutterBottom="true">Alertas Proceso</MudText>
-    <MudText Class="mb-12">alertas encontradas: @idPro!</MudText>
+    <MudText Class="mb-12">alertas encontradas: @Proceso</MudText>
     <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center" >
     <MudGrid>
         <MudSimpleTable >
@@ -34,38 +34,44 @@
     <MudItem xs="12" sm="12" md="12">
         <MudTextField T="string" @bind-Value="alerta.descripcionAlerta" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
     </MudItem>
-
     <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-        <MudButton Disabled="@_procesando" OnClick="agregarAlerta" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
-            @if (_procesando)
-            {
-                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                <MudText Class="ms-2">Procesando</MudText>
-            }
-            else
-            {
+        <MudButton  OnClick="agregarAlerta" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
                 <MudText> Guardar Observacion</MudText>
-            }
         </MudButton>
     </MudContainer>
-   
-
+    <MudContainer>
+            <MudButton OnClick="NavigateInicio" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" Size="Size.Large">
+            <MudText> Regresar</MudText>
+        </MudButton>
+    </MudContainer>
 </EditForm>
+
+
+
 @code {
 
+
+
     AlertaDSPPP alerta = new AlertaDSPPP();
+    ProcesoCompra procesocompra = new ProcesoCompra();
     List<AlertaDSPPP> alertas = new();
 
     [Parameter]
-    public string idPro { get; set; }
+    public string Proceso { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await apiService.HttpClient.GetAsync("/api/Alerta");
+        var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Proceso}");
+        alerta.ProcesoCompraId = Proceso;
         try
         {
             response.EnsureSuccessStatusCode();
-            alertas = await response.Content.ReadFromJsonAsync<List<AlertaDSPPP>>();
+            procesocompra = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
+            foreach (var item in procesocompra.AlertasDSPPP)
+            {
+
+                alertas.Add(item);
+            }
         }
         catch (HttpRequestException)
         {
@@ -74,15 +80,13 @@
         }
     }
 
-
-
-
     protected async void agregarAlerta()
     {
 
 
         HttpResponseMessage? response = new();
 
+       
         try
         {
             response = await apiService.HttpClient.PostAsJsonAsync("Alerta", alerta);
@@ -103,7 +107,6 @@
         catch (HttpRequestException)
         {
 
-            //The input does not contain any JSON tokens. Expected the input to start with a valid JSON token, when isFinalBlock is true. Path: $ | LineNumber: 0 | BytePositionInLine: 0.'
 
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
@@ -115,15 +118,11 @@
 
     private bool _procesando = false;
 
-    protected async Task ProcessSomething()
+
+    void NavigateInicio()
     {
-        _procesando = true;
-        await Task.Delay(2000);
-        _procesando = false;
-
-
-
-
+        navManager.NavigateTo($"/");
     }
+
 
 }

@@ -1,9 +1,7 @@
 ﻿@page "/"
 
 
-@*<style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" >;
-</style>*@
+
 <PageTitle>Procesos Activos</PageTitle>
 
  <MudCardContent Class="d-flex  flex-column  align-center  ">
@@ -14,7 +12,7 @@
         <MudSimpleTable Style="overflow-x: auto;">
             <thead>
                 <tr>
-                    <th >IDproceso. </th>
+                   
                     <th >No. </th>
                     <th >Descripcion </th>
                     <th >Estado </th>
@@ -28,7 +26,7 @@
                 @foreach (var item in procesos)
                 {
                     <tr>
-                        <td>@item.ProcesoCompraId</td>
+                      
                         <td >@item.numProceso</td>
                         <td >@item.descripcion</td>
                         <td >@item.Estado.tipoEstado</td>
@@ -36,14 +34,10 @@
                         <td >@item.Procedimiento.tipoProcedimiento</td>
                         <td >@item.mesPlanificado</td>
 
-                         @*<th ><RouterLink :to="{name:'EditContact',params:{id:contact.id}}" 
-                    class="btn btn-primary btn-sm" @click.prevent="(contact.id)">
-                    edit</RouterLink></th>*@
 
-@*
                         <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateEstados(@item.ProcesoCompraId))" >Revisar</MudButton></th>
                         <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateObservaciones(@item.ProcesoCompraId))">Obeservaciones</MudButton></th>
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateAlertas(@item.ProcesoCompraId))">Alertas</MudButton></th>*@
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateAlertas(@item.ProcesoCompraId))">Alertas</MudButton></th>
                     </tr>
                 }
             </tbody>
@@ -77,20 +71,20 @@
 
 
 
-    //enviar info
-    //void NavigateEstados(string id)
-    //{
-    //    navManager.NavigateTo($"EstadosProcesoRevision/{id}");
-    //}
-    //void NavigateObservaciones(string id)
-    //{
-    //    navManager.NavigateTo($"Observaciones/{id}");
-    //}
+    
+    void NavigateEstados(string id)
+    {
+        navManager.NavigateTo($"EstadosProcesoRevision/{id}");
+    }
+    void NavigateObservaciones(string id)
+    {
+        navManager.NavigateTo($"Observaciones/{id}");
+    }
 
-    //void NavigateAlertas(string id)
-    //{
-    //    navManager.NavigateTo($"Alertas/{id}");
-    //}
+    void NavigateAlertas(string id)
+    {
+        navManager.NavigateTo($"Alertas/{id}");
+    }
 
 }
 
