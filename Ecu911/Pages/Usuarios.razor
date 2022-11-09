@@ -2,7 +2,7 @@
 <PageTitle>Administración de Usuarios</PageTitle>
 
 
-    <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso</MudText>
+    <MudText Align="Align.Center" Typo="Typo.h3">Registrar Nuevo Usuario</MudText>
 
 <EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
@@ -17,16 +17,31 @@
 
     <MudItem xs="8" sm="6" md="6">
 
-            <MudTextField T="string" @bind-Value="registro.password" Label="Item Presupuestario" Variant="Variant.Text" Lines="1" />
+            <MudTextField T="string" @bind-Value="registro.password" Label="Contraseña" Variant="Variant.Text" Lines="1" />
     </MudItem>
 
 
-        @*    <MudItem xs="10" sm="6" md="6">
-        <MudAutocomplete T="String" Label="Area" @bind-Value="respuesta" SearchFunc="BusquedaAreaRequiriente"
-        ResetValueOnEmptyText="@resetValueOnEmptyText"
-        CoerceText="@coerceText" CoerceValue="@coerceValue"
-        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
-        </MudItem>*@
+        <MudItem xs="10" sm="6" md="6">
+            <MudSelect Placeholder="Seleccione una Planta" T="PlantaUnidadArea" @bind-Value="Planta" Label="Planta" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarPlanta">
+                @foreach(var planta in Plantas){
+                    <MudSelectItem T="PlantaUnidadArea" Value="@planta">@planta.nombre</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="PlantaUnidadArea" Placeholder="Seleccione una Unidad" @bind-Value="Unidad" Label="Unidad" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
+                @foreach (var unidad in Unidades)
+                {
+                    <MudSelectItem T="PlantaUnidadArea" Value="@unidad">@unidad.nombre</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="PlantaUnidadArea" Placeholder="Seleccione un Area" @bind-Value="Area" Label="Unidad" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarArea">
+                @foreach (var area in Areas)
+                {
+                    <MudSelectItem T="PlantaUnidadArea" Value="@area">@area.nombre</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
 
     <MudItem xs="6" sm="6" md="4">
 
@@ -60,46 +75,56 @@
 @code {
     UserRegisterRequest registro = new();
 
-    private string[] Planta =
-    {};
-    private string[] Unidad =
-    {};
-    private string[] Area =
-    {};
+    List<PlantaUnidadArea> Plantas = new();
+    PlantaUnidadArea Planta;
+    List<PlantaUnidadArea> Unidades = new();
+    PlantaUnidadArea Unidad;
+    List<PlantaUnidadArea> Areas = new();
+    PlantaUnidadArea Area;
 
 
-    private async Task<IEnumerable<string>> BuscarPlanta(string value)
+
+    private async Task BuscarPlanta()
     {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return Planta;
-        return Planta.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        var response = await apiService.HttpClient.GetAsync("PlantaUnidadArea/tipo?tipo=" + 'P');
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            Plantas = await response.Content.ReadFromJsonAsync<List<PlantaUnidadArea>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
     }
 
 
-    private async Task<IEnumerable<string>> BusquedaUnidad(string value)
+    private async Task BuscarUnidad()
     {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return Unidad;
-        return Unidad.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        if(Planta != null)
+            Unidades = await BuscarPadre(Planta.PlantaUnidadAreaId);
     }
 
-
-    private async Task<IEnumerable<string>> BusquedaAreaRequiriente(string value)
+    private async Task BuscarArea()
     {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
+        if(Unidad != null)
+            Areas = await BuscarPadre(Unidad.PlantaUnidadAreaId);
+    }
 
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return Area;
-        return Area.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    private async Task<List<PlantaUnidadArea>> BuscarPadre(string id){
+        var response = await apiService.HttpClient.GetAsync("PlantaUnidadArea/padre?padreId=" + id);
+        List<PlantaUnidadArea> zonas = new();
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            zonas = await response.Content.ReadFromJsonAsync<List<PlantaUnidadArea>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+        return zonas;
     }
 }
