@@ -2,7 +2,6 @@
 
 
 
-<MudCardContent Class="d-flex  flex-column  align-center  ">
 
     <MudText Typo="Typo.h3" GutterBottom="true">Estados Proceso </MudText>
     <MudText Class="mb-12">Observaciones encontradas: @Id! </MudText>
@@ -30,25 +29,8 @@
     </MudGrid>
     </MudItem>
 </MudCardContent>
-@code {
 
     ProcesoCompra proceso = new ProcesoCompra();
 
-    [Parameter]
-    public string Id { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Id}");
-        try
-        {
-            response.EnsureSuccessStatusCode();
-            proceso = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
-        }
-        catch (HttpRequestException)
-        {
-            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            snackBar.Add($"{data.Message}", severity: Severity.Error);
-        }
-    }
 }
