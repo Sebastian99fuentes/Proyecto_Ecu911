@@ -1,0 +1,133 @@
+﻿@page "/Observaciones/{idObservacion}"
+
+<MudCardContent Class="d-flex  flex-column  align-center  ">
+
+    <MudText Typo="Typo.h3" GutterBottom="true">Observaciones Proceso</MudText>
+    <MudText Class="mb-12">Observaciones encontradas:</MudText>
+    <MudText Class="mb-12"> id  @idObservacion!</MudText>
+    <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center" >
+         <MudGrid>
+        <MudSimpleTable >
+            <thead>
+                <tr>
+                    <th>No. </th>
+                    <th>observacion </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in observaciones)
+                {
+                    <tr>
+                        <td>@item.ObservacionId</td>
+                        <td>@item.descripcionObservacion</td>
+
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    </MudGrid>
+    </MudItem>
+   
+   
+</MudCardContent>
+
+
+<EditForm Model="@observacion">
+
+    <MudItem xs="12" sm="12" md="12">
+        <MudTextField T="string" @bind-Value="observacion.descripcionObservacion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
+    </MudItem>
+
+
+    <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton Disabled="@_procesando" OnClick="agregarObservacion" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+        @if (_procesando)
+        {
+            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+            <MudText Class="ms-2">Procesando</MudText>
+        }
+        else
+        {
+            <MudText> Guardar Observacion</MudText>
+        }
+    </MudButton>
+    </MudContainer>
+</EditForm>
+
+
+@code {
+
+    Observacion observacion = new Observacion();
+    List<Observacion> observaciones = new();
+
+    [Parameter]
+    public string idObservacion { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await apiService.HttpClient.GetAsync("/api/Observacion");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            observaciones = await response.Content.ReadFromJsonAsync<List<Observacion>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
+
+
+
+    protected async void agregarObservacion()
+    {
+
+
+        HttpResponseMessage? response = new();
+
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Observacion", observacion);
+
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
+            snackBar.Add(" agregado!", Severity.Success);
+
+        }
+        catch (HttpRequestException)
+        {
+
+
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+
+
+
+    }
+
+    private bool _procesando = false;
+
+    protected async Task ProcessSomething()
+    {
+        _procesando = true;
+        await Task.Delay(2000);
+        _procesando = false;
+
+
+
+
+    }
+
+}
+

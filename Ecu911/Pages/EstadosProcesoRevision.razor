@@ -1,0 +1,54 @@
+﻿@page "/EstadosProcesoRevision/{Id}"
+
+
+
+<MudCardContent Class="d-flex  flex-column  align-center  ">
+
+    <MudText Typo="Typo.h3" GutterBottom="true">Estados Proceso </MudText>
+    <MudText Class="mb-12">Observaciones encontradas: @Id! </MudText>
+    <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center" >
+    <MudGrid>
+        <MudSimpleTable >
+            <thead>
+                <tr>
+                    <th>No. </th>
+                    <th>observacion </th>
+                    <th>descripcion </th>
+                    <th>Estado </th>
+                    <th>Procedimiento </th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                    <td>@proceso.numProceso</td>
+                    <td>@proceso.descripcion</td>
+                    <td>@proceso.Estado</td>
+                    <td>@proceso.Observaciones</td>
+                    </tr>   
+            </tbody>
+        </MudSimpleTable>
+    </MudGrid>
+    </MudItem>
+</MudCardContent>
+@code {
+
+    ProcesoCompra proceso = new ProcesoCompra();
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Id}");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            proceso = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+}

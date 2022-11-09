@@ -1,5 +1,6 @@
 ﻿
 @page "/crearproceso"
+
 <PageTitle>Crear Proceso</PageTitle>
 
     <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso</MudText>
@@ -7,26 +8,6 @@
 <EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
 
-    <MudItem xs="12" sm="6" md="6">
-        <MudAutocomplete T="string" Label="Planta Central/Zonal/Local" @bind-Value="respuesta" SearchFunc="Search1"
-                         ResetValueOnEmptyText="@resetValueOnEmptyText"
-                         CoerceText="@coerceText" CoerceValue="@coerceValue"
-                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
-    </MudItem>
-
-    <MudItem xs="12" sm="6" md="6">
-            <MudAutocomplete T="string" Label="Unidad" @bind-Value="respuesta" SearchFunc=" BusquedaUnidad"
-                         ResetValueOnEmptyText="@resetValueOnEmptyText"
-                         CoerceText="@coerceText" CoerceValue="@coerceValue"
-                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
-    </MudItem>
-
-    <MudItem xs="10" sm="6" md="6">
-        <MudAutocomplete T="String" Label="Area" @bind-Value="respuesta" SearchFunc="BusquedaAreaRequiriente"
-                         ResetValueOnEmptyText="@resetValueOnEmptyText"
-                         CoerceText="@coerceText" CoerceValue="@coerceValue"
-                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />     
-    </MudItem>
 
     <MudItem xs="10" sm="6" md="6">
             <MudTextField T="string" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text"  Lines="1" />
@@ -41,7 +22,7 @@
             <MudTextField T="string" @bind-Value="registro.itemPresup" Label="Item Presupuestario" Variant="Variant.Text" Lines="1" />
     </MudItem>
 
-    <MudItem xs="6" sm="6" md="4">
+    <MudItem xs="6" sm="6" md="6">
 
         <MudAutocomplete  Label="Procedimiento de Contratación" @bind-Value="registroProcedimiento.tipoProcedimiento" SearchFunc="BusquedaProcedimientoContratacion"
                          ResetValueOnEmptyText="@resetValueOnEmptyText"
@@ -49,11 +30,11 @@
                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
     </MudItem>
 
-    <MudItem xs="6" sm="6" md="4"> 
+    <MudItem xs="6" sm="6" md="6"> 
         <MudNumericField Immediate="false" HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total"  />
     </MudItem>
 
-    <MudItem xs="6" sm="6" md="4">
+    <MudItem xs="6" sm="6" md="6">
         <MudNumericField HideSpinButtons="true" @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado" Variant="Variant.Text" Min="0" Max="4" />
     </MudItem>
 

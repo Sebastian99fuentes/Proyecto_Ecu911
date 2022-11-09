@@ -14,24 +14,36 @@
         <MudSimpleTable Style="overflow-x: auto;">
             <thead>
                 <tr>
-                    <th>No. </th>
-                    <th>Descripcion </th>
-                    <th>Estado </th>
-                    <th>Etapa </th>
-                    <th>Proceso de Contratacion</th>
-                    <th>Mes Planificado </th>
+                    <th >IDproceso. </th>
+                    <th >No. </th>
+                    <th >Descripcion </th>
+                    <th >Estado </th>
+                    <th >Etapa </th>
+                    <th >Proceso de Contratacion</th>
+                    <th >Mes Planificado </th>
+                    <th >Opciones </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in procesos)
                 {
                     <tr>
-                        <td>@item.numProceso</td>
-                        <td>@item.descripcion</td>
-                        <td>@item.Estado.tipoEstado</td>
-                        <td>@item.Etapa.tipoEtapa</td>
-                        <td>@item.Procedimiento.tipoProcedimiento</td>
-                        <td>@item.mesPlanificado</td>
+                        <td>@item.ProcesoCompraId</td>
+                        <td >@item.numProceso</td>
+                        <td >@item.descripcion</td>
+                        <td >@item.Estado.tipoEstado</td>
+                        <td >@item.Etapa.tipoEtapa</td>
+                        <td >@item.Procedimiento.tipoProcedimiento</td>
+                        <td >@item.mesPlanificado</td>
+
+                         @*<th ><RouterLink :to="{name:'EditContact',params:{id:contact.id}}" 
+                    class="btn btn-primary btn-sm" @click.prevent="(contact.id)">
+                    edit</RouterLink></th>*@
+
+@*
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateEstados(@item.ProcesoCompraId))" >Revisar</MudButton></th>
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateObservaciones(@item.ProcesoCompraId))">Obeservaciones</MudButton></th>
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateAlertas(@item.ProcesoCompraId))">Alertas</MudButton></th>*@
                     </tr>
                 }
             </tbody>
@@ -41,15 +53,12 @@
 
      </MudCardContent>
 
-
-<MudDatePicker PickerVariant="PickerVariant.Dialog" Color="Color.Secondary" HelperText="Fecha de finalización del contrato/orden de compra" @bind-Date="datesf" DateFormat="yyyy-MM-dd"></MudDatePicker>
-<MudText><b>Date:</b> @datesf</MudText>
 @code {
 
     DateTime? datesf;
     List<ProcesoCompra> procesos = new();
 
-
+    int id = 0;
     protected override async Task OnInitializedAsync()
     {
         var response = await apiService.HttpClient.GetAsync("/api/ProcesoCompra");
@@ -64,5 +73,24 @@
             snackBar.Add($"{data.Message}", severity: Severity.Error);
         }
     }
+
+
+
+
+    //enviar info
+    //void NavigateEstados(string id)
+    //{
+    //    navManager.NavigateTo($"EstadosProcesoRevision/{id}");
+    //}
+    //void NavigateObservaciones(string id)
+    //{
+    //    navManager.NavigateTo($"Observaciones/{id}");
+    //}
+
+    //void NavigateAlertas(string id)
+    //{
+    //    navManager.NavigateTo($"Alertas/{id}");
+    //}
+
 }
 
