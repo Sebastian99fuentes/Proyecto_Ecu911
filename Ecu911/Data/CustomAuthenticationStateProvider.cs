@@ -21,27 +21,6 @@ namespace Ecu911.Data
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            //var userName = await _sessionStorageService.GetItemAsync<string>("userName");
-            //ClaimsIdentity identity;
-
-            //if(userName != null)
-            //{
-            //    identity = new ClaimsIdentity(new[]
-            //    {
-            //    new Claim(ClaimTypes.Name, userName),
-            //    }, "apiauth_type");
-            //}
-            //else
-            //{
-            //    identity = new ClaimsIdentity();
-            //}
-
-            //var user = new ClaimsPrincipal(identity);
-
-            //return await Task.FromResult(new AuthenticationState(user));
-
-
-            //
             try
             {
                 var accessToken = await _sessionStorageService.GetItemAsync<string>("Access-Token");
@@ -66,22 +45,11 @@ namespace Ecu911.Data
 
         public async Task SetUserAsAuthenticated(SuccessfulLogin user)
         {
-            //string userName
-
-            //var identity = new ClaimsIdentity(new[]
-            //{
-            //    new Claim(ClaimTypes.Name, userName),
-            //}, "apiauth_type");
-
-
-            //var user = new ClaimsPrincipal(identity);
-
-            //NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
-
-
             await _sessionStorageService.SetItemAsync("Access-Token", user.token);
             await _sessionStorageService.SetItemAsync("Refresh-Token", user.refreshedToken);
             var claims = _jwtTokenGenerator.GetTokenClaims(user.token);
+            await _sessionStorageService.SetItemAsync("Id-Usuario", claims.ElementAt(2).Value);
+            await _sessionStorageService.SetItemAsync("Id-Area", claims.ElementAt(3).Value);
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims));
             NotifyAuthenticationStateChanged(Task.FromResult( new AuthenticationState(claimsPrincipal)));
         }
@@ -89,7 +57,10 @@ namespace Ecu911.Data
         public void SetUserAsLoggedOut()
         {
 
-            _sessionStorageService.RemoveItemAsync("userName");
+            _sessionStorageService.RemoveItemAsync("Access-Token");
+            _sessionStorageService.RemoveItemAsync("Refresh-Token");
+            _sessionStorageService.RemoveItemAsync("Id-Usuario");
+            _sessionStorageService.RemoveItemAsync("Id-Area");
             var identity = new ClaimsIdentity();
 
             var user = new ClaimsPrincipal(identity);
