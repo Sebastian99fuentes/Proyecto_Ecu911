@@ -17,7 +17,7 @@
 
 
         <MudItem xs="10" sm="6" md="6">
-            <MudSelect Placeholder="Seleccione una Planta" T="PlantaUnidadArea" @bind-Value="Planta" Label="Planta" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarPlanta" onchange="vaciar">
+            <MudSelect Placeholder="Seleccione una Planta" T="PlantaUnidadArea" @bind-Value="Planta" Label="Planta" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarPlanta">
                 @foreach(var planta in Plantas){
                     <MudSelectItem T="PlantaUnidadArea" Value="@planta">@planta.nombre</MudSelectItem>
                 }
@@ -85,7 +85,7 @@
         {
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
-        }
+        }    
     }
 
 
@@ -138,17 +138,11 @@
         try
         {
             response.EnsureSuccessStatusCode();
-            Roles = await response.Content.ReadFromJsonAsync<List<string>>();
         }
         catch (HttpRequestException)
         {
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
         }
-    }
-
-    private void Vaciar(){
-        Unidades = null;
-        Areas = null;
     }
 }
