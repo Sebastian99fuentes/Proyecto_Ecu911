@@ -1,7 +1,6 @@
 ﻿@page "/"
 
 
-
 <PageTitle>Procesos Activos</PageTitle>
 
  <MudCardContent Class="d-flex  flex-column  align-center  ">
@@ -50,7 +49,7 @@
 @code {
 
     DateTime? datesf;
-    List<ProcesoCompra> procesos = new();
+  private  List<ProcesoCompra> procesos = new();
 
     int id = 0;
     protected override async Task OnInitializedAsync()

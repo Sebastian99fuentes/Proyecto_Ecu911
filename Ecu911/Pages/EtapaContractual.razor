@@ -1,5 +1,5 @@
 ﻿@page "/etapacontractual"
-
+@page "/etapacontractual/{Id}"
 <PageTitle>Etapa Contractual</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3">Etapa Contractual</MudText>
 <EditForm Model="@registro" >
@@ -30,16 +30,10 @@
 </MudGrid>
 </EditForm>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-    <MudButton Disabled="@_procesando" OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
-        @if (_procesando)
-        {
-            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
-            <MudText Class="ms-2">Procesando</MudText>
-        }
-        else
-        {
+    <MudButton  OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+
             <MudText> Guardar</MudText>
-        }
+        
         </MudButton>
 </MudContainer>
 
@@ -48,18 +42,8 @@
 
     Contractual registro = new();
     private bool _procesando = false;
-
-
-    private async Task ProcessSomething()
-    {
-
-
-        _procesando = true;
-        await Task.Delay(2000);
-        _procesando = false;
-
-
-    }
+    [Parameter]
+    public string Id { get; set; }
 
     protected async void Subir()
     {
@@ -67,10 +51,8 @@
 
         try
         {
-            //PROBLEMAS DE SEREALIZACION DE DATETIMEONLY Serialization and deserialization of 'System.DateTime?' instances are not supported. Path: $.fechaSuscripcion.'
-            //Serialization and deserialization of 'System.DateTime?' instances are not supported.
 
-
+            registro.IdPrecontractual = Id;
             response = await apiService.HttpClient.PostAsJsonAsync("Contractual", registro);
         }
         catch (HttpRequestException)
@@ -91,7 +73,6 @@
             snackBar.Add($"{data.Message}", Severity.Error);
         }
 
-        await ProcessSomething(); 
     }
     
 }

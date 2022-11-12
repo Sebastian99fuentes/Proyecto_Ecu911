@@ -1,10 +1,9 @@
 ﻿@page "/EstadosProcesoRevision/{Id}"
 
-
-
-<MudCardContent Class="d-flex  flex-column  align-center  ">
-    @if (preparatoria.fechaReal != null)
+  @if (preparatoria.fechaReal != null)
     {
+<MudCardContent Class="d-flex  flex-column  align-center  ">
+  
         <MudText Typo="Typo.h3" GutterBottom="true">Etapa Preparatoria</MudText>
         <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
             <MudGrid>
@@ -39,51 +38,43 @@
                     </tbody>
                 </MudSimpleTable>
             </MudGrid>
-        </MudItem>
-    }
-    else
-    {
-        <MudText Class="mb-12">Aun no en etapa Preparatoria kk </MudText>
-    }
-</MudCardContent>
-
-
-<MudCardContent Class="d-flex  flex-column  align-center  ">
+        </MudItem>  
+</MudCardContent> 
     @if (precontracualObj.IdPrecontractual != null)
     {
-    <MudText Class="mb-12"> </MudText>
-        <MudText Typo="Typo.h3" GutterBottom="true">Etapa Precontractual</MudText>
-    <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
-        <MudGrid>
-            <MudSimpleTable>
-                <thead>
-                    <tr>
-                        <th>fechaAdjudicacion. </th>
-                        <th>valorAdjudicado </th>
-                        <th>administradorContrato </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>@precontracualObj.fechaAdjudicacion</td>
-                        <td>@precontracualObj.valorAdjudicado</td>
-                        <td>@precontracualObj.administradorContrato</td>
 
-                    </tr>
-                </tbody>
-            </MudSimpleTable>
-        </MudGrid>
-    </MudItem>
-    }
-    else
-    {
-    <MudText Class="mb-12">Aun no en etapa Precontractual </MudText>
-    }
-</MudCardContent>
+        <MudCardContent Class="d-flex  flex-column  align-center  ">
 
+            <MudText Class="mb-12"> </MudText>
+            <MudText Typo="Typo.h3" GutterBottom="true">Etapa Precontractual</MudText>
+            <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
+                <MudGrid>
+                    <MudSimpleTable>
+                        <thead>
+                            <tr>
+                                <th>fechaAdjudicacion. </th>
+                                <th>valorAdjudicado </th>
+                                <th>administradorContrato </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@precontracualObj.fechaAdjudicacion</td>
+                                <td>@precontracualObj.valorAdjudicado</td>
+                                <td>@precontracualObj.administradorContrato</td>
+
+                            </tr>
+                        </tbody>
+                    </MudSimpleTable>
+                </MudGrid>
+            </MudItem>
+        </MudCardContent>
+
+        @if (contractualObj.IdPrecontractual != null)
+        {
+            
 <MudCardContent Class="d-flex  flex-column  align-center  ">
-    @if (contractualObj.IdPrecontractual != null)
-    {
+
 
         <MudText Typo="Typo.h3" GutterBottom="true">Etapa Contractual</MudText>
     <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
@@ -110,12 +101,37 @@
             </MudSimpleTable>
         </MudGrid>
     </MudItem>
+   
+</MudCardContent> 
+
+        }
+        else
+        {
+           
+            <MudCardContent Class="d-flex  flex-column  align-center  ">
+                <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" OnClick="@(e => NavigateContractual(@preparatoria.PreparatoriaId))">etapa Contractual</MudButton></th>
+            </MudCardContent>
+        }
+
+
     }
     else
     {
-    <MudText Class="mb-12">Aun no en etapa Contractual </MudText>
+        <MudCardContent Class="d-flex  flex-column  align-center  ">
+            <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" OnClick="@(e => NavigatePrecontractual(@preparatoria.PreparatoriaId))">etapa Precontractual</MudButton></th>
+        </MudCardContent>
     }
-</MudCardContent> 
+
+
+}
+else
+{
+    <MudCardContent Class="d-flex  flex-column  align-center  ">
+        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" OnClick="@(e => NavigatePreparatoria(@Id))">etapa Preparatoria</MudButton></th>
+    </MudCardContent>
+}
+
+
 
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
     <MudButton OnClick="NavigateInicio" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" Size="Size.Large">
@@ -127,6 +143,7 @@
 
 @code{
 
+    
     ProcesoCompra proceso = new ProcesoCompra();
 
     List<Preparatoria> preparatorias = new();
@@ -228,5 +245,20 @@
     void NavigateInicio()
     {
         navManager.NavigateTo($"/");
+    }
+
+
+
+       void NavigatePreparatoria(string id)
+    {
+        navManager.NavigateTo($"etapapreparatoria/{id}");
+    }
+    void NavigatePrecontractual(string id)
+    {
+        navManager.NavigateTo($"etapaprecontractual/{id}");
+    }
+    void NavigateContractual(string id)
+    {
+        navManager.NavigateTo($"etapacontractual/{id}");
     }
 }

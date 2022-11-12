@@ -28,15 +28,16 @@
         </MudSimpleTable>
     </MudGrid>
     </MudItem>
-   
-   
+    <MudItem xs="12" sm="12" md="12" Class="d-flex flex-column justify-center" Style="padding:30px">
+    <MudText Typo="Typo.h3" GutterBottom="true">Ingresar observaciones</MudText>
+  </MudItem>
 </MudCardContent>
 
 
 <EditForm Model="@observacion">
-
+   
     <MudItem xs="12" sm="12" md="12">
-        <MudTextField T="string" @bind-Value="observacion.descripcionObservacion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
+        <MudTextField T="string" @bind-Value="observacion.descripcionObservacion" Label="Descripción de la observacion" Variant="Variant.Text" Lines="20" />
     </MudItem>
     <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
         <MudButton OnClick="agregarObservacion" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">

@@ -3,11 +3,14 @@
 
 <PageTitle>Crear Proceso</PageTitle>
 
-    <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso</MudText>
+    <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso </MudText>
 
 <EditForm Model="@registro" >
 <MudGrid Style="padding:50px">
 
+       <MudItem xs="10" sm="6" md="6">
+            <MudTextField T="string" @bind-Value="registro.numProceso" Label="Numero del Proceso" Variant="Variant.Text"  Lines="1" />
+    </MudItem>
 
     <MudItem xs="10" sm="6" md="6">
             <MudTextField T="string" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text"  Lines="1" />
@@ -24,10 +27,12 @@
 
     <MudItem xs="6" sm="6" md="6">
 
-        <MudAutocomplete  Label="Procedimiento de Contratación" @bind-Value="registroProcedimiento.tipoProcedimiento" SearchFunc="BusquedaProcedimientoContratacion"
-                         ResetValueOnEmptyText="@resetValueOnEmptyText"
-                         CoerceText="@coerceText" CoerceValue="@coerceValue"
-                         AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Inherit" />
+        <MudSelect T="ProcedimientoContratacion" Placeholder="Seleccione una Unidad" @bind-Value="Unidad" Label="Unidad" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarPlanta">
+                @foreach (var unidad in registroProcedimientos)
+                {
+                    <MudSelectItem T="ProcedimientoContratacion" Value="@unidad">@unidad.tipoProcedimiento</MudSelectItem>
+                }
+            </MudSelect>
     </MudItem>
 
     <MudItem xs="6" sm="6" md="6"> 
@@ -37,24 +42,18 @@
     <MudItem xs="6" sm="6" md="6">
         <MudNumericField HideSpinButtons="true" @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado" Variant="Variant.Text" Min="0" Max="4" />
     </MudItem>
-
+        <MudItem xs="6" sm="6" md="6">
+            <MudTextField T="string" @bind-Value="registro.mesPlanificado" Label="Mes Planificado" Variant="Variant.Text" Lines="1" />
+        </MudItem>
     <MudItem xs="4" sm="12" md="12">
             <MudTextField T="string" @bind-Value="registro.descripcion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
     </MudItem>
+       
 
     </MudGrid>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-        <MudButton Disabled="@_procesando" OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
-           
-            @if (_procesando)
-    {
-        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
-                <MudText Class="ms-2">Procesando</MudText>
-    }
-    else
-    {
+        <MudButton  OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
                 <MudText> Guardar Proceso</MudText>
-    }
     </MudButton>
        
 </MudContainer>
@@ -67,116 +66,94 @@
 @code {
 
     ProcesoCompra registro = new();
-    ProcedimientoContratacion registroProcedimiento = new();
+    List<ProcedimientoContratacion> registroProcedimientos = new();
+    ProcedimientoContratacion Unidad;
+    List<Etapa> etapa = new();
+    List<Estado> estado = new();
 
 
 
-    private bool resetValueOnEmptyText;
-    private bool coerceText;
-    private bool coerceValue;
-    private string respuesta;
 
-
-    private bool _procesando = false;
-
-    protected async  Task ProcessSomething()
+    private async Task BuscarEstado()
     {
-        _procesando = true;
-        await Task.Delay(2000);
-        _procesando = false;
-
-        
-
-
-    }
-
-    private string[] PlantCentrdata =
-    {
-        "Planta Central", "Centro Zonal","Planta Central/Zonal/Local", "x"
-    };
-    private string[] Unidad =
-    {
-        "Dirección de Administración de Recursos Humanos", "Dirección Financiera","Dirección Administrativa"
-    };
-    private string[] AreaRequiriente =
-    {
-        "Dirección de Recursos Humanos", "Dirección Financiera","Dirección Administrativa"
-    }; 
-    private string[] ProcedimientoContratacion =
-       {
-        "Catálogo electronico", "Ínfima cuantía","Subasta Inversa", "Menor Cuantía", "Consultoría Contratación Directa", "Régimen Especial"
-    };
-
-    private async Task<IEnumerable<string>> Search1(string value)
-    {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return PlantCentrdata;
-        return PlantCentrdata.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
-    }
-
-
-    private async Task<IEnumerable<string>> BusquedaUnidad(string value)
-    {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return Unidad;
-        return Unidad.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
-    }
-
-
-    private async Task<IEnumerable<string>> BusquedaAreaRequiriente(string value)
-    {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return AreaRequiriente;
-        return AreaRequiriente.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
-    }
-    private async Task<IEnumerable<string>> BusquedaProcedimientoContratacion(string value)
-    {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return ProcedimientoContratacion;
-        return ProcedimientoContratacion.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
-    }
-
-
-    //Tablas  para llenar  ESTADOS, ETAPAS, PLANTAUNIDADAREA, ProcedimientoContraci[ones]
-
-    //Para crear un usuario necesita de pantaunidadarea
-
-    //Tabla Proceso compras requiere todo esto, Preparatoria requiere proceso compras
-
-    //Precontractual REquiere preparatoria y contractual requiere contractual
-
-    //observaciones necesita que exista un proceso compras = que alertas
-
-    //Tablas de fecha reasignacion Ida y Vuelta necesita plana unidad area y proceso de compras
-
-
-
-    protected  async void Subir()
-    {
-
-
-        HttpResponseMessage? response = new();
-
+        var response = await apiService.HttpClient.GetAsync("/api/Estado");
         try
         {
+            response.EnsureSuccessStatusCode();
+            estado = await response.Content.ReadFromJsonAsync<List<Estado>>();
+
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+    private async Task BuscarEtapa()
+    {
+        var response = await apiService.HttpClient.GetAsync("/api/Etapa");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            etapa = await response.Content.ReadFromJsonAsync<List<Etapa>>();
+
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+    private async Task BuscarPlanta()
+    {
+        var response = await apiService.HttpClient.GetAsync("/api/ProcedimientoContratacion");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            registroProcedimientos = await response.Content.ReadFromJsonAsync<List<ProcedimientoContratacion>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
+
+    protected  async Task Subir()
+    {
+
+        HttpResponseMessage? response = new();
+        var areaToken = await sessionStorage.GetItemAsync<string>("Id-Area");
+        var userToken = await sessionStorage.GetItemAsync<string>("Id-Usuario");
+
+        await BuscarEstado();
+        await BuscarEtapa();
+        foreach (var item in etapa)
+        {
+            if (item.tipoEtapa == "Preparatoriprueba")
+            {
+                registro.EtapaId = item.EtapaId;
+            }
+          
+        }
+        foreach (var item in estado)
+        {
+            if (item.tipoEstado == "Activo")
+            {
+                registro.EstadoId = item.EstadoId;
+            }
+
+        }
+        try
+        {
+            registro.ProcedimientoId = Unidad.ProcedimientoContratacionId;
+            registro.PlantaId = areaToken;
+
             response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
-            response = await apiService.HttpClient.PostAsJsonAsync("ProcedimientoContratacion", registroProcedimiento);
+         
+       
+
         }
         catch (HttpRequestException)
         {
@@ -193,18 +170,13 @@
         catch (HttpRequestException)
         {
 
-            //The input does not contain any JSON tokens. Expected the input to start with a valid JSON token, when isFinalBlock is true. Path: $ | LineNumber: 0 | BytePositionInLine: 0.'
-
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
         }
 
-        await ProcessSomething();
 
     }
-
-
-
+   
 
 }
 
