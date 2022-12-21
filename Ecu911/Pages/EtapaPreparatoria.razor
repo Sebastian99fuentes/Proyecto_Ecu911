@@ -2,51 +2,79 @@
 @page "/etapapreparatoria/{id}"
 <PageTitle>Etapa Preparatoria</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3">Etapa Preparatoria</MudText>
-<EditForm Model="@registro" >
-<MudGrid Style="padding:50px">
-    <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha programada para revisión de la documentacióna" @bind-Date="registro.fechaProgramada" DateFormat="yyyy-MM-dd" ></MudDatePicker>
+
+<EditForm Model="@registro">
+    <MudGrid Style="padding:50px">
+
+        <MudItem xs="12" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Elaboración de informe de necesidad" @bind-Date="registro.fechaProgramada" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Elaboración de términos de refenrecia/especificaciones técnicas" @bind-Date="registro.fechaSolicitud" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+        <MudItem xs="10" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Solicitud de la publicidad" @bind-Date="registro.fechaRespuesta" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+        <MudItem xs="10" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Publicación de la necesidad-portal de compras públicas" @bind-Date="registro.fechaMesa" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+        <MudItem xs="8" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Recepción de cotizaciones" @bind-Date="registro.fechaEmision" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+        <MudItem xs="8" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Elaboración de estudio de mercado" @bind-Date="registro.fechaEmision" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+       
+        <MudItem xs="6" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Solicitud de certificación PAPP" @bind-Date="registro.fechaReal" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+        <MudItem xs="6" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Emision de certificación PAPP" @bind-Date="registro.fechaAutorizacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+        <MudItem xs="4" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Solicitud de certificación presupuestaria" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+        <MudItem xs="4" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Emisión de certificación presupuestaria" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+            <MudItem xs="4" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Solicitud certificación PAC" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
     </MudItem>
+        <MudItem xs="4" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Solicitud de inicio de proceso al coordinador zonal" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
 
-    <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de solicitud de revisión documentación" @bind-Date="registro.fechaSolicitud" DateFormat="yyyy-MM-dd"></MudDatePicker>
-    </MudItem>
+  <MudItem xs="4" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Resolución de inicio" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+  <MudItem xs="4" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="´Publicación del proceso" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
 
-    <MudItem xs="10" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de respuesta efectiva Dirección Administrativa" @bind-Date="registro.fechaRespuesta" DateFormat="yyyy-MM-dd" ></MudDatePicker>
-    </MudItem>
-
-    <MudItem xs="10" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de mesa consultiva(con 48 horas,excepto infimas)" @bind-Date="registro.fechaMesa" DateFormat="yyyy-MM-dd" ></MudDatePicker>
-    </MudItem>
-
-    <MudItem xs="8" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de emisión de certificación presupuestaria" @bind-Date="registro.fechaEmision" DateFormat="yyyy-MM-dd" ></MudDatePicker>
-    </MudItem>
-
-    <MudItem xs="8" sm="6" md="6">
-        <MudNumericField Immediate="false" HideSpinButtons="true" Label="Valor certificado" Format="N2" T="Decimal" @bind-Value="registro.valorCertificado" HelperText="@_valueEn.ToString()"  />
-
-    </MudItem>
-
-    <MudItem xs="6" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha real de solicitud de inicio de proceso a la subdirección" @bind-Date="registro.fechaReal" DateFormat="yyyy-MM-dd" ></MudDatePicker>
-    </MudItem>
-
-      <MudItem xs="6" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de autorización de incio de proceso" @bind-Date="registro.fechaAutorizacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
-    </MudItem>
-
-          <MudItem xs="4" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" HelperText="Fecha de publicación del proceso" @bind-Date="registro.fechaPublicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
-    </MudItem>
-
-</MudGrid>
+          <MudItem xs="3" sm="6" md="6">
+          <MudSelect T="string" Label="Etapa(Actualizar deacuerdo a la fase que se encuetra)" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem Value="@("Sin TDRS o Especificaciones Técnicas")" />
+                <MudSelectItem Value="@("Etapa Preparatoria")" />
+                <MudSelectItem Value="@("Etapa Precontractual")" />
+                <MudSelectItem Value="@("Etapa Contractual")" />
+                <MudSelectItem Value="@("Etapa Finalizado")" />
+                <MudSelectItem Value="@("Etapa Cancelado")" />
+            </MudSelect>
+        </MudItem>
+    </MudGrid>
 </EditForm>
-<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-    <MudButton  OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
 
-            <MudText> Guardar</MudText>
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+
+        <MudText> Guardar</MudText>
 
     </MudButton>
 </MudContainer>

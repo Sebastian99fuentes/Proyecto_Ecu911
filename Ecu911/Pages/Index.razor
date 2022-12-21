@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                    
-                    <th >No. </th>
+                @*    <th >No. </th>*@
                     <th >Descripcion </th>
                     <th >Estado </th>
                     <th >Etapa </th>
@@ -21,12 +21,12 @@
                     <th >Opciones </th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in procesos)
-                {
-                    <tr>
-                      
+          @*  <tbody>        
+                    <Virtualize Items="procesos" Context="item">
+                    <tr @key="@item.ProcesoCompraId">  
+                        
                         <td >@item.numProceso</td>
+
                         <td >@item.descripcion</td>
                         <td >@item.Estado.tipoEstado</td>
                         <td >@item.Etapa.tipoEtapa</td>
@@ -38,8 +38,11 @@
                         <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateObservaciones(@item.ProcesoCompraId))">Obeservaciones</MudButton></th>
                         <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateAlertas(@item.ProcesoCompraId))">Alertas</MudButton></th>
                     </tr>
-                }
-            </tbody>
+                  </Virtualize>
+                
+                    
+                
+            </tbody>*@
         </MudSimpleTable>
     </MudGrid>
 
@@ -48,7 +51,6 @@
 
 @code {
 
-    DateTime? datesf;
   private  List<ProcesoCompra> procesos = new();
 
     int id = 0;
@@ -67,10 +69,12 @@
         }
     }
 
+ //   ValueTask<ItemsProviderResult<ProcesoCompra>> cargarProcesos(ItemsProviderRequest request)
+ //   {
+
+ //}
 
 
-
-    
     void NavigateEstados(string id)
     {
         navManager.NavigateTo($"EstadosProcesoRevision/{id}");
@@ -84,6 +88,7 @@
     {
         navManager.NavigateTo($"Alertas/{id}");
     }
+
 
 }
 

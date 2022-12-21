@@ -1,62 +1,134 @@
-﻿
-@page "/crearproceso"
+﻿@page "/crearproceso"
 
 <PageTitle>Crear Proceso</PageTitle>
 
-    <MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso </MudText>
+<MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso </MudText>
 
-<EditForm Model="@registro" >
-<MudGrid Style="padding:50px">
+<EditForm Model="@registro">
+    <MudGrid Style="padding:50px">
 
-       <MudItem xs="10" sm="6" md="6">
-            <MudTextField T="string" @bind-Value="registro.numProceso" Label="Numero del Proceso" Variant="Variant.Text"  Lines="1" />
-    </MudItem>
-
-    <MudItem xs="10" sm="6" md="6">
-            <MudTextField T="string" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text"  Lines="1" />
-    </MudItem>
-
-    <MudItem xs="8" sm="6" md="6">
-            <MudTextField T="string" @bind-Value="registro.grupoGasto" Label="Grupo de Gasto" Variant="Variant.Text" Lines="1" />
-    </MudItem>
-
-    <MudItem xs="8" sm="6" md="6">
-
-            <MudTextField T="string" @bind-Value="registro.itemPresup" Label="Item Presupuestario" Variant="Variant.Text" Lines="1" />
-    </MudItem>
-
-    <MudItem xs="6" sm="6" md="6">
-
-        <MudSelect T="ProcedimientoContratacion" Placeholder="Seleccione una Unidad" @bind-Value="Unidad" Label="Unidad" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarPlanta">
-                @foreach (var unidad in registroProcedimientos)
-                {
-                    <MudSelectItem T="ProcedimientoContratacion" Value="@unidad">@unidad.tipoProcedimiento</MudSelectItem>
-                }
+        <MudItem xs="8" sm="6" md="6">
+            <MudSelect T="string" @bind-Value="valor" Label="Sector" HelperText="En caso de ser ingresado desde otro Sector seleccionar de lo contrario no" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem Value="@("CENTRO LOCAL BABAHOYO")" />
+                <MudSelectItem Value="@("CENTRO LOCAL ESMERALDAS")" />
+                <MudSelectItem Value="@("CENTRO LOCAL LOJA")" />
+                <MudSelectItem Value="@("CENTRO LOCAL MACAS")" />
+                <MudSelectItem Value="@("CENTRO LOCAL NUEVA LOJA")" />
+                <MudSelectItem Value="@("CENTRO LOCAL RIOBAMBA")" />
+                <MudSelectItem Value="@("CENTRO LOCAL SAN CRISTÓBAL")" />
+                <MudSelectItem Value="@("CENTRO LOCAL SANTO DOMINGO")" />
+                <MudSelectItem Value="@("CENTRO LOCAL TULCÁN")" />
+                <MudSelectItem Value="@("CENTRO ZONAL AMBATO")" />
+                <MudSelectItem Value="@("CENTRO ZONAL CUENCA")" />
+                <MudSelectItem Value="@("CENTRO ZONAL IBARRA")" />
+                <MudSelectItem Value="@("CENTRO ZONAL MACHALA")" />
+                <MudSelectItem Value="@("CENTRO ZONAL PORTOVIEJO")" />
+                <MudSelectItem Value="@("CENTRO ZONAL QUITO")" />
+                <MudSelectItem Value="@("CENTRO ZONAL SAMBORONDON")" />
+                <MudSelectItem Value="@("DIRECCIÓN ADMINISTRATIVA")" />
+                <MudSelectItem Value="@("DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS HUMANOS")" />
+                <MudSelectItem Value="@("DIRECCIÓN FINANCIERA")" />
+                <MudSelectItem Value="@("DIRECCIÓN DE COMUNICACIÓN SOCIAL")" />
+                <MudSelectItem Value="@("DIRECCIÓN NACIONAL ACADÉMICO PARA EMERGENCIAS")" />
+                <MudSelectItem Value="@("DIRECCIÓN NACIONAL REGULATORIO EN EMERGENCIAS ")" />
+                <MudSelectItem Value="@("DIRECCIÓN DE GESTIÓN DOCUMENTAL Y ARCHIVO")" />
+                <MudSelectItem Value="@("DIRECCIÓN NACIONAL DE ANALISIS DE DATOS")" />
+                <MudSelectItem Value="@("DIRECCIÓN DE OPERACIONES")" />
+                <MudSelectItem Value="@("DIRECCIÓN DE PROYECTOS E INNOVACIÓN")" />
+                <MudSelectItem Value="@("DIRECCION NACIONAL DE GESTION DE INFRAESTRUCTURA TECNOLOGICA PARA EMERGENCIAS ")" />
+                <MudSelectItem Value="@("DIRECCIÓN DE ASESORÍA JURÍDICA")" />
+                <MudSelectItem Value="@("PROYECTO SAT")" />
+                <MudSelectItem Value="@("PROYECTO MODERNIZACIÓN")" />
             </MudSelect>
-    </MudItem>
+        </MudItem>
 
-    <MudItem xs="6" sm="6" md="6"> 
-        <MudNumericField Immediate="false" HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total"  />
-    </MudItem>
+        <MudItem xs="10" sm="6" md="6">
+            <MudTextField T="string" @bind-Value="valor" Label="CPC" Variant="Variant.Text" Lines="1" />
+        </MudItem>
 
-    <MudItem xs="6" sm="6" md="6">
-        <MudNumericField HideSpinButtons="true" @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado" Variant="Variant.Text" Min="0" Max="4" />
-    </MudItem>
+
+        <MudItem xs="8" sm="6" md="6">
+            <MudSelect T="string" @bind-Value="valor" Label="Grupo de Gasto" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem Value="@("53")" />
+                <MudSelectItem Value="@("84")" />
+            </MudSelect>
+        </MudItem>
+
+        <MudItem xs="8" sm="6" md="6">
+            <MudSelect T="string" @bind-Value="valor" Label="Item Presupuestario" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem Value="@("530802")" />
+                <MudSelectItem Value="@("530805")" />
+                <MudSelectItem Value="@("530809")" />
+                <MudSelectItem Value="@("530826")" />
+                <MudSelectItem Value="@("530702")" />
+                <MudSelectItem Value="@("530402")" />
+                <MudSelectItem Value="@("530301")" />
+                <MudSelectItem Value="@("530103")" />
+                <MudSelectItem Value="@("530203")" />
+                <MudSelectItem Value="@("530405")" />
+                <MudSelectItem Value="@("530803")" />
+                <MudSelectItem Value="@("530804")" />
+                <MudSelectItem Value="@("530805")" />
+                <MudSelectItem Value="@("530813")" />
+            </MudSelect>
+        </MudItem>
+
+        <MudItem xs="8" sm="6" md="6">
+            <MudSelect T="string" @bind-Value="valor" Label="Procedimiento de Contratación" AnchorOrigin="Origin.BottomCenter">
+                  <MudSelectItem Value="@("Catálogo Electronico")" />
+                  <MudSelectItem Value="@("Subasta Inversa")" />
+                <MudSelectItem Value="@("Régimen Especial")" />
+                <MudSelectItem Value="@("Consultoría Contratación Directa")" />
+                 <MudSelectItem Value="@("Licitación")" />
+                <MudSelectItem Value="@("Política BID")" />
+                <MudSelectItem Value="@("Infima Cuantía")" />
+              <MudSelectItem Value="@("Menor Cuantia")" />
+                <MudSelectItem Value="@("Otros")" />
+
+            </MudSelect>
+        </MudItem>
+               <MudItem xs="6" sm="6" md="6">
+            <MudNumericField Immediate="false" HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total" />
+        </MudItem>
+
+        <MudItem xs="6" sm="6" md="6">
+            <MudNumericField HideSpinButtons="true" @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado" Variant="Variant.Text" Min="0" Max="4" />
+        </MudItem>
         <MudItem xs="6" sm="6" md="6">
             <MudTextField T="string" @bind-Value="registro.mesPlanificado" Label="Mes Planificado" Variant="Variant.Text" Lines="1" />
         </MudItem>
-    <MudItem xs="4" sm="12" md="12">
+        <MudItem xs="6" sm="6" md="6">
+            <MudSelect T="string" Label="Etapa(Actualizar deacuerdo a la fase que se encuetra)" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem Value="@("Sin TDRS o Especificaciones Técnicas")" />
+                <MudSelectItem Value="@("Etapa Preparatoria")" />
+                <MudSelectItem Value="@("Etapa Precontractual")" />
+                <MudSelectItem Value="@("Etapa Contractual")" />
+                <MudSelectItem Value="@("Etapa Finalizado")" />
+                <MudSelectItem Value="@("Etapa Cancelado")" />
+            </MudSelect>
+        </MudItem>
+         <MudItem xs="6" sm="6" md="6">
+            <MudSelect T="string" Label="Estado" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem Value="@("Certificado")" />
+                <MudSelectItem Value="@("Comprometido")" />
+                <MudSelectItem Value="@("Devengando Total")" />
+                <MudSelectItem Value="@("Devengado Parcial")" />
+                <MudSelectItem Value="@("Ninguno")" />
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="4" sm="12" md="12">
             <MudTextField T="string" @bind-Value="registro.descripcion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
-    </MudItem>
-       
+        </MudItem>
+
 
     </MudGrid>
-<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-        <MudButton  OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
-                <MudText> Guardar Proceso</MudText>
-    </MudButton>
-       
-</MudContainer>
+    <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+        <MudButton OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+            <MudText> Guardar Proceso</MudText>
+       @*     <MudNavLink Href="" Match="NavLinkMatch.All">Guardar Proceso</MudNavLink>*@
+        </MudButton>
+
+    </MudContainer>
 
 
 </EditForm>
@@ -71,7 +143,7 @@
     List<Etapa> etapa = new();
     List<Estado> estado = new();
 
-
+    string valor;
 
 
     private async Task BuscarEstado()
@@ -120,7 +192,7 @@
     }
 
 
-    protected  async Task Subir()
+    protected async Task Subir()
     {
 
         HttpResponseMessage? response = new();
@@ -135,7 +207,7 @@
             {
                 registro.EtapaId = item.EtapaId;
             }
-          
+
         }
         foreach (var item in estado)
         {
@@ -151,8 +223,8 @@
             registro.PlantaId = areaToken;
 
             response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
-         
-       
+
+
 
         }
         catch (HttpRequestException)
@@ -166,6 +238,8 @@
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
             snackBar.Add("Proceso agregado!", Severity.Success);
 
+            navManager.NavigateTo($"Index");
+
         }
         catch (HttpRequestException)
         {
@@ -176,7 +250,7 @@
 
 
     }
-   
+
 
 }
 

@@ -15,6 +15,8 @@ namespace Ecu911.Modelos
 
         [DataType(DataType.Date)]
         public DateTime? fechaAdjudicacion { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? fechaAdjudicacionReal { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(15,2)")]

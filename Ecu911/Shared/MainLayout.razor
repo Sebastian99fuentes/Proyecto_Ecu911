@@ -7,9 +7,7 @@
             <MudAppBar Elevation="0" Color="Color.Dark">
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
                 <MudSpacer />
-                @*<MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
-                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />*@
-                <MudButton Variant="Variant.Text" StartIcon="@Icons.Filled.Logout" Color="Color.Error" OnClick="@LogOut" Target="_blank">Log Out</MudButton>
+                <MudButton Variant="Variant.Text" StartIcon="@Icons.Filled.Logout" Color="Color.Error" OnClick="@LogOut" Target="_blank">Salir</MudButton>
             </MudAppBar>
             <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
                 <MudDrawerHeader>

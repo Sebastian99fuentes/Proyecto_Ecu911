@@ -1,32 +1,48 @@
 ﻿@page "/etapaprecontractual"
 @page "/etapaprecontractual/{id}"
 <PageTitle>Etapa Pre-Contractual</PageTitle>
-<MudText Align="Align.Center" Typo="Typo.h3" >EtapaPreContractual</MudText>
-<EditForm Model="@registro" >
+<MudText Align="Align.Center" Typo="Typo.h3" >Etapa PreContractual</MudText>
 
-<MudGrid Style="padding:50px">
+<EditForm Model="@registro">
 
-    <MudItem xs="12" sm="4" md="4">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Formato Fecha" @bind-Date="registro.fechaAdjudicacion" HelperText="Fecha de adjudicación del cotrato u orden de compra" DateFormat="yyyy-MM-dd"></MudDatePicker>
-    </MudItem>
+    <MudGrid Style="padding:50px">
 
-    <MudItem xs="10" sm="4" md="4">
-            <MudNumericField Immediate="false" HideSpinButtons="true" Label="Valor adjudicadao(con IVA)" Format="N2" T="Decimal" @bind-Value="registro.valorAdjudicado" HelperText="registro.valorAdjudicado"  />
-    </MudItem>
+        <MudItem xs="12" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Preguntas/Respuestas y aclaraciónes" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Recepción de ofertas" @bind-Date="registro.fechaAdjudicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+        <MudItem xs="8" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Calificación de ofertas y convalidación de errores" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
 
-    <MudItem xs="8" sm="4" md="4">
-        <MudTextField @bind-Value="registro.administradorContrato" Label="Administrador del cotrato" Variant="Variant.Text"></MudTextField>
-    </MudItem>
+        <MudItem xs="8" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Puja/Negociación" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
 
-</MudGrid>
+           <MudItem xs="6" sm="6" md="6">
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Adjudicación(estimada)" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
+        </MudItem>
+
+          <MudItem xs="6" sm="6" md="6">
+            <MudSelect T="string" Label="Etapa(Actualizar deacuerdo a la fase que se encuetra)" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem Value="@("Sin TDRS o Especificaciones Técnicas")" />
+                <MudSelectItem Value="@("Etapa Preparatoria")" />
+                <MudSelectItem Value="@("Etapa Precontractual")" />
+                <MudSelectItem Value="@("Etapa Contractual")" />
+                <MudSelectItem Value="@("Etapa Finalizado")" />
+                <MudSelectItem Value="@("Etapa Cancelado")" />
+            </MudSelect>
+        </MudItem>
+
+    </MudGrid>
 </EditForm>
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-    <MudButton  OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
-            <MudText> Guardar</MudText>      
+    <MudButton OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Large">
+        <MudText> Guardar</MudText>
     </MudButton>
 </MudContainer>
-
-
 @code {
     Precontractual registro = new();
 
@@ -58,6 +74,9 @@
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
             snackBar.Add("Proceso agregado!", Severity.Success);
 
+
+            navManager.NavigateTo($"EstadosProcesoRevision/{id}");
+
         }
         catch (HttpRequestException)
         {
@@ -65,6 +84,7 @@
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
         }
+
 
 
     }

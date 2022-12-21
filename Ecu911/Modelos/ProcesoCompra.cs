@@ -10,6 +10,9 @@ namespace Ecu911.Modelos
         [Key]
         public string? ProcesoCompraId { get; set; }
 
+        [Column(TypeName = "decimal(3,2)")]
+        public decimal? Avance { get; set; }
+
         [ForeignKey("IdProcesoCompra")]
         public ICollection<Preparatoria>? Preparatorias { get; set; }
 
