@@ -50,6 +50,7 @@ namespace Ecu911.Data
             var claims = _jwtTokenGenerator.GetTokenClaims(user.token);
             await _sessionStorageService.SetItemAsync("Id-Usuario", claims.ElementAt(2).Value);
             await _sessionStorageService.SetItemAsync("Id-Area", claims.ElementAt(3).Value);
+
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims));
             NotifyAuthenticationStateChanged(Task.FromResult( new AuthenticationState(claimsPrincipal)));
         }
