@@ -10,7 +10,7 @@ namespace Ecu911.Modelos
         [Key]
         public string? ProcesoCompraId { get; set; }
 
-        [Column(TypeName = "decimal(3,2)")]
+        //[Column(TypeName = "decimal(3,2)")]
         public decimal? Avance { get; set; }
 
         [ForeignKey("IdProcesoCompra")]
@@ -36,12 +36,7 @@ namespace Ecu911.Modelos
         [Required]
         [ForeignKey("PlantaId")]
         public string PlantaId { get; set; }
-        public PlantaUnidadArea? Planta { get; set; }
-
-        [Required]
-        [Display(Name = "Nro. Proceso")]
-        [RegularExpression("([1-9][0-9]*)")]
-        public string numProceso { get; set; }
+        public Unidad? Planta { get; set; }
 
         [Required]
         public string cpc { get; set; }
@@ -76,6 +71,8 @@ namespace Ecu911.Modelos
         [StringLength(10)]
         [Display(Name = "Mes Planificado")]
         public string mesPlanificado { get; set; }
+
+        public string? sectorOpcional { get; set; }
 
 
         public ICollection<AlertaDSPPP>? AlertasDSPPP { get; set; }

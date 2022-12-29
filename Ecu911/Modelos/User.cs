@@ -8,6 +8,6 @@ namespace Ecu911.Modelos
     {
         public string AreaId { get; set; }
         [ForeignKey("AreaId")]
-        public PlantaUnidadArea? Area { get; set; }
+        public Unidad? Area { get; set; }
     }
 }

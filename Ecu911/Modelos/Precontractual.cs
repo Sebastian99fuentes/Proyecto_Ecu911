@@ -13,18 +13,43 @@ namespace Ecu911.Modelos
         public string? IdPreparatoria { get; set; }
         public Preparatoria? Preparatoria {get; set; }
 
+
         [DataType(DataType.Date)]
-        public DateTime? fechaAdjudicacion { get; set; }
+        public DateTime? preguntasRespuestas { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaAdjudicacionReal { get; set; }
+        public DateTime? preguntasRespuestasReal { get; set; }
 
-        [Required]
-        [Column(TypeName = "decimal(15,2)")]
-        [DataType(DataType.Currency)]
-        public decimal valorAdjudicado { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? recepcionOfertas { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? recepcionOfertasReal { get; set; }
 
-        [Required]
-        public string administradorContrato { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? calificacionOfertas { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? calificacionOfertasReal { get; set; }
 
+        [DataType(DataType.Date)]
+        public DateTime? pujaNegociacion { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? pujaNegociacionReal { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? adjudicacion { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? adjudicacionReal { get; set; }
     }
 }
+
+//[DataType(DataType.Date)]
+//public DateTime? fechaAdjudicacion { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaAdjudicacionReal { get; set; }
+
+//[Required]
+//[Column(TypeName = "decimal(15,2)")]
+//[DataType(DataType.Currency)]
+//public decimal valorAdjudicado { get; set; }
+
+//[Required]
+//public string administradorContrato { get; set; }

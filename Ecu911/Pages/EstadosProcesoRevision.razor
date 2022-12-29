@@ -1,45 +1,113 @@
 ﻿@page "/EstadosProcesoRevision/{Id}"
 
-  @if (preparatoria.fechaReal != null)
+@if (preparatoria.informeNecesidad != null)
     {
 <MudCardContent Class="d-flex  flex-column  align-center  ">
   
         <MudText Typo="Typo.h3" GutterBottom="true">Etapa Preparatoria</MudText>
         <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
             <MudGrid>
-                <MudSimpleTable>
+                <MudSimpleTable Hover="true" Dense="true" FixedHeader="@fixedheader" Style="@(fixedheader?"height:30%;":"")">
                     <thead>
                         <tr>
-                            <th>fechaProgramada </th>
-                            <th>fechaSolicitud </th>
-                            <th>fechaRespuesta </th>
-                            <th>fechaMesa </th>
-                            <th>fechaEmision </th>
+                            <th>Elaboración de informe de necesidad </th>
+                            <th>Elaboración de términos de refenrecia/especificaciones técnicas </th>
+                            <th>Solicitud de la publicidad </th>
+                            <th>Publicación de la necesidad-portal de compras públicas </th>
 
-                            <th>valorCertificado </th>
-                            <th>fechaReal </th>
-                            <th>fechaAutorizacion </th>
-                            <th>fechaPublicacion </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@preparatoria.fechaProgramada</td>
-                            <td>@preparatoria.fechaSolicitud</td>
-                            <td>@preparatoria.fechaRespuesta</td>
-                            <td>@preparatoria.fechaMesa</td>
+                            <td>@preparatoria.informeNecesidad</td>
+                            <td>@preparatoria.terminosReferencia</td>
+                            <td>@preparatoria.solicitudPublicacion</td>
+                            <td>@preparatoria.publicacionNecesidad</td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
 
-                            <td>@preparatoria.fechaEmision</td>
-                            <td>@preparatoria.valorCertificado</td>
-                            <td>@preparatoria.fechaReal</td>
-                            <td>@preparatoria.fechaAutorizacion</td>
-                            <td>@preparatoria.fechaPublicacion</td>
+            </MudGrid>
+        </MudItem>  
+</MudCardContent>
+
+  <MudCardContent Class="d-flex  flex-column  align-center  ">
+            <MudText Class="mb-12"> </MudText>
+            <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
+                <MudGrid>
+                    <MudSimpleTable>
+                        <thead>
+                            <tr>
+                            <th>Recepción de cotizaciones </th>
+                            <th>Elaboración de estudio de mercado </th>
+                            <th>Solicitud de certificación PAPP </th>
+                            <th>Emision de certificación PAPP </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>@preparatoria.recepcionCotizaciones</td>
+                            <td>@preparatoria.elaboracionEstudioMercado</td>
+                            <td>@preparatoria.solicitudPAPP</td>
+                            <td>@preparatoria.emisionPAPP</td>
+                            </tr>
+                        </tbody>
+                    </MudSimpleTable>
+                </MudGrid>
+            </MudItem>
+ </MudCardContent>
+
+    <MudCardContent Class="d-flex  flex-column  align-center  ">
+        <MudText Class="mb-12"> </MudText>
+        <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
+            <MudGrid>
+                <MudSimpleTable>
+                    <thead>
+                        <tr>
+                            <th>Solicitud de certificación presupuestaria </th>
+                            <th>Emisión de certificación presupuestaria</th>
+                            <th>Solicitud certificación PAC </th>
+                            <th>Emisión certificación PAC </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@preparatoria.solicitudPresup</td>
+                            <td>@preparatoria.emisionPresup</td>
+                            <td>@preparatoria.solicitudPAC</td>
+                            <td>@preparatoria.emisionPAC</td>
                         </tr>
                     </tbody>
                 </MudSimpleTable>
             </MudGrid>
-        </MudItem>  
-</MudCardContent> 
+        </MudItem>
+    </MudCardContent>
+
+  <MudCardContent Class="d-flex  flex-column  align-center  ">
+        <MudText Class="mb-12"> </MudText>
+        <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
+            <MudGrid>
+                <MudSimpleTable>
+                    <thead>
+                        <tr>
+                            <th>Solicitud de inicio de proceso al coordinador zonal</th>
+                            <th>Resolución de inicio</th>
+                            <th>Publicación del proceso </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@preparatoria.solicitudCoordinadorZonal</td>
+                            <td>@preparatoria.resolucionInicio</td>
+                            <td>@preparatoria.publicacionProceso</td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudGrid>
+        </MudItem>
+    </MudCardContent>
+
+
     @if (precontracualObj.IdPrecontractual != null)
     {
 
@@ -52,16 +120,20 @@
                     <MudSimpleTable>
                         <thead>
                             <tr>
-                                <th>fechaAdjudicacion. </th>
-                                <th>valorAdjudicado </th>
-                                <th>administradorContrato </th>
+                                <th>Preguntas/Respuestas y aclaraciónes</th>
+                                <th>Recepción de ofertas</th>
+                                <th>Calificación de ofertas y convalidación de errores </th>
+                                <th>Puja/Negociación</th>
+                                <th>Adjudicación(estimada)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>@precontracualObj.fechaAdjudicacion</td>
-                                <td>@precontracualObj.valorAdjudicado</td>
-                                <td>@precontracualObj.administradorContrato</td>
+                                <td>@precontracualObj.preguntasRespuestas</td>
+                                <td>@precontracualObj.recepcionOfertas</td>
+                                <td>@precontracualObj.calificacionOfertas</td>
+                                <td>@precontracualObj.pujaNegociacion</td>
+                                <td>@precontracualObj.adjudicacion</td>
 
                             </tr>
                         </tbody>
@@ -82,20 +154,14 @@
             <MudSimpleTable>
                 <thead>
                     <tr>
-                        <th>No. </th>
-                        <th>observacion </th>
-                        <th>descripcion </th>
-                        <th>Estado </th>
-                        <th>Procedimiento </th>
+                                    <th>Suscripción de Contrato</th>
+                                    <th>Finalización del Contrato</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>@contractualObj.fechaSuscripcion</td>
-                        <td>@contractualObj.fechaFinalizacion</td>
-                        <td>@contractualObj.rucOferente</td>
-                        <td>@contractualObj.nombreProveedor</td>
-                        <td>@contractualObj.plazoContrato</td>
+                                    <td>@contractualObj.fechaSuscripcion</td>
+                                    <td>@contractualObj.fechaFinalizacion</td> 
                     </tr>
                 </tbody>
             </MudSimpleTable>
@@ -132,7 +198,6 @@ else
 }
 
 
-
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
     <MudButton OnClick="NavigateInicio" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" Size="Size.Large">
         <MudText> Regresar</MudText>
@@ -140,9 +205,9 @@ else
 </MudContainer>
 
 
-
 @code{
 
+    bool fixedheader = true;
     
     ProcesoCompra proceso = new ProcesoCompra();
 

@@ -1,13 +1,13 @@
-﻿@page "/crearproceso"
+﻿@page "/ActualizarProceso"
+@page "/ActualizarProceso/{ID}"
+<PageTitle>Actualizar Proceso</PageTitle>
 
-<PageTitle>Crear Proceso</PageTitle>
-
-<MudText Align="Align.Center" Typo="Typo.h3"> Crear Proceso </MudText>
+<MudText Align="Align.Center" Typo="Typo.h3">Actualizar Proceso </MudText>
 
 <EditForm Model="@registro">
     <MudGrid Style="padding:50px">
 
-       <MudItem xs="8" sm="6" md="6">
+        <MudItem xs="8" sm="6" md="6">
 
             <MudSelect T="string" Placeholder="Selecciona Estado" @bind-Value="registro.EstadoId" Label="Estado" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarEstado">
                 @foreach (var valor in estado)
@@ -16,12 +16,12 @@
                     <MudSelectItem Value="@valor.EstadoId"> @valor.tipoEstado </MudSelectItem>
                 }
             </MudSelect>
-          
+
         </MudItem>
 
         <MudItem xs="10" sm="6" md="6">
-           
-                 <MudSelect T="string" Placeholder="seleccione ProcedimientoContratacion" @bind-Value="registro.ProcedimientoId" Label=" Procedimiento Contratacion" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarProcedimientoContra">
+            @*OnOpen="BuscarProcedimientoContra"*@
+            <MudSelect T="string" Placeholder="seleccione ProcedimientoContratacion" @bind-Value="registro.ProcedimientoId" Label=" Procedimiento Contratacion"  OnOpen="BuscarProcedimientoContra" AnchorOrigin=" Origin.BottomCenter" Disabled="true">
                 @foreach (var valor in registroProcedimientos)
                 {
 
@@ -30,8 +30,8 @@
             </MudSelect>
         </MudItem>
 
-         <MudItem xs="10" sm="6" md="6">
-                 <MudSelect T="string" Placeholder="Selecciona Etapa" @bind-Value="registro.EtapaId" Label="Etapa" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarEtapa">
+        <MudItem xs="10" sm="6" md="6">
+            <MudSelect T="string" Placeholder="Selecciona Etapa" @bind-Value="registro.EtapaId" Label="Etapa" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarEtapa">
                 @foreach (var valor in etapa)
                 {
 
@@ -39,22 +39,23 @@
                 }
             </MudSelect>
 
-            
-        </MudItem>
-  
-        <MudItem xs="8" sm="6" md="6">
-          <MudTextField T="string" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text" Lines="1" />
+
         </MudItem>
 
         <MudItem xs="8" sm="6" md="6">
-             <MudSelect T="string" @bind-Value="registro.grupoGasto" Label="Grupo de Gasto" AnchorOrigin="Origin.BottomCenter">
+            <MudTextField T="string" @bind-Value="registro.cpc" Label="CPC" Variant="Variant.Text" Lines="1" Disabled="true" />
+        </MudItem>
+
+        <MudItem xs="8" sm="6" md="6">
+            <MudSelect T="string" @bind-Value="registro.grupoGasto" Label="Grupo de Gasto" AnchorOrigin="Origin.BottomCenter" Disabled="true">
                 <MudSelectItem Value="@("53")" />
                 <MudSelectItem Value="@("84")" />
-            </MudSelect>       
+            </MudSelect>
         </MudItem>
 
         <MudItem xs="6" sm="6" md="6">
-            <MudSelect T="string" Placeholder="Selecciona Item" @bind-Value="registro.itemPresup" Label="Item presupuestario" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarItemPresupuestario">
+            @*OnOpen="BuscarItemPresupuestario"*@
+            <MudSelect T="string" Placeholder="Selecciona Item" @bind-Value="registro.itemPresup" Label="Item presupuestario" AnchorOrigin="Origin.BottomCenter"  Disabled="true">
                 @foreach (var valor in itemspre)
                 {
                     <MudSelectItem Value="@valor.nunItem"> @valor.nunItem </MudSelectItem>
@@ -64,16 +65,17 @@
 
         <MudItem xs="6" sm="6" md="6">
 
-            <MudNumericField  @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado"  Min="0" Max="4" />
+            <MudNumericField @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado" Min="0" Max="4" Disabled="true" />
         </MudItem>
         <MudItem xs="6" sm="6" md="6">
-            <MudTextField T="string" @bind-Value="registro.mesPlanificado" Label="Mes Planificado" Variant="Variant.Text" Lines="1" />
+            <MudTextField T="string" @bind-Value="registro.mesPlanificado" Label="Mes Planificado" Variant="Variant.Text" Lines="1" Disabled="true" />
         </MudItem>
         <MudItem xs="6" sm="6" md="6">
-            <MudNumericField Immediate="false" HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total" />
+            <MudNumericField Immediate="false" HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total" Disabled="true" />
         </MudItem>
-         <MudItem xs="6" sm="6" md="6">
-            <MudSelect T="string" Placeholder="seleccione una unidad" @bind-Value="registro.sectorOpcional" Label="Sector opcional" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
+        <MudItem xs="6" sm="6" md="6">
+           @* OnOpen="BuscarUnidad"*@
+            <MudSelect T="string" Placeholder="seleccione una unidad" @bind-Value="registro.sectorOpcional" Label="Sector opcional" AnchorOrigin="Origin.BottomCenter"  Disabled="true">
                 @foreach (var val in unidad)
                 {
 
@@ -84,14 +86,14 @@
         </MudItem>
 
         <MudItem xs="4" sm="12" md="12">
-            <MudTextField T="string" @bind-Value="registro.descripcion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" />
+            <MudTextField T="string" @bind-Value="registro.descripcion" Label="Descripción de la Contratación" Variant="Variant.Text" Lines="20" Disabled="true" />
         </MudItem>
 
 
     </MudGrid>
     <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
         <MudButton OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Medium">
-           <MudNavLink Href="" Match="NavLinkMatch.All">Guardar Proceso</MudNavLink>
+            <MudNavLink Href="" Match="NavLinkMatch.All">Guardar Proceso</MudNavLink>
         </MudButton>
 
     </MudContainer>
@@ -99,8 +101,9 @@
 
 </EditForm>
 @code {
- 
-    ProcesoCompra registro = new(); 
+
+    ProcesoCompra registro = new();
+    ProcesoCompra regisupdt = new();
     ProcedimientoContratacion Unidad = new();
     List<Unidad> unidad = new();
 
@@ -109,14 +112,21 @@
     List<Estado> estado = new();
     List<ItemPresupuestario> itemspre = new();
 
-   
+    ProcesoCompra procesoget = new();
+    [Parameter]
+    public string ID { get; set; }
 
-    protected override async Task OnInitializedAsync(){
+
+    protected override async Task OnInitializedAsync()
+    {
+        await BuscarProceeso();
         await BuscarEstado();
         await BuscarEtapa();
-        await BuscarItemPresupuestario();
-        await BuscarUnidad();
+        //await BuscarItemPresupuestario();
+        //await BuscarUnidad();
         await BuscarProcedimientoContra();
+        
+        
     }
     private async Task BuscarEstado()
     {
@@ -184,31 +194,58 @@
             response.EnsureSuccessStatusCode();
             registroProcedimientos = await response.Content.ReadFromJsonAsync<List<ProcedimientoContratacion>>();
         }
-         catch (HttpRequestException)
+        catch (HttpRequestException)
         {
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", severity: Severity.Error);
         }
+    }
+    private async Task BuscarProceeso()
+    {
+
+        var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={ID}");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            registro = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
+            Console.WriteLine("sebas");
+
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+    private async Task PrepararProceeso()
+    {
+        regisupdt.EstadoId = registro.EstadoId;
+        regisupdt.ProcedimientoId = registro.ProcedimientoId;
+        regisupdt.EtapaId= registro.EtapaId;
+        regisupdt.PlantaId = registro.PlantaId;
+        regisupdt.cpc= registro.cpc;
+        regisupdt.grupoGasto= registro.grupoGasto;
+        regisupdt.itemPresup= registro.itemPresup;
+        regisupdt.descripcion= registro.descripcion;
+        regisupdt.total= registro.total;
+        regisupdt.cuatrimestre= registro.cuatrimestre;
+        regisupdt.mesPlanificado= registro.mesPlanificado;
+        
     }
 
 
     protected async Task Subir()
     {
 
+        await PrepararProceeso();
+
         HttpResponseMessage? response = new();
         var areaToken = await sessionStorage.GetItemAsync<string>("Id-Area");
         var userToken = await sessionStorage.GetItemAsync<string>("Id-Usuario");
 
-
-        try 
+        try
         {
-           
-            registro.PlantaId = areaToken;
-
-            response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
-
-
-
+            response = await apiService.HttpClient.PutAsJsonAsync($"ProcesoCompra/id?id={ID}", regisupdt);
         }
         catch (HttpRequestException)
         {
@@ -236,5 +273,3 @@
 
 
 }
-
-

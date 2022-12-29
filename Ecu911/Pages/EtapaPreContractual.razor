@@ -8,32 +8,21 @@
     <MudGrid Style="padding:50px">
 
         <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Preguntas/Respuestas y aclaraciónes" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Preguntas/Respuestas y aclaraciónes" @bind-Date="registro.preguntasRespuestas" DateFormat="yyyy-MM-dd"></MudDatePicker>
         </MudItem>
         <MudItem xs="12" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Recepción de ofertas" @bind-Date="registro.fechaAdjudicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Recepción de ofertas" @bind-Date="registro.recepcionOfertas" DateFormat="yyyy-MM-dd"></MudDatePicker>
         </MudItem>
         <MudItem xs="8" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Calificación de ofertas y convalidación de errores" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Calificación de ofertas y convalidación de errores" @bind-Date="registro.calificacionOfertas" DateFormat="yyyy-MM-dd"></MudDatePicker>
         </MudItem>
 
         <MudItem xs="8" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Puja/Negociación" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Puja/Negociación" @bind-Date="registro.pujaNegociacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
         </MudItem>
 
            <MudItem xs="6" sm="6" md="6">
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Adjudicación(estimada)" @bind-Date="registro.fechaAdjudicacion"  DateFormat="yyyy-MM-dd"></MudDatePicker>
-        </MudItem>
-
-          <MudItem xs="6" sm="6" md="6">
-            <MudSelect T="string" Label="Etapa(Actualizar deacuerdo a la fase que se encuetra)" AnchorOrigin="Origin.BottomCenter">
-                <MudSelectItem Value="@("Sin TDRS o Especificaciones Técnicas")" />
-                <MudSelectItem Value="@("Etapa Preparatoria")" />
-                <MudSelectItem Value="@("Etapa Precontractual")" />
-                <MudSelectItem Value="@("Etapa Contractual")" />
-                <MudSelectItem Value="@("Etapa Finalizado")" />
-                <MudSelectItem Value="@("Etapa Cancelado")" />
-            </MudSelect>
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Adjudicación(estimada)" @bind-Date="registro.adjudicacion" DateFormat="yyyy-MM-dd"></MudDatePicker>
         </MudItem>
 
     </MudGrid>
@@ -44,24 +33,92 @@
     </MudButton>
 </MudContainer>
 @code {
+
+    //ProcesoCompra updateproceso = new();
+
+    //ProcesoCompra procesoobj = new();
+
     Precontractual registro = new();
+
+    List<Etapa> etapa = new();
 
     [Parameter]
     public string id { get; set; }
 
 
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await BuscarEtapa();
+    //    await BuscarProceeso();
+    //    await Prepararprocesoupdate();
+    //}
+
+    //private async Task BuscarEtapa()
+    //{
+    //    var response = await apiService.HttpClient.GetAsync("/api/Etapa");
+    //    try
+    //    {
+    //        response.EnsureSuccessStatusCode();
+    //        etapa = await response.Content.ReadFromJsonAsync<List<Etapa>>();
+
+    //    }
+    //    catch (HttpRequestException)
+    //    {
+    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+    //        snackBar.Add($"{data.Message}", severity: Severity.Error);
+    //    }
+    //}
+
+    //private async Task BuscarProceeso()
+    //{
+
+    //    var response = await apiService.HttpClient.GetAsync("api/ProcesoCompra/id?id="+id);
+    //    try
+    //    {
+    //        response.EnsureSuccessStatusCode();
+    //        procesoobj = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
+
+    //    }
+    //    catch (HttpRequestException)
+    //    {
+    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+    //        snackBar.Add($"{data.Message}", severity: Severity.Error);
+    //    }
+    //} 
+
+    //private async Task Prepararprocesoupdate()
+    //{
+    //    updateproceso.EstadoId = procesoobj.EstadoId;
+    //    updateproceso.ProcedimientoId = procesoobj.ProcedimientoId;
+    //    updateproceso.EtapaId = procesoobj.EtapaId;
+    //    updateproceso.PlantaId = procesoobj.PlantaId;
+    //    updateproceso.cpc = procesoobj.cpc;
+    //    updateproceso.grupoGasto = procesoobj.grupoGasto;
+    //    updateproceso.itemPresup = procesoobj.itemPresup;
+    //    updateproceso.descripcion =procesoobj.descripcion;
+    //    updateproceso.total =procesoobj.total;
+    //    updateproceso.cuatrimestre =procesoobj.cuatrimestre;
+    //    updateproceso.mesPlanificado =procesoobj.mesPlanificado;
+
+    //    //try
+    //    //{
+    //    //    var response = await apiService.HttpClient.PutAsJsonAsync("api/ProcesoCompra/id?id=" + id, updateproceso);
+    //    //}
+       
+    //}
 
 
     protected async void Subir()
     {
         Precontractual procesos = new();
-
         HttpResponseMessage? response = new();
+
 
         try
         {
             registro.IdPreparatoria = id;
             response = await apiService.HttpClient.PostAsJsonAsync("Precontractual", registro);
+
         }
         catch (HttpRequestException)
         {

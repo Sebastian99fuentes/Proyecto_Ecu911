@@ -13,57 +13,131 @@ namespace Ecu911.Modelos
         public string? IdProcesoCompra { get; set; }
         public ProcesoCompra? ProcesoCompra { get; set; }
 
-        [Display(Name = "Fecha programada de revisión")]
         [DataType(DataType.Date)]
-        public DateTime? fechaProgramada { get; set; }
+        public DateTime? informeNecesidad { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaProgramadaReal { get; set; }
+        public DateTime? informeNecesidadReal { get; set; }
 
-        [Display(Name = "Fecha de solicitud de revisión")]
         [DataType(DataType.Date)]
-        public DateTime? fechaSolicitud { get; set; }
+        public DateTime? terminosReferencia { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaSolicitudReal { get; set; }
+        public DateTime? terminosReferenciaReal { get; set; }
 
-        [Display(Name = "Fecha de respuesta efectiva")]
         [DataType(DataType.Date)]
-        public DateTime? fechaRespuesta { get; set; }
+        public DateTime? solicitudPublicacion { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaRespuestaReal { get; set; }
+        public DateTime? solicitudPublicacionReal { get; set; }
 
-        [Display(Name = "Fecha de mesa consultiva")]
         [DataType(DataType.Date)]
-        public DateTime? fechaMesa { get; set; }
+        public DateTime? publicacionNecesidad { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaMesaReal { get; set; }
+        public DateTime? publicacionNecesidadReal { get; set; }
 
-        [Display(Name = "Fecha de emisión")]
         [DataType(DataType.Date)]
-        public DateTime? fechaEmision { get; set; }
+        public DateTime? recepcionCotizaciones { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaEmisionReal { get; set; }
+        public DateTime? recepcionCotizacionesReal { get; set; }
 
-        [Display(Name = "Valor Certificado")]
-        public decimal valorCertificado { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? elaboracionEstudioMercado { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? elaboracionEstudioMercadoReal { get; set; }
 
-        [Display(Name = "Fecha real de solicitud")]
         [DataType(DataType.Date)]
-        public DateTime? fechaReal { get; set; }
+        public DateTime? solicitudPAPP { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaRealReal { get; set; }
+        public DateTime? solicitudPAPPReal { get; set; }
 
-        [Display(Name = "Fecha de autorización")]
         [DataType(DataType.Date)]
-        public DateTime? fechaAutorizacion { get; set; }
+        public DateTime? emisionPAPP { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaAutorizacionReal { get; set; }
+        public DateTime? emisionPAPPReal { get; set; }
 
-        [Display(Name = "Fecha de publicación")]
         [DataType(DataType.Date)]
-        public DateTime? fechaPublicacion { get; set; }
+        public DateTime? solicitudPresup { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? fechaPublicacionReal { get; set; }
+        public DateTime? solicitudPresupReal { get; set; }
 
+        [DataType(DataType.Date)]
+        public DateTime? emisionPresup { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? emisionPresupReal { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? solicitudPAC { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? solicitudPACReal { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? emisionPAC { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? emisionPACReal { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? solicitudCoordinadorZonal { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? solicitudCoordinadorZonalReal { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? resolucionInicio { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? resolucionInicioReal { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? publicacionProceso { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? publicacionProcesoReal { get; set; }
     }
 
 }
+
+//[Display(Name = "Fecha programada de revisión")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaProgramada { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaProgramadaReal { get; set; }
+
+//[Display(Name = "Fecha de solicitud de revisión")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaSolicitud { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaSolicitudReal { get; set; }
+
+//[Display(Name = "Fecha de respuesta efectiva")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaRespuesta { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaRespuestaReal { get; set; }
+
+//[Display(Name = "Fecha de mesa consultiva")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaMesa { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaMesaReal { get; set; }
+
+//[Display(Name = "Fecha de emisión")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaEmision { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaEmisionReal { get; set; }
+
+//[Display(Name = "Valor Certificado")]
+//public decimal valorCertificado { get; set; }
+
+//[Display(Name = "Fecha real de solicitud")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaReal { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaRealReal { get; set; }
+
+//[Display(Name = "Fecha de autorización")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaAutorizacion { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaAutorizacionReal { get; set; }
+
+//[Display(Name = "Fecha de publicación")]
+//[DataType(DataType.Date)]
+//public DateTime? fechaPublicacion { get; set; }
+//[DataType(DataType.Date)]
+//public DateTime? fechaPublicacionReal { get; set; }
