@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Ecu911.Modelos
 {
-    public partial class Useregistrar 
+    public partial class UserRegisterRequest 
     {
         public string userName { get; set; }
         public string email { get; set; }
         public string password { get; set; }
         public string rol { get; set; }
 
-        public Unidad Unidad { get; set; }
+        public string planta { get; set; }
     }
 }
