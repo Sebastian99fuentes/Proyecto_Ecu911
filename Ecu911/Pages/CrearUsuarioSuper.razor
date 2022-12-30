@@ -1,0 +1,134 @@
+﻿@page "/CrearUsuarioSuper"
+@using FluentValidation
+
+<PageTitle>Crear Usuario</PageTitle>
+<MudText Align="Align.Left" Typo="Typo.h3">Registrar Nuevo Usuario</MudText>
+
+<EditForm Model="@registro" OnValidSubmit="RegistrarUsuario">
+    <MudGrid Style="padding:50px">
+
+        <MudItem xs="12" sm="6" md="6">
+            <MudTextField T="string" @bind-Value="registro.userName" Label="Nombre" Variant="Variant.Text" Lines="1" Validation="@userNameValidator.Validation" Immediate="true" />
+        </MudItem>
+        <MudItem xs="10" sm="6" md="6">
+
+            <MudSelect T="string" Placeholder="Seleccione un Rol" @bind-Value="registro.rol" Label="Rol" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarRol">
+                @foreach (var valor in Roles)
+                {
+
+                    <MudSelectItem Value="@valor"> @valor</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" Placeholder="Seleccione una Unidad" @bind-Value="registro.planta" Label="Unidad" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
+                @foreach (var valor in Unidades)
+                {
+
+                    <MudSelectItem Value="@valor.UnidadId">@valor.nombre</MudSelectItem>
+                }
+            </MudSelect>
+
+
+
+        </MudItem>
+
+    </MudGrid>
+    <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+        <MudButton OnClick="RegistrarUsuario" Variant="Variant.Filled" StartIcon="@Icons.Filled.EmojiPeople" Color="Color.Primary" Size="Size.Large">
+            <MudText> Registrar Usuario</MudText>
+        </MudButton>
+
+    </MudContainer>
+    <MudText Typo="Typo.h5">Nueva Contraseña:</MudText>
+    <MudText Typo="Typo.subtitle1">@newPassword</MudText>
+
+
+</EditForm>
+@code {
+    UserRegisterRequest registro = new();
+    Unidad unidadreg = new();
+    List<Unidad> Unidades = new();
+
+    List<string> Roles = new();
+    string newPassword;
+
+    UserValidator<string> userNameValidator = new UserValidator<string>(x => x
+        .NotEmpty().WithMessage("Ingrese un Nombre")
+        .Matches(@"\A\S+\z").WithMessage("No ingrese espacios en blanco")
+        .Length(3, 25));
+
+
+    public class UserValidator<T> : AbstractValidator<T>
+    {
+        public UserValidator(Action<IRuleBuilderInitial<T, T>> rule)
+        {
+            rule(RuleFor(x => x));
+
+        }
+
+        private IEnumerable<string> ValidateValue(T arg)
+        {
+            if(arg != null)
+            {
+                var result = Validate(arg);
+                if (result.IsValid)
+                    return new string[0];
+                return result.Errors.Select(e => e.ErrorMessage);
+            }
+            return new string[0];
+        }
+
+        public Func<T, IEnumerable<string>> Validation => ValidateValue;
+    }
+
+    private async Task BuscarUnidad()
+    {
+        var response = await apiService.HttpClient.GetAsync("/api/PlantaUnidadArea");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            Unidades = await response.Content.ReadFromJsonAsync<List<Unidad>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: MudBlazor.Severity.Error);
+        }
+    }
+
+    private async Task BuscarRol()
+    {
+        var response = await apiService.HttpClient.GetAsync("Roles");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            Roles = await response.Content.ReadFromJsonAsync<List<string>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", MudBlazor.Severity.Error);
+        }
+    }
+
+
+    private async Task RegistrarUsuario()
+    {
+        var response = await apiService.HttpClient.PostAsJsonAsync("/api/Identity/register", registro);
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            registro.userName = "";
+            registro.rol = "";
+            registro.planta = "";
+            GeneratedPassword password = await response.Content.ReadFromJsonAsync<GeneratedPassword>();
+            newPassword = password.Password;
+            snackBar.Add("Usuario Registrado", MudBlazor.Severity.Info);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", MudBlazor.Severity.Error);
+        }
+    }
+}

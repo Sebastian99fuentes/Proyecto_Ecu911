@@ -1,0 +1,69 @@
+﻿@page "/Restablecer"
+<PageTitle>Restablecer Contraseña</PageTitle>
+<MudText Align="Align.Left" Typo="Typo.h3">Restablecer Contraseña de Usuario</MudText>
+
+<MudGrid Style="padding:50px">
+
+    <MudItem xs="10" sm="6" md="6">
+
+        <MudSelect T="string" Placeholder="Seleccione un Usuario" @bind-Value="UsuarioId" Label="Usuario" AnchorOrigin="Origin.BottomCenter" OnOpen="GetUsuarios">
+            @foreach (var usuario in Usuarios)
+            {
+                <MudSelectItem Value="@usuario.Id"> @usuario.UserName</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+</MudGrid>
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton OnClick="restablecerUsuario" Variant="Variant.Filled" StartIcon=@Icons.Rounded.Password Color="Color.Success" Size="Size.Large">
+        <MudText>Restablecer Contraseña</MudText>
+    </MudButton>
+
+</MudContainer>
+<MudText Typo="Typo.h5">Nueva Contraseña:</MudText>
+<MudText Typo="Typo.subtitle1">@newPassword</MudText>
+@code {
+
+    List<User> Usuarios = new();
+    string UsuarioId = null;
+    string newPassword = "";
+
+    private async Task GetUsuarios()
+    {
+        var userId = await sessionStorage.GetItemAsync<string>("Id-Usuario");
+        var response_ = await apiService.HttpClient.GetAsync($"/api/User/id?id={userId}");
+        User tempUser = await response_.Content.ReadFromJsonAsync<User>();
+        string unidadId = tempUser.AreaId;
+
+        var response = await apiService.HttpClient.GetAsync($"/api/User/Unidad?idPlanta={unidadId}");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            Usuarios = await response.Content.ReadFromJsonAsync<List<User>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
+    private async Task restablecerUsuario()
+    {
+        var response = await apiService.HttpClient.PutAsJsonAsync($"/api/User/id?id={UsuarioId}", UsuarioId);
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            UsuarioId = "";
+            GeneratedPassword password = await response.Content.ReadFromJsonAsync<GeneratedPassword>();
+            newPassword = password.Password;
+            snackBar.Add("Contraseña restablecida", Severity.Warning);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+    }
+}

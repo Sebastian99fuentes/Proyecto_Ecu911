@@ -1,0 +1,62 @@
+﻿@page "/EliminarUsuarioSuper"
+<PageTitle>Eliminar Usuario</PageTitle>
+<MudText Align="Align.Left" Typo="Typo.h3">Eliminar Usuario</MudText>
+
+<MudGrid Style="padding:50px">
+
+    <MudItem xs="10" sm="6" md="6">
+
+        <MudSelect T="string" Placeholder="Seleccione un Usuario" @bind-Value="UsuarioId" Label="Usuario" AnchorOrigin="Origin.BottomCenter" OnOpen="GetUsuarios">
+            @foreach (var usuario in Usuarios)
+            {
+                <MudSelectItem Value="@usuario.Id"> @usuario.UserName</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+</MudGrid>
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton OnClick="eliminarUsuario" Variant="Variant.Filled" StartIcon="@Icons.Rounded.PersonRemove" Color="Color.Error" Size="Size.Large">
+        <MudText> Eliminar Usuario</MudText>
+    </MudButton>
+
+</MudContainer>
+
+@code {
+
+    List<User> Usuarios = new();
+    string UsuarioId = null;
+    private bool coerceText;
+    private bool coerceValue;
+
+    private async Task GetUsuarios()
+    {
+        var response = await apiService.HttpClient.GetAsync("/api/User");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            Usuarios = await response.Content.ReadFromJsonAsync<List<User>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
+    private async Task eliminarUsuario()
+    {
+        var response = await apiService.HttpClient.DeleteAsync($"/api/User/id?id={UsuarioId}");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            UsuarioId = "";
+            snackBar.Add("Usuario Eliminado", Severity.Error);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+    }
+}
