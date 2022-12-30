@@ -22,7 +22,11 @@
                 }
             </MudSelect>
 
+<<<<<<< HEAD
             <MudSelect T="string" Placeholder="Seleccione una Unidad" @bind-Value="registro.plantaId" Label="Unidad" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
+=======
+            <MudSelect T="string" Placeholder="Seleccione una Unidad" @bind-Value="registro.planta" Label="Unidad" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
+>>>>>>> b1926743a8abd4f9c534d940fecb47fee2ee5d67
             @foreach (var valor in Unidades)
             {
 
@@ -48,7 +52,7 @@
 
 
 @code {
-    Useregistrar registro = new();
+    UserRegisterRequest registro = new();
     Unidad unidadreg = new();
     List<Unidad> Unidades = new();
 
@@ -108,8 +112,14 @@
 
     private async Task RegistrarUsuario()
     {
+<<<<<<< HEAD
 
         var response = await apiService.HttpClient.PostAsJsonAsync("Identity/register", registro);
+=======
+        //await setunidad();
+        //registro.Unidad = unidadreg.UnidadId;
+        var response = await apiService.HttpClient.PostAsJsonAsync("/api/Identity/register", registro);
+>>>>>>> b1926743a8abd4f9c534d940fecb47fee2ee5d67
         try
         {
             response.EnsureSuccessStatusCode();
