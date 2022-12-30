@@ -1,133 +1,16 @@
-﻿@page "/usuarios"
+﻿@page "/Usuarios"
 <PageTitle>Administración de Usuarios</PageTitle>
-
-
-    <MudText Align="Align.Center" Typo="Typo.h3">Registrar Nuevo Usuario</MudText>
-
-<EditForm Model="@registro" >
-<MudGrid Style="padding:50px">
-
-    <MudItem xs="12" sm="6" md="6">
-            <MudTextField T="string" @bind-Value="registro.userName" Label="Nombre" Variant="Variant.Text"  Lines="1" />
-@*            <MudTextField T="string" @bind-Value="registro.email" Label="E-mail" Variant="Variant.Text" Lines="1" InputType="InputType.Email" />
-            <MudTextField T="string" @bind-Value="registro.password" Label="Contraseña" Variant="Variant.Text" Lines="1" />*@
-    </MudItem>
-     <MudItem xs="10" sm="6" md="6">
-
-            <MudSelect T="string" Placeholder="Seleccione un Rol" @bind-Value="registro.rol" Label="Rol" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarRol">
-                @foreach (var valor in Roles)
-                {
-
-                    <MudSelectItem Value="@valor"> @valor</MudSelectItem>
-                }
-            </MudSelect>
-
-<<<<<<< HEAD
-            <MudSelect T="string" Placeholder="Seleccione una Unidad" @bind-Value="registro.plantaId" Label="Unidad" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
-=======
-            <MudSelect T="string" Placeholder="Seleccione una Unidad" @bind-Value="registro.planta" Label="Unidad" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
->>>>>>> b1926743a8abd4f9c534d940fecb47fee2ee5d67
-            @foreach (var valor in Unidades)
-            {
-
-                    <MudSelectItem Value="@valor.UnidadId">@valor.nombre</MudSelectItem>
-            }
-        </MudSelect>
-           
-
-    
-        </MudItem>
-
-    </MudGrid>
-<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
-        <MudButton OnClick="RegistrarUsuario" Variant="Variant.Filled" StartIcon="@Icons.Filled.EmojiPeople" Color="Color.Primary" Size="Size.Large">
-            <MudText> Registrar Usuario</MudText>
-    </MudButton>
-          
-</MudContainer>
-
-
-</EditForm>
-
-
-
+<MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6" Color="@Color.Error">
+    <MudTabPanel Text="Crear Usuario">
+        <CrearUsuario></CrearUsuario>
+    </MudTabPanel>
+    <MudTabPanel Text="Eliminar Usuario">
+        <EliminarUsuario></EliminarUsuario>
+    </MudTabPanel>
+    <MudTabPanel Text="Restablecer Contraseñas">
+        <RestablecerUsuario></RestablecerUsuario>
+    </MudTabPanel>
+</MudTabs>
 @code {
-    UserRegisterRequest registro = new();
-    Unidad unidadreg = new();
-    List<Unidad> Unidades = new();
 
-    List<string> Roles = new();
-
-
-    private async Task BuscarUnidad()
-    {
-        var response = await apiService.HttpClient.GetAsync("/api/PlantaUnidadArea");
-        try
-        {
-            response.EnsureSuccessStatusCode();
-            Unidades = await response.Content.ReadFromJsonAsync<List<Unidad>>();
-        }
-        catch (HttpRequestException)
-        {
-            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            snackBar.Add($"{data.Message}", severity: Severity.Error);
-        }
-    }
-    private async Task BuscarUnidad2()
-    {
-        var response = await apiService.HttpClient.GetAsync($"PlantaUnidadArea/id?id={unidadreg.UnidadId}");
-
-        try
-        {
-            response.EnsureSuccessStatusCode();
-            unidadreg = await response.Content.ReadFromJsonAsync<Unidad>();
-        }
-        catch (HttpRequestException)
-        {
-            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            snackBar.Add($"{data.Message}", severity: Severity.Error);
-        }
-    }
-
-
-    private async Task BuscarRol()
-    {
-        var response = await apiService.HttpClient.GetAsync("Roles");
-        try
-        {
-            response.EnsureSuccessStatusCode();
-            Roles = await response.Content.ReadFromJsonAsync<List<string>>();
-        }
-        catch (HttpRequestException)
-        {
-            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            snackBar.Add($"{data.Message}", Severity.Error);
-        }
-    }
-
-    private async Task setunidad(){
-        await BuscarUnidad2();
-
-    }
-
-    private async Task RegistrarUsuario()
-    {
-<<<<<<< HEAD
-
-        var response = await apiService.HttpClient.PostAsJsonAsync("Identity/register", registro);
-=======
-        //await setunidad();
-        //registro.Unidad = unidadreg.UnidadId;
-        var response = await apiService.HttpClient.PostAsJsonAsync("/api/Identity/register", registro);
->>>>>>> b1926743a8abd4f9c534d940fecb47fee2ee5d67
-        try
-        {
-            response.EnsureSuccessStatusCode();
-        }
-        catch (HttpRequestException)
-        {
-            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            snackBar.Add($"{data.Message}", Severity.Error);
-        }
-    }
 }
