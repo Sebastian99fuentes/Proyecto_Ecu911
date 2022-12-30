@@ -7,11 +7,23 @@
     <MudText Typo="Typo.h3" GutterBottom="true">Procesos Activos</MudText>
     <MudText Class="mb-8">Tus procesos son:</MudText>
     <MudGrid>
-        <MudSimpleTable Hover="true" Dense="true" FixedHeader="@fixedheader" Style="@(fixedheader?"height:50%;":"")">
+           <MudItem xs="12" sm="4" md="4" Class="d-flex  flex-column  align-center">
+
+                <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" Label="Estado" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+               </MudItem>
+                <MudItem xs="12" sm="4" md="4" Class="d-flex  flex-column  align-center">
+            <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" Label="Etapa" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+               </MudItem>
+                <MudItem xs="12" sm="4" md="4" Class="d-flex  flex-column  align-center">
+            <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" Label="Unidad" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+               </MudItem>
+     
+        <MudSimpleTable Hover="true" Dense="true" FixedHeader="@fixedheader" Striped="true"  Style="@(fixedheader?"height:50%;":"")">
+
             <thead>
                 <tr>
 
-                    <th>% Avance </th>
+                    <th>Avance </th>
                     <th>Descripcion </th>
                     <th>Estado </th>
                     <th> </th>
@@ -28,22 +40,22 @@
 
                     <tr @key="@item.ProcesoCompraId">
                         @if(item.Avance== null){
-                        <td>0</td>
+                        <td>0 %</td>
                         }
                         else{
-                        <td>@item.Avance</td>
+                        <td>@item.Avance %</td>
                         }
                         <td>@item.descripcion</td>
                         <td>@item.Estado.tipoEstado</td>
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"  Color="Color.Info" OnClick="@(e => NavigateActualizarEs(@item.ProcesoCompraId))">Actualizar</MudButton></th>
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Tertiary" OnClick="@(e => NavigateActualizarEs(@item.ProcesoCompraId))">Actualizar</MudButton></th>
                         <td>@item.Etapa.tipoEtapa</td>
                         <td>@item.Procedimiento.tipoProcedimiento</td>
                         <td>@item.mesPlanificado</td>
 
 
                         <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateEstados(@item.ProcesoCompraId))">Revisar</MudButton></th>
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateObservaciones(@item.ProcesoCompraId))">Obeservaciones</MudButton></th>
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateAlertas(@item.ProcesoCompraId))">Alertas</MudButton></th>
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateObservaciones(@item.ProcesoCompraId))">Observaciones</MudButton></th>
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateAlertas(@item.ProcesoCompraId))">Alertas</MudButton></th>
                     </tr>
                 </Virtualize>
 
@@ -59,7 +71,8 @@
 
 @code {
     bool fixedheader = true;
-  private  List<ProcesoCompra> procesos = new();
+    string searchString1;
+    private  List<ProcesoCompra> procesos = new();
 
     int id = 0;
     protected override async Task OnInitializedAsync()

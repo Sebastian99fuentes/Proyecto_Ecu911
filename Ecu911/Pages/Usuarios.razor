@@ -9,8 +9,8 @@
 
     <MudItem xs="12" sm="6" md="6">
             <MudTextField T="string" @bind-Value="registro.userName" Label="Nombre" Variant="Variant.Text"  Lines="1" />
-            <MudTextField T="string" @bind-Value="registro.email" Label="E-mail" Variant="Variant.Text" Lines="1" InputType="InputType.Email" />
-            <MudTextField T="string" @bind-Value="registro.password" Label="Contraseña" Variant="Variant.Text" Lines="1" />
+@*            <MudTextField T="string" @bind-Value="registro.email" Label="E-mail" Variant="Variant.Text" Lines="1" InputType="InputType.Email" />
+            <MudTextField T="string" @bind-Value="registro.password" Label="Contraseña" Variant="Variant.Text" Lines="1" />*@
     </MudItem>
      <MudItem xs="10" sm="6" md="6">
 
@@ -22,7 +22,7 @@
                 }
             </MudSelect>
 
-            <MudSelect T="string" Placeholder="Seleccione una Unidad" @bind-Value="unidadreg.UnidadId" Label="Unidad" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
+            <MudSelect T="string" Placeholder="Seleccione una Unidad" @bind-Value="registro.plantaId" Label="Unidad" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad">
             @foreach (var valor in Unidades)
             {
 
@@ -104,12 +104,11 @@
     private async Task setunidad(){
         await BuscarUnidad2();
 
-
     }
+
     private async Task RegistrarUsuario()
     {
-        await setunidad();
-        registro.Unidad = unidadreg;
+
         var response = await apiService.HttpClient.PostAsJsonAsync("Identity/register", registro);
         try
         {

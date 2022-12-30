@@ -8,23 +8,250 @@
         <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
             <MudGrid>
                 <MudSimpleTable Hover="true" Dense="true" FixedHeader="@fixedheader" Style="@(fixedheader?"height:30%;":"")">
-                    <thead>
-                        <tr>
+                    <MudTHeadRow>
+                            <tr>
                             <th>Elaboración de informe de necesidad </th>
                             <th>Elaboración de términos de refenrecia/especificaciones técnicas </th>
                             <th>Solicitud de la publicidad </th>
                             <th>Publicación de la necesidad-portal de compras públicas </th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
+                              <th>Recepción de cotizaciones </th>
+                            <th>Elaboración de estudio de mercado </th>
+                            <th>Solicitud de certificación PAPP </th>
+                            <th>Emision de certificación PAPP </th>
+                            </tr>
+                          <tbody>
                         <tr>
                             <td>@preparatoria.informeNecesidad</td>
                             <td>@preparatoria.terminosReferencia</td>
                             <td>@preparatoria.solicitudPublicacion</td>
                             <td>@preparatoria.publicacionNecesidad</td>
+                            <td>@preparatoria.recepcionCotizaciones</td>
+                            <td>@preparatoria.elaboracionEstudioMercado</td>
+                            <td>@preparatoria.solicitudPAPP</td>
+                            <td>@preparatoria.emisionPAPP</td>
                         </tr>
+                         <tr>
+
+                             @*CHecks*@
+                             @if (preparatoria.informeNecesidadReal != null)
+                             {
+                                    prepcheck1 = true;
+                                     <td> <MudCheckBox @bind-Checked="@prepcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck1"></MudCheckBox> </td>
+                             }
+                             else{
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck1"></MudCheckBox> </td>
+                             }
+
+                           @if (preparatoria.informeNecesidadReal != null)
+                           {
+                                  @if(preparatoria.terminosReferenciaReal != null){
+                                        prepcheck2 = true;
+                                    }
+                                   <td> <MudCheckBox @bind-Checked="@prepcheck2" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck2"></MudCheckBox> </td>                  
+                           }   
+                           else
+                             {
+                                    <td></td>
+                             }
+
+                                @if (prepcheck2 == true)
+                                {
+                                    if (preparatoria.solicitudPublicacionReal != null)
+                                    {
+                                        prepcheck3 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck3" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck3"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                               @if (prepcheck3 == true)
+                                {
+                                    if (preparatoria.publicacionNecesidadReal != null)
+                                    {
+                                        prepcheck4 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck4" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck4"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck4 == true)
+                                {
+                                    if (preparatoria.recepcionCotizacionesReal != null)
+                                    {
+                                        prepcheck5 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck5" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck5"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck5 == true)
+                                {
+                                    if (preparatoria.elaboracionEstudioMercadoReal != null)
+                                    {
+                                        prepcheck6 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck6" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck6"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck6 == true)
+                                {
+                                    if (preparatoria.solicitudPAPPReal != null)
+                                    {
+                                        prepcheck7 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck7" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck7"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                  @if (prepcheck7 == true)
+                                {
+                                    if (preparatoria.emisionPAPPReal != null)
+                                    {
+                                        prepcheck8 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck8" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck8"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+
+                          </tr>
+                            @*CHecks*@
+
+
+                           @* Fechas reales*@
+                          <tr>
+                                @if (preparatoria.informeNecesidadReal == null)
+                                    {
+                                        if(prepcheck1 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                             var.informeNecesidadReal = now;
+                                        <td>@preparatoria.informeNecesidadReal</td>
+                                                 UpdatePreparatoria(var);
+                                        };
+                                    }
+                                    else{
+                                          <td>@preparatoria.informeNecesidadReal</td>
+                                    } 
+                         
+                                    @if (preparatoria.terminosReferenciaReal == null)
+                                    {
+                                        if(prepcheck2 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                        var.terminosReferenciaReal = now;
+                                    
+                                        <td>@preparatoria.terminosReferenciaReal</td>
+                                                UpdatePreparatoria(var);
+                                        };
+                                    }
+                                    else{
+                                          <td>@preparatoria.terminosReferenciaReal</td>
+                                    } 
+                            
+                                    @if (preparatoria.solicitudPublicacionReal == null)
+                                    {
+                                        if(prepcheck3 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                        var.solicitudPublicacionReal = now;
+                                        <td>@preparatoria.solicitudPublicacionReal</td>
+                                                UpdatePreparatoria(var);
+                                        };
+                                    }
+                                    else{
+                                          <td>@preparatoria.solicitudPublicacionReal</td>
+                                    } 
+                          
+                                @if (preparatoria.publicacionNecesidadReal == null)
+                                {
+                                    if (prepcheck4 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.publicacionNecesidadReal = now;
+                                        <td>@preparatoria.publicacionNecesidadReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else
+                                {
+                                    <td>@preparatoria.publicacionNecesidadReal</td>
+                                }
+
+                           
+                                @if (preparatoria.recepcionCotizacionesReal == null)
+                                {
+                                    if (prepcheck5 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.recepcionCotizacionesReal = now;
+                                        <td>@preparatoria.recepcionCotizacionesReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else
+                                {
+                                    <td>@preparatoria.recepcionCotizacionesReal</td>
+                                }
+
+                           
+                                @if (preparatoria.elaboracionEstudioMercadoReal == null)
+                                {
+                                    if (prepcheck6 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.elaboracionEstudioMercadoReal = now;
+                                        <td>@preparatoria.elaboracionEstudioMercadoReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else
+                                {
+                                    <td>@preparatoria.elaboracionEstudioMercadoReal</td>
+                                }
+
+                           
+                                @if (preparatoria.solicitudPAPPReal == null)
+                                {
+                                    if (prepcheck7 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.solicitudPAPPReal = now; 
+                                        <td>@preparatoria.solicitudPAPPReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else
+                                {
+                                    <td>@preparatoria.solicitudPAPPReal</td>
+                                }
+
+                          
+                                @if (preparatoria.emisionPAPPReal == null)
+                                {
+                                    if (prepcheck8 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.emisionPAPPReal = now;
+                                        <td>@preparatoria.emisionPAPPReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else
+                                {
+                                    <td>@preparatoria.emisionPAPPReal</td>
+                                }
+
+                            </tr>
                     </tbody>
+                    </MudTHeadRow>
                 </MudSimpleTable>
 
             </MudGrid>
@@ -36,76 +263,222 @@
             <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
                 <MudGrid>
                     <MudSimpleTable>
-                        <thead>
+                        <MudTHeadRow>
                             <tr>
-                            <th>Recepción de cotizaciones </th>
-                            <th>Elaboración de estudio de mercado </th>
-                            <th>Solicitud de certificación PAPP </th>
-                            <th>Emision de certificación PAPP </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>@preparatoria.recepcionCotizaciones</td>
-                            <td>@preparatoria.elaboracionEstudioMercado</td>
-                            <td>@preparatoria.solicitudPAPP</td>
-                            <td>@preparatoria.emisionPAPP</td>
-                            </tr>
-                        </tbody>
-                    </MudSimpleTable>
-                </MudGrid>
-            </MudItem>
- </MudCardContent>
-
-    <MudCardContent Class="d-flex  flex-column  align-center  ">
-        <MudText Class="mb-12"> </MudText>
-        <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
-            <MudGrid>
-                <MudSimpleTable>
-                    <thead>
-                        <tr>
                             <th>Solicitud de certificación presupuestaria </th>
                             <th>Emisión de certificación presupuestaria</th>
                             <th>Solicitud certificación PAC </th>
                             <th>Emisión certificación PAC </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                             <th>Solicitud de inicio de proceso al coordinador zonal</th>
+                            <th>Resolución de inicio</th>
+                            <th>Publicación del proceso </th>
+                            </tr>
+                          <tbody>
                         <tr>
-                            <td>@preparatoria.solicitudPresup</td>
+                             <td>@preparatoria.solicitudPresup</td>                           
                             <td>@preparatoria.emisionPresup</td>
                             <td>@preparatoria.solicitudPAC</td>
                             <td>@preparatoria.emisionPAC</td>
-                        </tr>
-                    </tbody>
-                </MudSimpleTable>
-            </MudGrid>
-        </MudItem>
-    </MudCardContent>
-
-  <MudCardContent Class="d-flex  flex-column  align-center  ">
-        <MudText Class="mb-12"> </MudText>
-        <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
-            <MudGrid>
-                <MudSimpleTable>
-                    <thead>
-                        <tr>
-                            <th>Solicitud de inicio de proceso al coordinador zonal</th>
-                            <th>Resolución de inicio</th>
-                            <th>Publicación del proceso </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@preparatoria.solicitudCoordinadorZonal</td>
+                            <td>@preparatoria.solicitudCoordinadorZonal</td>                        
                             <td>@preparatoria.resolucionInicio</td>
                             <td>@preparatoria.publicacionProceso</td>
                         </tr>
+                         <tr>
+                                @*CHecks*@
+                                @if (prepcheck8 == true)
+                                {
+                                    if (preparatoria.solicitudPresupReal != null)
+                                    {
+                                        prepcheck9 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck9" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck9"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck9 == true)
+                                {
+                                    if (preparatoria.emisionPresupReal != null)
+                                    {
+                                        prepcheck10 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck10" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck10"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck10 == true)
+                                {
+                                    if (preparatoria.solicitudPACReal != null)
+                                    {
+                                        prepcheck11 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck11" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck11"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck11 == true)
+                                {
+                                    if (preparatoria.emisionPACReal != null)
+                                    {
+                                        prepcheck12 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck12" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck12"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck12 == true)
+                                {
+                                    if (preparatoria.solicitudCoordinadorZonalReal != null)
+                                    {
+                                        prepcheck13 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck13" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck13"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck13 == true)
+                                {
+                                    if (preparatoria.resolucionInicioReal != null)
+                                    {
+                                        prepcheck14 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck14" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck14"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (prepcheck14 == true)
+                                {
+                                    if (preparatoria.publicacionProcesoReal != null)
+                                    {
+                                        prepcheck15 = true;
+                                    }
+                                    <td> <MudCheckBox @bind-Checked="@prepcheck15" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck15"></MudCheckBox> </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }  
+                          </tr>
+                             @*CHecks*@
+
+
+                           @* Fechas reales*@
+
+                          <tr>
+
+                                @if (preparatoria.solicitudPresupReal == null)
+                                    {
+                                        if(prepcheck9 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                             var.solicitudPresupReal = now;
+                                        <td>@preparatoria.solicitudPresupReal</td>
+                                                 UpdatePreparatoria(var);
+                                        };
+                                    }
+                                else
+                                {
+                                    <td>@preparatoria.solicitudPresupReal</td>
+                                }
+                                @if (preparatoria.emisionPresupReal == null)
+                                    {
+                                        if (prepcheck10 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                            var.emisionPresupReal = now;
+                                        <td>@preparatoria.emisionPresupReal</td>
+                                            UpdatePreparatoria(var);
+                                        };
+                                    }
+                                else
+                                {
+                                    <td>@preparatoria.emisionPresupReal</td>
+                                }
+
+                                @if (preparatoria.solicitudPACReal == null)
+                                {
+                                    if (prepcheck11 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.solicitudPACReal = now;
+                                        <td>@preparatoria.solicitudPACReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else{
+                                          <td>@preparatoria.solicitudPACReal</td>
+                                    } 
+
+                                @if (preparatoria.emisionPACReal == null)
+                                {
+                                    if (prepcheck12 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.emisionPACReal = now;
+                                        <td>@preparatoria.emisionPACReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else{
+                                          <td>@preparatoria.emisionPACReal</td>
+                                    } 
+
+                                @if (preparatoria.solicitudCoordinadorZonalReal == null)
+                                {
+                                    if (prepcheck13 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.solicitudCoordinadorZonalReal = now;
+                                        <td>@preparatoria.solicitudCoordinadorZonalReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else{
+                                          <td>@preparatoria.solicitudCoordinadorZonalReal</td>
+                                    } 
+
+                                @if (preparatoria.resolucionInicioReal == null)
+                                {
+                                    if (prepcheck14 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.resolucionInicioReal = now;
+                                        <td>@preparatoria.resolucionInicioReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else{
+                                          <td>@preparatoria.resolucionInicioReal</td>
+                                    } 
+
+                                 @if (preparatoria.publicacionProcesoReal == null)
+                                {
+                                    if (prepcheck15 == true)
+                                    {
+                                        DateTime now = DateTime.Now;
+                                        var.publicacionProcesoReal = now;
+                                        <td>@preparatoria.publicacionProcesoReal</td>
+                                        UpdatePreparatoria(var);
+                                    };
+                                }
+                                else
+                                {
+                                    <td>@preparatoria.publicacionProcesoReal</td>
+                                }
+                                
+                           @* Fechas reales*@
+                            </tr>
                     </tbody>
-                </MudSimpleTable>
-            </MudGrid>
-        </MudItem>
-    </MudCardContent>
+                    </MudTHeadRow>
+                    </MudSimpleTable>
+                </MudGrid>
+            </MudItem>
+ </MudCardContent>
 
 
     @if (precontracualObj.IdPrecontractual != null)
@@ -117,8 +490,8 @@
             <MudText Typo="Typo.h3" GutterBottom="true">Etapa Precontractual</MudText>
             <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
                 <MudGrid>
-                    <MudSimpleTable>
-                        <thead>
+                    <MudSimpleTable >
+                          <MudTHeadRow>
                             <tr>
                                 <th>Preguntas/Respuestas y aclaraciónes</th>
                                 <th>Recepción de ofertas</th>
@@ -126,17 +499,147 @@
                                 <th>Puja/Negociación</th>
                                 <th>Adjudicación(estimada)</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            <tbody>
                             <tr>
-                                <td>@precontracualObj.preguntasRespuestas</td>
+                                <td>@precontracualObj.preguntasRespuestas</td>                              
                                 <td>@precontracualObj.recepcionOfertas</td>
                                 <td>@precontracualObj.calificacionOfertas</td>
                                 <td>@precontracualObj.pujaNegociacion</td>
                                 <td>@precontracualObj.adjudicacion</td>
-
                             </tr>
+
+                            <tr>
+                                 @if (precontracualObj.preguntasRespuestasReal != null)
+                             {
+                                    precontcheck1 = true;
+                                     <td> <MudCheckBox @bind-Checked="@precontcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck1"></MudCheckBox> </td>
+                             }
+                             else{
+                                        <td> <MudCheckBox @bind-Checked="@precontcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck1"></MudCheckBox> </td>
+                             }
+
+                           @if (precontracualObj.preguntasRespuestasReal != null)
+                           {
+                                  @if(precontracualObj.recepcionOfertasReal != null){
+                                        precontcheck2 = true;
+                                    }
+                                        <td> <MudCheckBox @bind-Checked="@precontcheck2" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck2"></MudCheckBox> </td>
+                                    }   
+                           else
+                             {
+                                    <td></td>
+                             }
+
+                                    @if (precontcheck2 == true)
+                                {
+                                        if (precontracualObj.calificacionOfertasReal != null)
+                                    {
+                                        precontcheck3 = true;
+                                    }
+                                        <td> <MudCheckBox @bind-Checked="@precontcheck3" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck3"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                @if (precontcheck3 == true)
+                                {
+                                        if (precontracualObj.pujaNegociacionReal != null)
+                                    {
+                                        precontcheck4 = true;
+                                    }
+                                        <td> <MudCheckBox @bind-Checked="@precontcheck4" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck4"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                                 @if (precontcheck4 == true)
+                                {
+                                        if (precontracualObj.adjudicacionReal != null)
+                                    {
+                                        precontcheck5 = true;
+                                    }
+                                        <td> <MudCheckBox @bind-Checked="@precontcheck5" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck5"></MudCheckBox> </td>
+                                }
+                                else{
+                                    <td></td>
+                                }
+                            </tr>
+                            <tr>
+                                    @if (precontracualObj.preguntasRespuestasReal == null)
+                                    {
+                                        if(precontcheck1 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                            preobj.preguntasRespuestasReal = now;
+                                        <td>@precontracualObj.preguntasRespuestasReal</td>
+                                            UpdatePrecontractual(preobj);
+                                        };
+                                    }
+                                else
+                                {
+                                    <td>@precontracualObj.preguntasRespuestasReal</td>
+                                }
+                                    @if (precontracualObj.recepcionOfertasReal == null)
+                                    {
+                                        if (precontcheck2 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                            preobj.recepcionOfertasReal = now;
+                                            <td>@precontracualObj.recepcionOfertasReal</td>
+                                            UpdatePrecontractual(preobj);
+                                        };
+                                    }
+                                    else
+                                    {
+                                        <td>@precontracualObj.recepcionOfertasReal</td>
+                                    }
+
+                                    @if (precontracualObj.calificacionOfertasReal == null)
+                                    {
+                                        if (precontcheck3 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                            preobj.calificacionOfertasReal = now;
+                                            <td>@precontracualObj.calificacionOfertasReal</td>
+                                            UpdatePrecontractual(preobj);
+                                        };
+                                    }
+                                    else
+                                    {
+                                        <td>@precontracualObj.calificacionOfertasReal</td>
+                                    }
+                                    @if (precontracualObj.pujaNegociacionReal == null)
+                                    {
+                                        if (precontcheck4 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                            preobj.pujaNegociacionReal = now;
+                                            <td>@precontracualObj.pujaNegociacionReal</td>
+                                            UpdatePrecontractual(preobj);
+                                        };
+                                    }
+                                    else
+                                    {
+                                        <td>@precontracualObj.pujaNegociacionReal</td>
+                                    }
+                                     @if (precontracualObj.adjudicacionReal == null)
+                                    {
+                                        if (precontcheck4 == true)
+                                        {
+                                            DateTime now = DateTime.Now;
+                                            preobj.adjudicacionReal = now;
+                                            <td>@precontracualObj.adjudicacionReal</td>
+                                            UpdatePrecontractual(preobj);
+                                        };
+                                    }
+                                    else
+                                    {
+                                        <td>@precontracualObj.adjudicacionReal</td>
+                                    }
+                            </tr>
+                           
                         </tbody>
+                          </MudTHeadRow>
                     </MudSimpleTable>
                 </MudGrid>
             </MudItem>
@@ -152,18 +655,74 @@
     <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center">
         <MudGrid>
             <MudSimpleTable>
-                <thead>
+                <MudTHeadRow>   
                     <tr>
                                     <th>Suscripción de Contrato</th>
                                     <th>Finalización del Contrato</th>
                     </tr>
-                </thead>
                 <tbody>
                     <tr>
-                                    <td>@contractualObj.fechaSuscripcion</td>
-                                    <td>@contractualObj.fechaFinalizacion</td> 
+                                    <td>@contractualObj.fechaSuscripcion</td>                                    
+                                    <td>@contractualObj.fechaFinalizacion</td>
+                    </tr>
+                    <tr>
+                                        @if (contractualObj.fechaSuscripcionReal != null)
+                                        {
+                                    contracheck1 = true;
+                                            <td> <MudCheckBox @bind-Checked="@contracheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@contracheck1"></MudCheckBox> </td>
+                             }
+                             else{
+                                        <td> <MudCheckBox @bind-Checked="@contracheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@contracheck1"></MudCheckBox> </td>
+                             }
+
+                           @if (contractualObj.fechaSuscripcionReal != null)
+                           {
+                                            @if (contractualObj.fechaFinalizacionReal != null)
+                                            {
+                                        contracheck2 = true;
+                                    }
+                                        <td> <MudCheckBox @bind-Checked="@contracheck2" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@contracheck2"></MudCheckBox> </td>
+                                    }   
+                           else
+                             {
+                                    <td></td>
+                             }
+
+                    </tr>
+                    <tr>
+                                        @if (contractualObj.fechaSuscripcionReal == null)
+                                        {
+                                            if (contracheck1 == true)
+                                            {
+                                                DateTime now = DateTime.Now;
+                                                conobj.fechaSuscripcionReal = now;
+                                                <td>@contractualObj.fechaSuscripcionReal</td>
+                                                UpdateContractual(conobj);
+                                            };
+                                        }
+                                        else
+                                        {
+                                            <td>@contractualObj.fechaSuscripcionReal</td>
+                                        }
+
+                                        @if (contractualObj.fechaFinalizacionReal == null)
+                                        {
+                                            if (contracheck2 == true)
+                                            {
+                                                DateTime now = DateTime.Now;
+                                                conobj.fechaFinalizacionReal = now;
+                                                <td>@contractualObj.fechaFinalizacionReal</td>
+                                                UpdateContractual(conobj);
+                                            };
+                                        }
+                                        else
+                                        {
+                                            <td>@contractualObj.fechaFinalizacionReal</td>
+                                        }
                     </tr>
                 </tbody>
+
+                </MudTHeadRow>
             </MudSimpleTable>
         </MudGrid>
     </MudItem>
@@ -207,8 +766,40 @@ else
 
 @code{
 
+    #region /*checks preparatoria*/
+    private bool prepcheck1 { get; set; } = false;
+    private bool prepcheck2 { get; set; } = false;
+    private bool prepcheck3 { get; set; } = false;
+    private bool prepcheck4 { get; set; } = false;
+    private bool prepcheck5 { get; set; } = false;
+    private bool prepcheck6 { get; set; } = false;
+    private bool prepcheck7 { get; set; } = false;
+    private bool prepcheck8 { get; set; } = false;
+    private bool prepcheck9 { get; set; } = false;
+    private bool prepcheck10 { get; set; } = false;
+    private bool prepcheck11 { get; set; } = false;
+    private bool prepcheck12 { get; set; } = false;
+    private bool prepcheck13 { get; set; } = false;
+    private bool prepcheck14 { get; set; } = false;
+    private bool prepcheck15 { get; set; } = false;
+
+    #endregion
+
+    #region/*checks precontractual*/
+    private bool precontcheck1 { get; set; } = false;
+    private bool precontcheck2 { get; set; } = false;
+    private bool precontcheck3 { get; set; } = false;
+    private bool precontcheck4 { get; set; } = false;
+    private bool precontcheck5 { get; set; } = false;
+    #endregion
+    #region/*checks contractual*/
+    private bool contracheck1 { get; set; } = false;
+    private bool contracheck2 { get; set; } = false;
+    #endregion
+
+
     bool fixedheader = true;
-    
+
     ProcesoCompra proceso = new ProcesoCompra();
 
     List<Preparatoria> preparatorias = new();
@@ -219,6 +810,11 @@ else
 
     List<Contractual> contractual = new();
     Contractual contractualObj = new();
+
+
+    Preparatoria var = new Preparatoria();
+    Precontractual preobj =new Precontractual();
+    Contractual conobj = new Contractual();
 
     [Parameter]
     public string Id { get; set; }
@@ -239,6 +835,110 @@ else
         }
     }
 
+    private async Task SetPreparatoria(){
+
+        var.PreparatoriaId = preparatoria.PreparatoriaId;
+        var.IdProcesoCompra = preparatoria.IdProcesoCompra;
+        var.informeNecesidad = preparatoria.informeNecesidad;
+        var.terminosReferencia = preparatoria.terminosReferencia;
+        var.solicitudPublicacion = preparatoria.solicitudPublicacion;
+        var.publicacionNecesidad = preparatoria.publicacionNecesidad;
+        var.recepcionCotizaciones = preparatoria.recepcionCotizaciones;
+        var.elaboracionEstudioMercado = preparatoria.elaboracionEstudioMercado;
+        var.solicitudPAPP = preparatoria.solicitudPAPP;
+        var.emisionPAPP = preparatoria.emisionPAPP;
+        var.solicitudPresup = preparatoria.solicitudPresup;
+        var.emisionPresup = preparatoria.emisionPresup;
+        var.solicitudPAC = preparatoria.solicitudPAC;
+        var.emisionPAC = preparatoria.emisionPAC;
+        var.solicitudCoordinadorZonal = preparatoria.solicitudCoordinadorZonal;
+        var.resolucionInicio = preparatoria.resolucionInicio;
+        var.publicacionProceso = preparatoria.publicacionProceso;
+        var.informeNecesidadReal = preparatoria.informeNecesidadReal;
+        var.terminosReferenciaReal = preparatoria.terminosReferenciaReal;
+        var.solicitudPublicacionReal = preparatoria.solicitudPublicacionReal;
+        var.publicacionNecesidadReal = preparatoria.publicacionNecesidadReal;
+        var.recepcionCotizacionesReal = preparatoria.recepcionCotizacionesReal;
+        var.elaboracionEstudioMercadoReal = preparatoria.elaboracionEstudioMercadoReal;
+        var.solicitudPAPPReal = preparatoria.solicitudPAPPReal;
+        var.emisionPAPPReal = preparatoria.emisionPAPPReal;
+        var.solicitudPresupReal = preparatoria.solicitudPresupReal;
+        var.emisionPresupReal = preparatoria.emisionPresupReal;
+        var.solicitudPACReal = preparatoria.solicitudPACReal;
+        var.emisionPACReal = preparatoria.emisionPACReal;
+        var.solicitudCoordinadorZonalReal = preparatoria.solicitudCoordinadorZonalReal;
+        var.resolucionInicioReal = preparatoria.resolucionInicioReal;
+        var.publicacionProcesoReal = preparatoria.publicacionProcesoReal;
+    }
+    private async Task SetPrecontractual(){
+
+        preobj.IdPrecontractual = precontracualObj.IdPrecontractual;
+        preobj.IdPreparatoria = precontracualObj.IdPreparatoria;
+        preobj.preguntasRespuestas = precontracualObj.preguntasRespuestas;
+        preobj.preguntasRespuestasReal = precontracualObj.preguntasRespuestasReal;
+        preobj.recepcionOfertas = precontracualObj.recepcionOfertas;
+        preobj.recepcionOfertasReal = precontracualObj.recepcionOfertasReal;
+        preobj.calificacionOfertas = precontracualObj.calificacionOfertas;
+        preobj.calificacionOfertasReal = precontracualObj.calificacionOfertasReal;
+        preobj.pujaNegociacion = precontracualObj.pujaNegociacion;
+        preobj.pujaNegociacionReal = precontracualObj.pujaNegociacionReal;
+        preobj.adjudicacion = precontracualObj.adjudicacion;
+        preobj.adjudicacionReal = precontracualObj.adjudicacionReal;
+    }
+    private async Task SetContractual(){
+        conobj.ContractualId = contractualObj.ContractualId;
+        conobj.IdPrecontractual = contractualObj.IdPrecontractual;
+        conobj.fechaSuscripcion = contractualObj.fechaSuscripcion;
+        conobj.fechaSuscripcionReal = contractualObj.fechaSuscripcionReal;
+        conobj.fechaFinalizacion = contractualObj.fechaFinalizacion;
+        conobj.fechaFinalizacionReal = contractualObj.fechaFinalizacionReal;
+    }
+    private async Task UpdatePreparatoria(Preparatoria prepobj)
+    {
+
+        HttpResponseMessage? response = new();
+        try
+        {
+            response = await apiService.HttpClient.PutAsJsonAsync($"Preparatoria/id?id={preparatoria.PreparatoriaId}", prepobj);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+
+    }
+    private async Task UpdatePrecontractual(Precontractual prepobj)
+    {
+
+        HttpResponseMessage? response = new();
+        try
+        {
+            response = await apiService.HttpClient.PutAsJsonAsync($"Precontractual/id?id={precontracualObj.IdPrecontractual}", prepobj);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+
+    }
+
+    private async Task UpdateContractual(Contractual prepobj)
+    {
+
+        HttpResponseMessage? response = new();
+        try
+        {
+            response = await apiService.HttpClient.PutAsJsonAsync($"Contractual/id?id={contractualObj.ContractualId}", prepobj);
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", Severity.Error);
+        }
+
+    }
     private async Task buscarPreparatoria()
     {
 
@@ -255,6 +955,8 @@ else
                 {
                     preparatoria = item;
 
+                    await SetPreparatoria();
+
                     response = await apiService.HttpClient.GetAsync($"Precontractual");
                     try
                     {
@@ -265,6 +967,8 @@ else
                             if (item2.IdPreparatoria == preparatoria.PreparatoriaId)
                             {
                                 precontracualObj = item2;
+
+                                await SetPrecontractual();
                                 response = await apiService.HttpClient.GetAsync($"Contractual");
                                 try
                                 {
@@ -275,6 +979,7 @@ else
                                         if (item3.IdPrecontractual == precontracualObj.IdPreparatoria)
                                         {
                                             contractualObj = item3;
+                                            await SetContractual();
                                             break;
                                         }
                                     }
@@ -311,9 +1016,6 @@ else
     {
         navManager.NavigateTo($"/");
     }
-
-
-
        void NavigatePreparatoria(string id)
     {
         navManager.NavigateTo($"etapapreparatoria/{id}");
