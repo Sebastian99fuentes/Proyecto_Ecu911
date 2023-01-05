@@ -9,5 +9,7 @@ namespace Ecu911.ResponseModels
         public string token { get; set; }
         [Display(Name = "Refresh-Token")]
         public string refreshedToken { get; set; }
+        [Display(Name = "Role")]
+        public string? Role { get; set; }
     }
 }

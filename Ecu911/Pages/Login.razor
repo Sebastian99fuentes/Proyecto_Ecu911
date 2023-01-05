@@ -1,47 +1,50 @@
 ﻿@page "/login"
 
 
-
-<style>
-    body {
-        background-image: url('images/EcuBackground.jpg');
-        height: 100%;
-        Width: 100%;
-        background-repeat: no-repeat;
-        /*ckground-size: cover;*/
-        background-position: left;
-        /* <MudAvatar Class="z-30 ma-n2" Color="Color.Primary" Size="Size.Large">M</MudAvatar>*/
-    }
-</style>
 <PageTitle>Inicio</PageTitle>
-<EditForm Model="@login" OnValidSubmit="@ValidateUser">
-    <MudGrid Class="align-center" Style="padding:50px">
 
-        <MudContainer Class="d-flex flex-column align-center" Style="width: 60%; height:100%; padding:10%; margin-right:0px;">
-            <MudCardContent Class="d-flex  flex-column  align-center  ">
-                <MudItem xs="12">
-                    <MudText Typo="Typo.h5">Bienvenido</MudText>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField Label="Usuario" Immediate="true" @bind-Value="login.userName" Variant="Variant.Outlined"></MudTextField>
-                    <MudTextField Immediate="true" T="string" InputType="@inputType" Label="Password" @attributes="@InputPasswdAttributes" @bind-Value="@login.password" 
-                                  Variant="Variant.Outlined" For="@(() => login.password)" Adornment="@Adornment.End" AdornmentIcon="@watchPwd" OnAdornmentClick="@ShowNotShowPwd" />
-                </MudItem>
-            </MudCardContent>
-            <MudCardActions>
-                <div class="center-button rigth-element">
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info">Ingresar</MudButton>
-                </div>
-            </MudCardActions>
-        </MudContainer>
+<MudPaper Class="pa-16 ma-2" Elevation="3">
+    <MudStack AlignItems="AlignItems.Center" Row="true" >
+        <MudPaper Class="pa-16 ma-2" Elevation="0">
+            <MudImage Fluid="true" Src="images/EcuBackground.jpg"  Class="rounded-lg" ObjectFit="ObjectFit.Cover" />
+            </MudPaper>
+        <MudPaper Class="pa-16 ma-2;rounded-lg" Elevation="3">
+            <EditForm Model="@login" OnValidSubmit="@ValidateUser">
+                <MudGrid Class="align-center" Style="padding:50px">
+                    <MudContainer Class="d-flex flex-column align-center rounded-lg" Style="width: 100%; height:100%; ">
+                            <MudItem xs="12" >
+                            <MudText Typo="Typo.h5" Class="d-flex flex-column align-center">Bienvenido</MudText>
+                                <MudTextField Label="Usuario" Immediate="true" @bind-Value="login.userName" Variant="Variant.Outlined" ></MudTextField>
+                                <MudTextField Immediate="true" T="string" InputType="@inputType" Label="Password" @attributes="@InputPasswdAttributes" @bind-Value="@login.password"
+                                              Variant="Variant.Outlined" For="@(() => login.password)" Adornment="@Adornment.End" AdornmentIcon="@watchPwd" OnAdornmentClick="@ShowNotShowPwd" />
+                            </MudItem>
+                        <MudCardActions>
+                            <div class="center-button rigth-element">
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info">Ingresar</MudButton>
+                            </div>
+                        </MudCardActions>
+                    </MudContainer>
+                </MudGrid>
+            </EditForm>
+        </MudPaper>
+       
+    </MudStack>
+</MudPaper>
+<MudPaper Class="pa-16 ma-2" Elevation="0">
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6" Class="d-flex flex-column align-center" Style="width: 100%; height:100%;">© 1822-2023</MudText>
+        <MudText Typo="Typo.h6" Class="d-flex flex-column align-center" Style="width: 100%; height:100%;">ecu911.gob.ec</MudText>
+    </MudItem>
+</MudPaper>
 
-    </MudGrid>
-</EditForm>
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 @code {
+
+    public ObjectFit ImageFit { get; set; } = ObjectFit.Cover;
+
     private string usuario = " ", password = "", TextValue = "", _tokenModel = "";
 
     [Parameter(CaptureUnmatchedValues = true)]
@@ -50,7 +53,7 @@
         {
         { "autocomplete", "current-password" }
         };
-    public Dictionary<string, object> InputUserAttributes { get; set; } =
+    private Dictionary<string, object> InputUserAttributes { get; set; } =
     new Dictionary<string, object>()
         {
         { "autocomplete", "username" }
@@ -64,7 +67,7 @@
     const InputType inputTypeText = InputType.Text;
     bool shown = false;
 
-    string watchPwd = show;
+    private string watchPwd = show;
     InputType inputType = inputTypePass;
 
 
@@ -72,6 +75,7 @@
         var uri = navManager.ToAbsoluteUri(navManager.Uri);
         var tempUrl = QueryHelpers.ParseQuery(uri.Query).TryGetValue("ReturnUrl", out var ReturnUrl);
         var response = await apiService.HttpClient.PostAsJsonAsync("Identity/login", login);
+       
         try
         {
             response.EnsureSuccessStatusCode();
@@ -87,6 +91,7 @@
         }
     }
 
+  
     protected void ShowNotShowPwd()
     {
         if (!shown)

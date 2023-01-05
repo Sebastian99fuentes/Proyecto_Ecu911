@@ -1,5 +1,8 @@
 ﻿@page "/etapapreparatoria"
 @page "/etapapreparatoria/{id}"
+
+@attribute [Authorize(Roles = "SUPERADMINISTRADOR,SUPERVISOR")]
+
 <PageTitle>Etapa Preparatoria</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3">Etapa Preparatoria</MudText>
 
@@ -73,10 +76,10 @@
 </MudContainer>
 @code {
 
-    Preparatoria registro = new();
+    private Preparatoria registro = new();
     public double? _valueEn = 0000.00;
-    Preparatoria procesos = new();
-    HttpResponseMessage? response = new();
+    private Preparatoria procesos = new();
+    private HttpResponseMessage? response = new();
 
     [Parameter]
     public string id { get; set; }

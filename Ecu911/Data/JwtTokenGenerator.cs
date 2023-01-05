@@ -55,7 +55,7 @@ namespace Ecu911.Data
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.ReadJwtToken(accesToken);
             var claims = securityToken.Claims;
-            string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            string name = claims.ElementAt(2).Value;
             return name;
         }
 
@@ -64,7 +64,7 @@ namespace Ecu911.Data
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.ReadJwtToken(accesToken);
             var claims = securityToken.Claims;
-            string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            string name = claims.ElementAt(4).Value;
             return name;
         }
     }

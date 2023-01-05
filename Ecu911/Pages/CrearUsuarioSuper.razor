@@ -45,12 +45,12 @@
 
 </EditForm>
 @code {
-    UserRegisterRequest registro = new();
-    Unidad unidadreg = new();
-    List<Unidad> Unidades = new();
+    private UserRegisterRequest registro = new();
+   private Unidad unidadreg = new();
+   private List<Unidad> Unidades = new();
 
-    List<string> Roles = new();
-    string newPassword;
+    private List<string> Roles = new();
+    private string newPassword;
 
     UserValidator<string> userNameValidator = new UserValidator<string>(x => x
         .NotEmpty().WithMessage("Ingrese un Nombre")

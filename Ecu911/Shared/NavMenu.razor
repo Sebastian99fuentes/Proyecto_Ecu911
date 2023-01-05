@@ -5,7 +5,12 @@
     <MudNavLink Href="etapaprecontractual" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Etapa PreContractual</MudNavLink>
     <MudNavLink Href="etapacontractual" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Etapa Contractual</MudNavLink>
     <MudDivider Class="my-2" />
+
+    <AuthorizeView>
     <MudNavLink Href="usuarios" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.People">Usuarios</MudNavLink>
-    <MudDivider Class="my-2" />
+    <MudNavLink Href="UsuariosSuper" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.People">Super Usuarios</MudNavLink>
+    </AuthorizeView>
+
+    <MudDivider Class="my-3" />
     <MudNavLink Href="Reportes" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Share">Reportes</MudNavLink>
 </MudNavMenu>

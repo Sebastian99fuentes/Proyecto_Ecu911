@@ -4,13 +4,12 @@
 <MudCardContent Class="d-flex  flex-column  align-center  ">
 
     <MudText Typo="Typo.h3" GutterBottom="true">Alertas Proceso</MudText>
-    <MudText Class="mb-12">alertas encontradas: @Proceso</MudText>
+    <MudText Class="mb-12">alertas encontradas</MudText>
     <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center" >
     <MudGrid>
-        <MudSimpleTable >
+            <MudSimpleTable Hover="true" Dense="true">
             <thead>
                 <tr>
-                    <th >No. </th>
                     <th>alerta </th>
                 </tr>
             </thead>
@@ -18,7 +17,6 @@
                 @foreach (var item in alertas)
                 {
                     <tr>
-                        <td >@item.ProcesoCompraId</td>
                         <td >@item.descripcionAlerta</td>
 
                     </tr>
@@ -56,12 +54,12 @@
 
 
 
-    AlertaDSPPP alerta = new AlertaDSPPP();
-    ProcesoCompra procesocompra = new ProcesoCompra();
-    List<AlertaDSPPP> alertas = new();
+    private AlertaDSPPP alerta = new AlertaDSPPP();
+    private ProcesoCompra procesocompra = new ProcesoCompra();
+    private List<AlertaDSPPP> alertas = new();
 
     [Parameter]
-    public string Proceso { get; set; }
+    private string Proceso { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

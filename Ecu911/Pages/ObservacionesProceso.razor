@@ -3,14 +3,13 @@
 <MudCardContent Class="d-flex  flex-column  align-center  ">
 
     <MudText Typo="Typo.h3" GutterBottom="true">Observaciones Proceso</MudText>
-    <MudText Class="mb-12">Observaciones encontradas:</MudText>
-    <MudText Class="mb-12"> id  @Proceso</MudText>
+    <MudText Class="mb-12">Observaciones encontradas</MudText>
+
     <MudItem xs="12" sm="12" md="12" Class="d-flex  flex-column  align-center" >
          <MudGrid>
-        <MudSimpleTable >
+            <MudSimpleTable Hover="true" Dense="true">
             <thead>
                 <tr>
-                    <th>No. </th>
                     <th>observacion </th>
                         <th>fechaObsservacion </th>
                 </tr>
@@ -19,7 +18,6 @@
                 @foreach (var item in observaciones)
                 {
                     <tr>
-                        <td>@item.ObservacionId</td>
                         <td>@item.descripcionObservacion</td>
                          <td>@item.fechaObsservacion</td>
                     </tr>
@@ -55,9 +53,9 @@
 
 @code {
 
-    Observacion observacion = new Observacion();
-    ProcesoCompra procesocompra = new ProcesoCompra();
-    List<Observacion> observaciones = new();
+    private Observacion observacion = new Observacion();
+    private ProcesoCompra procesocompra = new ProcesoCompra();
+    private List<Observacion> observaciones = new();
 
 
     [Parameter]

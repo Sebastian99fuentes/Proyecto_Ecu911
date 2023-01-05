@@ -798,23 +798,23 @@ else
     #endregion
 
 
-    bool fixedheader = true;
+   private bool fixedheader = true;
 
-    ProcesoCompra proceso = new ProcesoCompra();
+   private ProcesoCompra proceso = new ProcesoCompra();
 
-    List<Preparatoria> preparatorias = new();
-    Preparatoria preparatoria = new();
+   private List<Preparatoria> preparatorias = new();
+  private  Preparatoria preparatoria = new();
 
-    List<Precontractual> precontracual = new();
-    Precontractual precontracualObj = new();
+   private List<Precontractual> precontracual = new();
+  private  Precontractual precontracualObj = new();
 
-    List<Contractual> contractual = new();
-    Contractual contractualObj = new();
+   private List<Contractual> contractual = new();
+   private Contractual contractualObj = new();
 
 
-    Preparatoria var = new Preparatoria();
-    Precontractual preobj =new Precontractual();
-    Contractual conobj = new Contractual();
+   private Preparatoria var = new Preparatoria();
+   private Precontractual preobj =new Precontractual();
+   private Contractual conobj = new Contractual();
 
     [Parameter]
     public string Id { get; set; }

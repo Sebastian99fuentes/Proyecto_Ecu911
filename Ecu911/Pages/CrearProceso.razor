@@ -91,7 +91,7 @@
     </MudGrid>
     <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
         <MudButton OnClick="Subir" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Error" Size="Size.Medium">
-           <MudNavLink Href="" Match="NavLinkMatch.All">Guardar Proceso</MudNavLink>
+            @*<MudNavLink Href="Index" Match="NavLinkMatch.Prefix"></MudNavLink>*@Guardar Proceso
         </MudButton>
 
     </MudContainer>
@@ -100,14 +100,14 @@
 </EditForm>
 @code {
  
-    ProcesoCompra registro = new(); 
-    ProcedimientoContratacion Unidad = new();
-    List<Unidad> unidad = new();
+   private ProcesoCompra registro = new(); 
+   private ProcedimientoContratacion Unidad = new();
+   private List<Unidad> unidad = new();
 
-    List<ProcedimientoContratacion> registroProcedimientos = new();
-    List<Etapa> etapa = new();
-    List<Estado> estado = new();
-    List<ItemPresupuestario> itemspre = new();
+   private List<ProcedimientoContratacion> registroProcedimientos = new();
+   private List<Etapa> etapa = new();
+   private List<Estado> estado = new();
+    private List<ItemPresupuestario> itemspre = new();
 
    
 
@@ -196,9 +196,8 @@
     {
 
         HttpResponseMessage? response = new();
-        var areaToken = await sessionStorage.GetItemAsync<string>("Id-Area");
-        var userToken = await sessionStorage.GetItemAsync<string>("Id-Usuario");
 
+        var areaToken = await sessionStorage.GetItemAsync<string>("Id-Area");
 
         try 
         {

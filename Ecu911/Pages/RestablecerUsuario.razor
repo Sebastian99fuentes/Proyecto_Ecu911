@@ -25,9 +25,9 @@
 <MudText Typo="Typo.subtitle1">@newPassword</MudText>
 @code {
 
-    List<User> Usuarios = new();
-    string UsuarioId = null;
-    string newPassword = "";
+    private List<User> Usuarios = new();
+    private string UsuarioId = null;
+    private string newPassword = "";
 
     private async Task GetUsuarios()
     {

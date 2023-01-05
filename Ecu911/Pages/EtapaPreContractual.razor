@@ -1,5 +1,6 @@
 ﻿@page "/etapaprecontractual"
 @page "/etapaprecontractual/{id}"
+
 <PageTitle>Etapa Pre-Contractual</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3" >Etapa PreContractual</MudText>
 
@@ -38,9 +39,9 @@
 
     //ProcesoCompra procesoobj = new();
 
-    Precontractual registro = new();
+    private Precontractual registro = new();
 
-    List<Etapa> etapa = new();
+    private List<Etapa> etapa = new();
 
     [Parameter]
     public string id { get; set; }

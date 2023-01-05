@@ -5,20 +5,72 @@
 <MudCardContent Class="d-flex  flex-column  align-center  ">
 
     <MudText Typo="Typo.h3" GutterBottom="true">Procesos Activos</MudText>
+    
     <MudText Class="mb-8">Tus procesos son:</MudText>
     <MudGrid>
            <MudItem xs="12" sm="4" md="4" Class="d-flex  flex-column  align-center">
 
-                <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" Label="Estado" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+@*                <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" Label="Estado" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                </MudItem>
                 <MudItem xs="12" sm="4" md="4" Class="d-flex  flex-column  align-center">
             <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" Label="Etapa" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-               </MudItem>
+               </MudItem>*@
+
                 <MudItem xs="12" sm="4" md="4" Class="d-flex  flex-column  align-center">
-            <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" Label="Unidad" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+                <MudSelect T="string" Placeholder="seleccione una unidad" @bind-Value="searchString1" Label="Sector opcional" AnchorOrigin="Origin.BottomCenter" OnOpen="BuscarUnidad" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0">
+                @foreach (var val in unidad)
+                {
+
+                    <MudSelectItem Value="@val.UnidadId"> @val.nombre </MudSelectItem>
+                }
+            </MudSelect>
                </MudItem>
-     
-        <MudSimpleTable Hover="true" Dense="true" FixedHeader="@fixedheader" Striped="true"  Style="@(fixedheader?"height:50%;":"")">
+        </MudItem>
+
+
+
+
+
+@*
+
+        <MudTable Items="@Elements" FixedHeader="true"  Height="50%">
+            <HeaderContent>
+                <MudTh>Avance</MudTh>
+                <MudTh>Descripcion</MudTh>
+                <MudTh>Estado</MudTh>
+                <MudTh></MudTh>
+                <MudTh>Etapa</MudTh>
+                <MudTh>Proceso de Contratacion</MudTh>
+                <MudTh>Mes Planificado</MudTh>
+                <MudTh></MudTh>
+                <MudTh>Opciones</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+               <MudTd DataLabel="Avance">@context.Avance</MudTd>
+                <MudTd DataLabel="Descripcion">@context.descripcion</MudTd>
+                <MudTd DataLabel="Estado">@context..Estado.tipoEstado</MudTd>
+                <MudTd DataLabel=""><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Tertiary" OnClick="@(e => NavigateActualizarEs(@context.ProcesoCompraId))">Actualizar</MudButton></MudTd>
+                <MudTd DataLabel="Etapa">@context.Etapa.tipoEtapa</MudTd>
+                <MudTd DataLabel="Proceso de Contratacion">@context.Procedimiento.tipoProcedimiento</MudTd>
+                <MudTd DataLabel="Proceso de Contratacion">@context.mesPlanificado</MudTd>
+                <MudTd DataLabel=""><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateEstados(@context.ProcesoCompraId))">Revisar</MudButton></MudTd>
+                <MudTd DataLabel=""><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateObservaciones(@context.ProcesoCompraId))">Observaciones</MudButton></MudTd>
+                <MudTd DataLabel=""><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateAlertas(@context.ProcesoCompraId))">Alertas</MudButton></MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+            </PagerContent>
+        </MudTable>
+*@
+
+
+
+
+
+
+        <MudSimpleTable Hover="true" Dense="true" FixedHeader="@fixedheader" Striped="true" Style="@(fixedheader?"height:50%;":"")">
 
             <thead>
                 <tr>
@@ -36,6 +88,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 <Virtualize Items="procesos" Context="item">
 
                     <tr @key="@item.ProcesoCompraId">
@@ -63,6 +116,7 @@
 
             </tbody>
         </MudSimpleTable>
+ 
     </MudGrid>
 
 
@@ -70,13 +124,58 @@
 
 
 @code {
-    bool fixedheader = true;
-    string searchString1;
+
+
+
+
+    bool fixed_header = true;
+    bool fixed_footer = false;
+
+    private IEnumerable<ProcesoCompra> Elements = new List<ProcesoCompra>();
+
+
+    private  bool fixedheader = true;
+    private string searchString1 ="";
     private  List<ProcesoCompra> procesos = new();
+    private List<Unidad> unidad = new();
+    private string fileNameRole;
+
+
+    //private Element selectedItem1 = null;
+    //private HashSet<Element> selectedItems = new HashSet<Element>();
+
+    //private IEnumerable<Element> Elements = new List<Element>();
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    Elements = await httpClient.GetFromJsonAsync<List<Element>>("webapi/periodictable");
+    //}
+
+    //private bool FilterFunc1(Element element) => FilterFunc(element, searchString1);
+
+    //private bool FilterFunc(Element element, string searchString)
+    //{
+    //    if (string.IsNullOrWhiteSpace(searchString))
+    //        return true;
+    //    if (element.Sign.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+    //        return true;
+    //    if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+    //        return true;
+    //    if ($"{element.Number} {element.Position} {element.Molar}".Contains(searchString))
+    //        return true;
+    //    return false;
+    //}
+
+
 
     int id = 0;
+
     protected override async Task OnInitializedAsync()
     {
+       
+
+       //fileNameRole = await ((CustomAuthenticationStateProvider)authProvider).GetAuthenticatedUserRole();
+
         var response = await apiService.HttpClient.GetAsync("/api/ProcesoCompra");
         try
         {
@@ -91,6 +190,22 @@
     }
 
 
+
+
+    private async Task BuscarUnidad()
+    {
+        var response = await apiService.HttpClient.GetAsync("/api/PlantaUnidadArea");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            unidad = await response.Content.ReadFromJsonAsync<List<Unidad>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
  
     void NavigateActualizarEs(string id)
     {
