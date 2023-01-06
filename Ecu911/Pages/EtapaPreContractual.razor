@@ -3,7 +3,7 @@
 
 <PageTitle>Etapa Pre-Contractual</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3" >Etapa PreContractual</MudText>
-
+<MudPaper Class="pa-16 ma-2" Elevation="3">
 <EditForm Model="@registro">
 
     <MudGrid Style="padding:50px">
@@ -33,82 +33,35 @@
         <MudText> Guardar</MudText>
     </MudButton>
 </MudContainer>
+
+
+</MudPaper>
+
+<MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
+    <MudButton OnClick="NavigateEstados" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" Size="Size.Large">
+        <MudText> Regresar</MudText>
+    </MudButton>
+</MudContainer>
+<MudPaper Class="pa-16 ma-2" Elevation="0">
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6" Class="d-flex flex-column align-center" Style="width: 100%; height:100%;">© 1822-2023</MudText>
+        <MudText Typo="Typo.h6" Class="d-flex flex-column align-center" Style="width: 100%; height:100%;">ecu911.gob.ec</MudText>
+    </MudItem>
+</MudPaper>
 @code {
 
-    //ProcesoCompra updateproceso = new();
 
-    //ProcesoCompra procesoobj = new();
 
     private Precontractual registro = new();
 
     private List<Etapa> etapa = new();
 
+
+
     [Parameter]
     public string id { get; set; }
-
-
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await BuscarEtapa();
-    //    await BuscarProceeso();
-    //    await Prepararprocesoupdate();
-    //}
-
-    //private async Task BuscarEtapa()
-    //{
-    //    var response = await apiService.HttpClient.GetAsync("/api/Etapa");
-    //    try
-    //    {
-    //        response.EnsureSuccessStatusCode();
-    //        etapa = await response.Content.ReadFromJsonAsync<List<Etapa>>();
-
-    //    }
-    //    catch (HttpRequestException)
-    //    {
-    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-    //        snackBar.Add($"{data.Message}", severity: Severity.Error);
-    //    }
-    //}
-
-    //private async Task BuscarProceeso()
-    //{
-
-    //    var response = await apiService.HttpClient.GetAsync("api/ProcesoCompra/id?id="+id);
-    //    try
-    //    {
-    //        response.EnsureSuccessStatusCode();
-    //        procesoobj = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
-
-    //    }
-    //    catch (HttpRequestException)
-    //    {
-    //        var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
-    //        snackBar.Add($"{data.Message}", severity: Severity.Error);
-    //    }
-    //} 
-
-    //private async Task Prepararprocesoupdate()
-    //{
-    //    updateproceso.EstadoId = procesoobj.EstadoId;
-    //    updateproceso.ProcedimientoId = procesoobj.ProcedimientoId;
-    //    updateproceso.EtapaId = procesoobj.EtapaId;
-    //    updateproceso.PlantaId = procesoobj.PlantaId;
-    //    updateproceso.cpc = procesoobj.cpc;
-    //    updateproceso.grupoGasto = procesoobj.grupoGasto;
-    //    updateproceso.itemPresup = procesoobj.itemPresup;
-    //    updateproceso.descripcion =procesoobj.descripcion;
-    //    updateproceso.total =procesoobj.total;
-    //    updateproceso.cuatrimestre =procesoobj.cuatrimestre;
-    //    updateproceso.mesPlanificado =procesoobj.mesPlanificado;
-
-    //    //try
-    //    //{
-    //    //    var response = await apiService.HttpClient.PutAsJsonAsync("api/ProcesoCompra/id?id=" + id, updateproceso);
-    //    //}
-       
-    //}
-
-
+    //[Parameter]
+    //public string Id { get; set; }
     protected async void Subir()
     {
         Precontractual procesos = new();
@@ -130,10 +83,10 @@
         {
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-            snackBar.Add("Proceso agregado!", Severity.Success);
+            snackBar.Add("Etapa  actualizada!", Severity.Success);
 
 
-            navManager.NavigateTo($"EstadosProcesoRevision/{id}");
+            //navManager.NavigateTo($"EstadosProcesoRevision/{id}");
 
         }
         catch (HttpRequestException)
@@ -145,6 +98,14 @@
 
 
 
+    }
+
+
+    protected async void NavigateEstados()
+    {
+
+        var userId = await sessionStorage.GetItemAsync<string>("Id-prepatoria");
+        navManager.NavigateTo($"EstadosProcesoRevision/{userId}");
     }
 
 }

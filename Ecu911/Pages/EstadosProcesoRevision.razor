@@ -1,5 +1,9 @@
 ﻿@page "/EstadosProcesoRevision/{Id}"
 
+
+<MudText Align="Align.Center" Typo="Typo.h3">Seguimiento etapas del Proceso</MudText>
+
+<MudPaper Class="pa-16 ma-2" Elevation="3">
 @if (preparatoria.informeNecesidad != null)
     {
 <MudCardContent Class="d-flex  flex-column  align-center  ">
@@ -42,13 +46,13 @@
                                     <td> <MudCheckBox @bind-Checked="@prepcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck1"></MudCheckBox> </td>
                              }
 
-                           @if (preparatoria.informeNecesidadReal != null)
-                           {
+                             @if (prepcheck1 == true)
+                             {
                                   @if(preparatoria.terminosReferenciaReal != null){
                                         prepcheck2 = true;
                                     }
                                    <td> <MudCheckBox @bind-Checked="@prepcheck2" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@prepcheck2"></MudCheckBox> </td>                  
-                           }   
+                             }   
                            else
                              {
                                     <td></td>
@@ -283,7 +287,10 @@
                             <td>@preparatoria.resolucionInicio</td>
                             <td>@preparatoria.publicacionProceso</td>
                         </tr>
-                         <tr>
+
+
+                        <AuthorizeView Roles="SUPERUSUARIO,ADMINISTRADOR,SUPERADMINISTRADOR">
+                              <tr>
                                 @*CHecks*@
                                 @if (prepcheck8 == true)
                                 {
@@ -351,6 +358,7 @@
                                 else{
                                     <td></td>
                                 }
+
                                 @if (prepcheck14 == true)
                                 {
                                     if (preparatoria.publicacionProcesoReal != null)
@@ -364,6 +372,8 @@
                                     <td></td>
                                 }  
                           </tr>
+                        </AuthorizeView>
+                       
                              @*CHecks*@
 
 
@@ -456,9 +466,10 @@
                                           <td>@preparatoria.resolucionInicioReal</td>
                                     } 
 
+
                                  @if (preparatoria.publicacionProcesoReal == null)
                                 {
-                                    if (prepcheck15 == true)
+                                        if (prepcheck14 == true)
                                     {
                                         DateTime now = DateTime.Now;
                                         var.publicacionProcesoReal = now;
@@ -507,18 +518,27 @@
                                 <td>@precontracualObj.pujaNegociacion</td>
                                 <td>@precontracualObj.adjudicacion</td>
                             </tr>
+                            
+                         @*  checks para revision *@
+                      <AuthorizeView Roles="SUPERUSUARIO,ADMINISTRADOR,SUPERADMINISTRADOR">
+                              <tr>
+                                  
 
-                            <tr>
-                                 @if (precontracualObj.preguntasRespuestasReal != null)
-                             {
+                                            @if (prepcheck15==true) 
+                                            {
+                                                 @if (precontracualObj.preguntasRespuestasReal != null)
+                                {
                                     precontcheck1 = true;
                                      <td> <MudCheckBox @bind-Checked="@precontcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck1"></MudCheckBox> </td>
-                             }
+                                 }
                              else{
-                                        <td> <MudCheckBox @bind-Checked="@precontcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck1"></MudCheckBox> </td>
+                                       <td> <MudCheckBox @bind-Checked="@precontcheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@precontcheck1"></MudCheckBox> </td>
                              }
+                                            } else { <td></td> }
+                                       
+                                            
 
-                           @if (precontracualObj.preguntasRespuestasReal != null)
+                           @if (precontcheck1 == true)
                            {
                                   @if(precontracualObj.recepcionOfertasReal != null){
                                         precontcheck2 = true;
@@ -564,6 +584,14 @@
                                     <td></td>
                                 }
                             </tr>
+
+                         </AuthorizeView>
+                        
+
+                              @*  checks para revision *@
+
+
+                                @*  set fecha *@
                             <tr>
                                     @if (precontracualObj.preguntasRespuestasReal == null)
                                     {
@@ -638,6 +666,7 @@
                                     }
                             </tr>
                            
+                                @*  set fecha *@
                         </tbody>
                           </MudTHeadRow>
                     </MudSimpleTable>
@@ -665,17 +694,27 @@
                                     <td>@contractualObj.fechaSuscripcion</td>                                    
                                     <td>@contractualObj.fechaFinalizacion</td>
                     </tr>
-                    <tr>
-                                        @if (contractualObj.fechaSuscripcionReal != null)
-                                        {
-                                    contracheck1 = true;
-                                            <td> <MudCheckBox @bind-Checked="@contracheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@contracheck1"></MudCheckBox> </td>
-                             }
-                             else{
-                                        <td> <MudCheckBox @bind-Checked="@contracheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@contracheck1"></MudCheckBox> </td>
-                             }
+                        @*  checks para revision *@
 
-                           @if (contractualObj.fechaSuscripcionReal != null)
+                         <AuthorizeView Roles="SUPERUSUARIO,ADMINISTRADOR,SUPERADMINISTRADOR">
+                                 <tr>
+                                     @if(precontcheck5 == true)
+                                     {
+                                         @if (contractualObj.fechaSuscripcionReal != null)
+                                        {
+                                            contracheck1 = true;
+                                            <td> <MudCheckBox @bind-Checked="@contracheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@contracheck1"></MudCheckBox> </td>
+                                         }
+                                           else{
+                                          <td> <MudCheckBox @bind-Checked="@contracheck1" Color="Color.Tertiary" Label="listo" UnCheckedColor="Color.Tertiary" Disabled="@contracheck1"></MudCheckBox> </td>
+                                          }
+                                     }
+                                     else{
+                                           <td>  </td>
+                                     }
+                                        
+
+                           @if (contracheck1==true)
                            {
                                             @if (contractualObj.fechaFinalizacionReal != null)
                                             {
@@ -689,6 +728,12 @@
                              }
 
                     </tr>
+                        </AuthorizeView>
+                
+
+                                    @*  checks para revision *@
+
+                                      @*  set fecha *@
                     <tr>
                                         @if (contractualObj.fechaSuscripcionReal == null)
                                         {
@@ -707,7 +752,7 @@
 
                                         @if (contractualObj.fechaFinalizacionReal == null)
                                         {
-                                            if (contracheck2 == true)
+                                                if (contracheck1 == true)
                                             {
                                                 DateTime now = DateTime.Now;
                                                 conobj.fechaFinalizacionReal = now;
@@ -720,6 +765,7 @@
                                             <td>@contractualObj.fechaFinalizacionReal</td>
                                         }
                     </tr>
+                      @*  set fecha *@
                 </tbody>
 
                 </MudTHeadRow>
@@ -757,11 +803,20 @@ else
 }
 
 
+
+</MudPaper>
+
 <MudContainer Class="d-flex flex-column justify-center" Style="width: 300px;padding:30px">
     <MudButton OnClick="NavigateInicio" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Error" Size="Size.Large">
         <MudText> Regresar</MudText>
     </MudButton>
 </MudContainer>
+<MudPaper Class="pa-16 ma-2" Elevation="0">
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6" Class="d-flex flex-column align-center" Style="width: 100%; height:100%;">© 1822-2023</MudText>
+        <MudText Typo="Typo.h6" Class="d-flex flex-column align-center" Style="width: 100%; height:100%;">ecu911.gob.ec</MudText>
+    </MudItem>
+</MudPaper>
 
 
 @code{
@@ -798,23 +853,23 @@ else
     #endregion
 
 
-   private bool fixedheader = true;
+    private bool fixedheader = true;
 
-   private ProcesoCompra proceso = new ProcesoCompra();
+    private ProcesoCompra proceso = new ProcesoCompra();
 
-   private List<Preparatoria> preparatorias = new();
-  private  Preparatoria preparatoria = new();
+    private List<Preparatoria> preparatorias = new();
+    private  Preparatoria preparatoria = new();
 
-   private List<Precontractual> precontracual = new();
-  private  Precontractual precontracualObj = new();
+    private List<Precontractual> precontracual = new();
+    private  Precontractual precontracualObj = new();
 
-   private List<Contractual> contractual = new();
-   private Contractual contractualObj = new();
+    private List<Contractual> contractual = new();
+    private Contractual contractualObj = new();
 
 
-   private Preparatoria var = new Preparatoria();
-   private Precontractual preobj =new Precontractual();
-   private Contractual conobj = new Contractual();
+    private Preparatoria var = new Preparatoria();
+    private Precontractual preobj =new Precontractual();
+    private Contractual conobj = new Contractual();
 
     [Parameter]
     public string Id { get; set; }
@@ -885,6 +940,7 @@ else
         preobj.adjudicacion = precontracualObj.adjudicacion;
         preobj.adjudicacionReal = precontracualObj.adjudicacionReal;
     }
+
     private async Task SetContractual(){
         conobj.ContractualId = contractualObj.ContractualId;
         conobj.IdPrecontractual = contractualObj.IdPrecontractual;
@@ -926,10 +982,11 @@ else
 
     private async Task UpdateContractual(Contractual prepobj)
     {
-
+       
         HttpResponseMessage? response = new();
         try
         {
+           
             response = await apiService.HttpClient.PutAsJsonAsync($"Contractual/id?id={contractualObj.ContractualId}", prepobj);
         }
         catch (HttpRequestException)
@@ -941,6 +998,7 @@ else
     }
     private async Task buscarPreparatoria()
     {
+        
 
         var response = await apiService.HttpClient.GetAsync($"Preparatoria");
 
@@ -954,6 +1012,8 @@ else
                 if (item.IdProcesoCompra == Id)
                 {
                     preparatoria = item;
+
+                    await sessionStorage.SetItemAsync("Id-prepatoria", Id);
 
                     await SetPreparatoria();
 

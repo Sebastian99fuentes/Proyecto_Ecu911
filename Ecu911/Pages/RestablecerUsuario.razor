@@ -32,6 +32,7 @@
     private async Task GetUsuarios()
     {
         var userId = await sessionStorage.GetItemAsync<string>("Id-Usuario");
+
         var response_ = await apiService.HttpClient.GetAsync($"/api/User/id?id={userId}");
         User tempUser = await response_.Content.ReadFromJsonAsync<User>();
         string unidadId = tempUser.AreaId;

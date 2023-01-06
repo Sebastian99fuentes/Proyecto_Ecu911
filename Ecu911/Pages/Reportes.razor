@@ -1,6 +1,6 @@
 ﻿@page "/Reportes"
 
-@*@attribute [Authorize(Roles = "SUPERADMINISTRADOR")]*@
+@*@attribute [Authorize(Roles = "SUPERADMINISTRADOR")]
 
 @attribute [Authorize(Roles = "Iron Man")]
 <h3>Reportes</h3>
@@ -25,7 +25,7 @@
         <h3>no auto </h3>
     </NotAuthorized>
 </AuthorizeView>
-
+*@
 
 
 <div>

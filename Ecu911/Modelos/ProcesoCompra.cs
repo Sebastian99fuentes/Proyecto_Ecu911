@@ -52,7 +52,7 @@ namespace Ecu911.Modelos
         public string itemPresup { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(200)]
         [Display(Name = "Descripción")]
         public string descripcion { get; set; }
 
