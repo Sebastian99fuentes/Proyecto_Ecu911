@@ -34,9 +34,11 @@
                             <td>@preparatoria.solicitudPAPP</td>
                             <td>@preparatoria.emisionPAPP</td>
                         </tr>
+                                @*CHecks*@
+                         <AuthorizeView Roles="SUPERUSUARIO,SUPERADMINISTRADOR">
                          <tr>
 
-                             @*CHecks*@
+                           
                              @if (preparatoria.informeNecesidadReal != null)
                              {
                                     prepcheck1 = true;
@@ -126,6 +128,7 @@
                                 }
 
                           </tr>
+                          </AuthorizeView>
                             @*CHecks*@
 
 
@@ -289,7 +292,7 @@
                         </tr>
 
 
-                        <AuthorizeView Roles="SUPERUSUARIO,ADMINISTRADOR,SUPERADMINISTRADOR">
+                        <AuthorizeView Roles="SUPERUSUARIO,SUPERADMINISTRADOR">
                               <tr>
                                 @*CHecks*@
                                 @if (prepcheck8 == true)
@@ -469,7 +472,7 @@
 
                                  @if (preparatoria.publicacionProcesoReal == null)
                                 {
-                                        if (prepcheck14 == true)
+                                        if (prepcheck15 == true)
                                     {
                                         DateTime now = DateTime.Now;
                                         var.publicacionProcesoReal = now;
@@ -520,7 +523,7 @@
                             </tr>
                             
                          @*  checks para revision *@
-                      <AuthorizeView Roles="SUPERUSUARIO,ADMINISTRADOR,SUPERADMINISTRADOR">
+                      <AuthorizeView Roles="SUPERUSUARIO,SUPERADMINISTRADOR">
                               <tr>
                                   
 
@@ -652,7 +655,7 @@
                                     }
                                      @if (precontracualObj.adjudicacionReal == null)
                                     {
-                                        if (precontcheck4 == true)
+                                        if (precontcheck5 == true)
                                         {
                                             DateTime now = DateTime.Now;
                                             preobj.adjudicacionReal = now;
@@ -696,7 +699,7 @@
                     </tr>
                         @*  checks para revision *@
 
-                         <AuthorizeView Roles="SUPERUSUARIO,ADMINISTRADOR,SUPERADMINISTRADOR">
+                         <AuthorizeView Roles="SUPERUSUARIO,SUPERADMINISTRADOR">
                                  <tr>
                                      @if(precontcheck5 == true)
                                      {
@@ -752,7 +755,7 @@
 
                                         @if (contractualObj.fechaFinalizacionReal == null)
                                         {
-                                                if (contracheck1 == true)
+                                                if (contracheck2 == true)
                                             {
                                                 DateTime now = DateTime.Now;
                                                 conobj.fechaFinalizacionReal = now;

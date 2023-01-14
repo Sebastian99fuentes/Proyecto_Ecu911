@@ -1,7 +1,7 @@
 ﻿@page "/etapapreparatoria"
 @page "/etapapreparatoria/{id}"
 
-@attribute [Authorize(Roles = "SUPERADMINISTRADOR,SUPERVISOR")]
+@attribute [Authorize(Roles = "SUPERADMINISTRADOR,USUARIO")]
 
 <PageTitle>Etapa Preparatoria</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3">Etapa Preparatoria</MudText>
@@ -106,7 +106,7 @@
 
             registro.IdProcesoCompra = id;
             response = await apiService.HttpClient.PostAsJsonAsync("Preparatoria", registro);
-       
+
         }
         catch (HttpRequestException)
         {
@@ -117,8 +117,8 @@
         {
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-            snackBar.Add("Etapa  actualizada!!", Severity.Success);
-
+            snackBar.Add("Etapa  actualizada!!", Severity.Info);
+            NavigateEstados();
         }
         catch (HttpRequestException)
         {

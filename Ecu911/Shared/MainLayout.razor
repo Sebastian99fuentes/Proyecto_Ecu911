@@ -9,10 +9,7 @@
                 <MudMenu Color="Color.Inherit" Icon="@Icons.Material.Rounded.Person">
                     <MudMenuItem>
                         <MudNavLink Href="ChangePassword" Match="NavLinkMatch.Prefix" Icon="@Icons.Rounded.Password">CambiarContraseña</MudNavLink>
-                    </MudMenuItem>
-@*                    <MudMenuItem>
-                        <MudButton Variant="Variant.Text" StartIcon="@Icons.Filled.Logout" Color="Color.Error" OnClick="@LogOut" Target="_blank">Salir</MudButton>
-                    </MudMenuItem>*@
+                    </MudMenuItem> 
                 </MudMenu>
                 <MudText>Usuario:@context.User.Identity.Name</MudText>
                 <MudSpacer />

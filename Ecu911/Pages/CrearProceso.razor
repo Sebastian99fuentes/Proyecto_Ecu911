@@ -112,17 +112,17 @@
     </MudItem>
 </MudPaper>
 @code {
- 
-   private ProcesoCompra registro = new(); 
-   private ProcedimientoContratacion Unidad = new();
-   private List<Unidad> unidad = new();
 
-   private List<ProcedimientoContratacion> registroProcedimientos = new();
-   private List<Etapa> etapa = new();
-   private List<Estado> estado = new();
+    private ProcesoCompra registro = new(); 
+    private ProcedimientoContratacion Unidad = new();
+    private List<Unidad> unidad = new();
+
+    private List<ProcedimientoContratacion> registroProcedimientos = new();
+    private List<Etapa> etapa = new();
+    private List<Estado> estado = new();
     private List<ItemPresupuestario> itemspre = new();
 
-   
+
 
     protected override async Task OnInitializedAsync(){
         await BuscarEstado();
@@ -197,7 +197,7 @@
             response.EnsureSuccessStatusCode();
             registroProcedimientos = await response.Content.ReadFromJsonAsync<List<ProcedimientoContratacion>>();
         }
-         catch (HttpRequestException)
+        catch (HttpRequestException)
         {
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", severity: Severity.Error);
@@ -214,7 +214,7 @@
 
         try 
         {
-           
+
             registro.PlantaId = areaToken;
 
             response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
@@ -231,7 +231,8 @@
         {
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-            snackBar.Add("Proceso agregado!", Severity.Success);
+            snackBar.Add("Proceso agregado!", Severity.Info);
+            NavigateInicio();
         }
         catch (HttpRequestException)
         {

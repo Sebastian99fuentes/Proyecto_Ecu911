@@ -1,17 +1,14 @@
 ﻿<MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Inicio</MudNavLink>
+    <AuthorizeView Roles="SUPERADMINISTRADOR,USUARIO">
     <MudNavLink Href="crearproceso" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Crear Proceso</MudNavLink>
-@*    <MudNavLink Href="etapapreparatoria" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Etapa Preparatoria</MudNavLink>
-    <MudNavLink Href="etapaprecontractual" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Etapa PreContractual</MudNavLink>
-    <MudNavLink Href="etapacontractual" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Etapa Contractual</MudNavLink>*@
-
-
-    <AuthorizeView Roles="SUPERADMINISTRADOR,ADMINISTRADOR">
+    </AuthorizeView>
+    <AuthorizeView Roles="SUPERADMINISTRADOR">
     <MudDivider Class="my-2" />
-    <MudNavLink Href="usuarios" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.People">Usuarios</MudNavLink>
-    <MudNavLink Href="UsuariosSuper" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.People">Super Usuarios</MudNavLink>
+    <MudNavLink Href="UsuariosSuper" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.People"> Usuarios</MudNavLink>
+        <MudDivider Class="my-2" />
     </AuthorizeView>
 
-    <MudDivider Class="my-3" />
+    <MudDivider Class="my-2" />
     <MudNavLink Href="Reportes" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Share">Reportes</MudNavLink>
 </MudNavMenu>

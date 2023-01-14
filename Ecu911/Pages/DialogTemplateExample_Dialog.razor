@@ -1,0 +1,29 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>@ContentText</MudText>
+    </DialogContent>
+    <DialogActions >
+        <MudItem xs="12" Class="pa-16 ma-2 d-flex  flex-column  align-center">
+        <MudButton Color="@Color" Variant="Variant.Filled" OnClick="NavigateActualizarEs">CAMBIAR CONTRASEÑA</MudButton>
+        </MudItem>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string ContentText { get; set; }
+
+    [Parameter] public string ButtonText { get; set; }
+
+    [Parameter] public Color Color { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    void NavigateActualizarEs()
+    {
+        navManager.NavigateTo($"ChangePassword");
+    }
+}

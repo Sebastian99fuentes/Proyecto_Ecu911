@@ -1,6 +1,6 @@
 ﻿@page "/etapaprecontractual"
 @page "/etapaprecontractual/{id}"
-
+@attribute [Authorize(Roles = "SUPERADMINISTRADOR,USUARIO")]
 <PageTitle>Etapa Pre-Contractual</PageTitle>
 <MudText Align="Align.Center" Typo="Typo.h3" >Etapa PreContractual</MudText>
 <MudPaper Class="pa-16 ma-2" Elevation="3">
@@ -83,10 +83,10 @@
         {
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-            snackBar.Add("Etapa  actualizada!", Severity.Success);
+            snackBar.Add("Etapa  actualizada!", Severity.Info);
 
+            NavigateEstados();
 
-            //navManager.NavigateTo($"EstadosProcesoRevision/{id}");
 
         }
         catch (HttpRequestException)

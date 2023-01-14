@@ -44,8 +44,8 @@ namespace Ecu911.Data
 
                     var claimsl = new List<Claim>
                        {
-                  new Claim(ClaimTypes.Name,identity.Claims.ElementAt(0).Value),
-                    new Claim(ClaimTypes.Role,identity.Claims.ElementAt(4).Value),
+                   new Claim(ClaimTypes.Name,identity.Claims.ElementAt(0).Value),
+                    new Claim(ClaimTypes.Role,identity.Claims.ElementAt(5).Value),
                      };
                     identity.AddClaims(claimsl);
                     //aqui le seteo para coger el roll y el nombre 
@@ -90,26 +90,15 @@ namespace Ecu911.Data
             await _localStorageService.SetItemAsync("Access-Token", user.token);
             await _localStorageService.SetItemAsync("Refresh-Token", user.refreshedToken);
             var claims = _jwtTokenGenerator.GetTokenClaims(user.token);
+            await _localStorageService.SetItemAsync("Id", claims.ElementAt(2).Value);
             await _localStorageService.SetItemAsync("Id-Area", claims.ElementAt(3).Value);
-            await _localStorageService.SetItemAsync("Role", claims.ElementAt(4).Value);
+            await _localStorageService.SetItemAsync("Cambio", claims.ElementAt(4).Value);
+            await _localStorageService.SetItemAsync("Role", claims.ElementAt(5).Value);
 
     
         }
 
-        //private ClaimsIdentity GeetClaimsIdentity(SuccessfulLogin user)
-        //{
-        //    var claims = _jwtTokenGenerator.GetTokenClaims(user.token);
-
-        //    var claimsIdentity = new ClaimsIdentity(new[]
-        //    {
-        //        new Claim(ClaimTypes.Name,claims.ElementAt(0).Value),
-        //        new Claim(ClaimTypes.Role,claims.ElementAt(4).Value)
-        //    });
-
-
-        //    return claimsIdentity;
-        //}
-
+      
 
         public async Task SetUserAsAuLoggedOut()
         {

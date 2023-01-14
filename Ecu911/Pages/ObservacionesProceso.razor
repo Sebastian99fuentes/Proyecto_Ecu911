@@ -11,7 +11,7 @@
             <thead>
                 <tr>
                     <th>observacion </th>
-                        <th>fechaObsservacion </th>
+                        <th>fechaObsservacion</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,18 +72,21 @@
 
     protected override async Task OnInitializedAsync()
     {
+
+        await getObs();
+    }
+
+    private async Task getObs()
+    {
         var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Proceso}");
-        observacion.ProcesoId = Proceso;
-        observacion.fechaObsservacion = DateTime.Now;
         try
-        {         
+        {
             response.EnsureSuccessStatusCode();
-            procesocompra = await response.Content.ReadFromJsonAsync <ProcesoCompra> ();
-
-            foreach (var item in procesocompra.Observaciones){
-
+            procesocompra = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
+            foreach (var item in procesocompra.Observaciones)
+            {
                 observaciones.Add(item);
-            }           
+            }
         }
         catch (HttpRequestException)
         {
@@ -93,14 +96,13 @@
     }
 
 
-
-
     protected async void agregarObservacion()
     {
 
 
         HttpResponseMessage? response = new();
-        
+        observacion.ProcesoId = Proceso;
+        observacion.fechaObsservacion = DateTime.Now;
         try
         {
             response = await apiService.HttpClient.PostAsJsonAsync("Observacion", observacion);
@@ -115,18 +117,16 @@
         {
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-            snackBar.Add(" agregado!", Severity.Success);
-
+            snackBar.Add("  Observacion  agregada!", Severity.Info);
+            NavigateInicio();
         }
         catch (HttpRequestException)
         {
 
-
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", Severity.Error);
         }
-
-
+       
 
     }
 
@@ -134,6 +134,6 @@
     {
         navManager.NavigateTo($"/");
     }
-
+   
 }
 

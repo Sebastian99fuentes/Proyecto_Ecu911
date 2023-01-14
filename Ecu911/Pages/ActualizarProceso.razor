@@ -115,13 +115,13 @@
 @code {
 
     private ProcesoCompra registro = new();
-   private  ProcesoCompra regisupdt = new();
-   private ProcedimientoContratacion Unidad = new();
-   private List<Unidad> unidad = new();
+    private  ProcesoCompra regisupdt = new();
+    private ProcedimientoContratacion Unidad = new();
+    private List<Unidad> unidad = new();
 
-  private  List<ProcedimientoContratacion> registroProcedimientos = new();
-  private  List<Etapa> etapa = new();
-   private List<Estado> estado = new();
+    private  List<ProcedimientoContratacion> registroProcedimientos = new();
+    private  List<Etapa> etapa = new();
+    private List<Estado> estado = new();
     private List<ItemPresupuestario> itemspre = new();
 
     ProcesoCompra procesoget = new();
@@ -131,16 +131,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-       
+
         await BuscarProceeso();
         await BuscarEstado();
         await BuscarEtapa();
         await BuscarProcedimientoContra();
         await PrepararProceeso();
-      
- 
-        
-        
+
+
+
+
     }
     private async Task BuscarEstado()
     {
@@ -256,7 +256,8 @@
         try
         {
             response = await apiService.HttpClient.PutAsJsonAsync($"ProcesoCompra/id?id={ID}", regisupdt);
-            snackBar.Add("Proceso Actualizado!", Severity.Success);
+            snackBar.Add("Proceso Actualizado!", Severity.Info);
+            NavigateInicio();
         }
         catch (HttpRequestException)
         {

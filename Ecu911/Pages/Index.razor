@@ -8,14 +8,6 @@
     
     <MudText Class="mb-8">Tus procesos son:</MudText>
 
-   
-@*        <MudPaper Class="pa-16 ma-2" Elevation="3">
-            <MudItem xs="12">
-                <MudText Typo="Typo.h4" Class="d-flex flex-column align-center" Style="width: 100%; height:100%;">No se econtraron procesos</MudText>
-            </MudItem>
-        </MudPaper>
-  *@
-   
    <MudPaper Class="pa-16 ma-2" Elevation="3">
     <MudGrid>
           <AuthorizeView Roles="SUPERADMINISTRADOR,ADMINISTRADOR">
@@ -29,7 +21,7 @@
             </MudSelect>
 
                </MudItem>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"  Color="Color.Info" OnClick="BuscarArea">Buscar</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" OnClick="BuscarPorArea">Buscar</MudButton>
                  
         </MudItem>
             <MudItem xs="12" sm="4" md="4" Class="d-flex  flex-column  align-center">
@@ -37,8 +29,8 @@
 
                     <MudText>Buscar Todos Los procesos</MudText>
                 </MudItem>
-                
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"  Color="Color.Info" OnClick="BuscarProcesosTodos">Buscar </MudButton>
+
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" OnClick="BuscarProcesosTodosfiltro">Buscar </MudButton>
             </MudItem>
         </AuthorizeView>
 
@@ -47,7 +39,7 @@
 
             <thead>
                 <tr>
-
+                        <th>ID </th>
                     <th>Avance </th>
                     <th>Descripcion </th>
                     <th>Estado </th>
@@ -62,26 +54,30 @@
             </thead>
             <tbody>
 
-                <Virtualize Items="procesos" Context="item">
+                    <Virtualize Items="procesos" Context="item">
 
-                    <tr @key="@item.ProcesoCompraId">
+                    <tr @key="@item.IDproceso">
+                            <td>@item.IDproceso</td>
                         @if(item.Avance== null){
                         <td>0 %</td>
                         }
                         else{
                         <td>@item.Avance %</td>
                         }
-                        <td>@item.descripcion</td>
-                        <td>@item.Estado.tipoEstado</td>
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Tertiary" OnClick="@(e => NavigateActualizarEs(@item.ProcesoCompraId))">Actualizar</MudButton></th>
-                        <td>@item.Etapa.tipoEtapa</td>
-                        <td>@item.Procedimiento.tipoProcedimiento</td>
-                        <td>@item.mesPlanificado</td>
+                        <td>
+
+                                <MudButton @onclick="(e =>Confirm(item.Descripcion))" Variant="Variant.Filled" Color="Color.Primary">Descripción</MudButton>
+                            </td>
+                        <td>@item.Estado</td>
+                            <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" OnClick="@(e => NavigateActualizarEs(@item.IDproceso))">Actualizar</MudButton></th>
+                        <td>@item.Etapa</td>
+                        <td>@item.ProcesoContra</td>
+                        <td>@item.MesPlanificado</td>
 
 
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateEstados(@item.ProcesoCompraId))">Revisar</MudButton></th>
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateObservaciones(@item.ProcesoCompraId))">Observaciones</MudButton></th>
-                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateAlertas(@item.ProcesoCompraId))">Alertas</MudButton></th>
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" OnClick="@(e => NavigateEstados(@item.IDproceso))">Revisar</MudButton></th>
+                        <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateObservaciones(@item.IDproceso))">Observaciones</MudButton></th>
+                            <th><MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Warning" OnClick="@(e => NavigateAlertas(@item.IDproceso))">Alertas</MudButton></th>
                     </tr>
                 </Virtualize>
 
@@ -111,34 +107,37 @@
     private IEnumerable<ProcesoCompra> Elements = new List<ProcesoCompra>();
 
 
+
     private  bool fixedheader = true;
-    private string searchString1= null;
-    private  List<ProcesoCompra> procesos = new();
+    private string searchString1="";
     private List<Unidad> unidad = new();
     private string fileNameRole;
-
+    private List<Proceesofiltrocs> procesos = new();
 
     protected override async Task OnInitializedAsync()
     {
-
-
-
-        if (searchString1 == null)
+        var cambio = await sessionStorage.GetItemAsync<string>("Cambio");
+        if (cambio == "True")
         {
-            await BuscarProcesosArea();
-
+            CambiarPswUser();
+            cambio = "false";
         }
- 
+
+        await BuscarProcesosArea();
 
     }
 
-    private async Task BuscarProcesosTodos()
+
+
+    private async Task BuscarProcesosTodosfiltro()
     {
-        var response = await apiService.HttpClient.GetAsync("/api/ProcesoCompra");
+
+
+        var response = await apiService.HttpClient.GetAsync("/api/ProcesoCompra/ProcesoFiltro");
         try
         {
             response.EnsureSuccessStatusCode();
-            procesos = await response.Content.ReadFromJsonAsync<List<ProcesoCompra>>();
+            procesos = await response.Content.ReadFromJsonAsync<List<Proceesofiltrocs>>();
         }
         catch (HttpRequestException)
         {
@@ -146,26 +145,26 @@
             snackBar.Add($"{data.Message}", severity: Severity.Error);
         }
     }
-    private async Task BuscarArea()
+
+    private async Task BuscarPorArea()
     {
-        if (searchString1 != null) 
+
+
+        var response = await apiService.HttpClient.GetAsync($"/api/ProcesoCompra/area?idArea={searchString1}");
+        try
         {
-            
-            var response = await apiService.HttpClient.GetAsync($"/api/ProcesoCompra/area?idArea={searchString1}");
-            try
-            {
-                response.EnsureSuccessStatusCode();
-                procesos = await response.Content.ReadFromJsonAsync<List<ProcesoCompra>>();
-            }
-            catch (HttpRequestException)
-            {
-                var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            response.EnsureSuccessStatusCode();
+            procesos = await response.Content.ReadFromJsonAsync<List<Proceesofiltrocs>>();
+        }
+        catch (HttpRequestException)
+        {
+             procesos.Clear();
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
                 snackBar.Add($"{data.Message}", severity: Severity.Error);
             }
-        }
+        
        
     }
-
 
     private async Task BuscarProcesosArea()
     {
@@ -174,7 +173,7 @@
         try
         {
             response.EnsureSuccessStatusCode();
-            procesos = await response.Content.ReadFromJsonAsync<List<ProcesoCompra>>();
+            procesos = await response.Content.ReadFromJsonAsync<List<Proceesofiltrocs>>();
         }
         catch (HttpRequestException)
         {
@@ -198,6 +197,44 @@
         }
     }
 
+    private async Task PaswUserChang()
+    {
+
+        var userId = await sessionStorage.GetItemAsync<string>("Id-Usuario");
+        var response = await apiService.HttpClient.GetAsync($"/api/User/id?id={userId}");
+        try
+        {
+            response.EnsureSuccessStatusCode();
+            procesos = await response.Content.ReadFromJsonAsync<List<Proceesofiltrocs>>();
+        }
+        catch (HttpRequestException)
+        {
+            var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            snackBar.Add($"{data.Message}", severity: Severity.Error);
+        }
+    }
+
+    private void CambiarPswUser()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Se requiere que cambies tu contraseña ");
+        parameters.Add("ButtonText", "Cambiar");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        DialogService.Show<DialogTemplateExample_Dialog>("Alerta", parameters, options);
+    }
+
+    private void Confirm( string Descripcion)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", Descripcion);
+        parameters.Add("ButtonText", "Ok");
+        parameters.Add("Color", Color.Info);
+
+        DialogService.Show<MudDialogos>("Descripción", parameters);
+    }
 
 
     void NavigateActualizarEs(string id)
@@ -219,6 +256,9 @@
     {
         navManager.NavigateTo($"Alertas/{id}");
     }
+
+
+
 
 
 }
