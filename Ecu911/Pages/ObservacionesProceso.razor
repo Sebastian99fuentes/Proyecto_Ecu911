@@ -64,7 +64,7 @@
     private Observacion observacion = new Observacion();
     private ProcesoCompra procesocompra = new ProcesoCompra();
     private List<Observacion> observaciones = new();
-
+    private Logs loguser = new Logs();
 
     [Parameter]
     public string Proceso { get; set; }
@@ -72,7 +72,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-
+        await apiService.SetAuthHeaders();
         await getObs();
     }
 
@@ -118,6 +118,7 @@
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
             snackBar.Add("  Observacion  agregada!", Severity.Info);
+            await  RegistroLogs();
             NavigateInicio();
         }
         catch (HttpRequestException)
@@ -129,7 +130,24 @@
        
 
     }
+     private async Task RegistroLogs()
+    {
 
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Se genero observacion " + Proceso;
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
+    }
     void NavigateInicio()
     {
         navManager.NavigateTo($"/");

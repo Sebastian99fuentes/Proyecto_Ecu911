@@ -873,11 +873,17 @@ else
     private Preparatoria var = new Preparatoria();
     private Precontractual preobj =new Precontractual();
     private Contractual conobj = new Contractual();
-
+    private Logs loguser = new Logs();
     [Parameter]
     public string Id { get; set; }
-
     protected override async Task OnInitializedAsync()
+    {
+        await apiService.SetAuthHeaders();
+
+        await BuscarProceso();
+    }
+
+   private async  Task BuscarProceso()
     {
         var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Id}");
         try
@@ -959,6 +965,7 @@ else
         try
         {
             response = await apiService.HttpClient.PutAsJsonAsync($"Preparatoria/id?id={preparatoria.PreparatoriaId}", prepobj);
+             await RegistroLogs();
         }
         catch (HttpRequestException)
         {
@@ -974,6 +981,7 @@ else
         try
         {
             response = await apiService.HttpClient.PutAsJsonAsync($"Precontractual/id?id={precontracualObj.IdPrecontractual}", prepobj);
+             await RegistroLogs();
         }
         catch (HttpRequestException)
         {
@@ -991,6 +999,7 @@ else
         {
            
             response = await apiService.HttpClient.PutAsJsonAsync($"Contractual/id?id={contractualObj.ContractualId}", prepobj);
+            await RegistroLogs();
         }
         catch (HttpRequestException)
         {
@@ -1073,7 +1082,24 @@ else
         }
     }
 
+    private async Task RegistroLogs()
+    {
 
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Update procesoRevision "+ Id;
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
+    }
 
     void NavigateInicio()
     {

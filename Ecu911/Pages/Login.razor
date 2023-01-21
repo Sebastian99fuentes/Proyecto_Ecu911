@@ -71,6 +71,7 @@
     InputType inputType = inputTypePass;
 
 
+    
     private async Task ValidateUser(){
         var uri = navManager.ToAbsoluteUri(navManager.Uri);
         var tempUrl = QueryHelpers.ParseQuery(uri.Query).TryGetValue("ReturnUrl", out var ReturnUrl);
@@ -82,6 +83,7 @@
             var data = await response.Content.ReadFromJsonAsync<SuccessfulLogin>();
             await ((CustomAuthenticationStateProvider)authProvider).SetUserAsAuthenticated(data);
             navManager.NavigateTo($"/{ReturnUrl}", true);
+
         }
         catch (HttpRequestException)
         {

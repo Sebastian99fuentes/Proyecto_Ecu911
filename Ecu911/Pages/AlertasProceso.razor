@@ -68,8 +68,16 @@
     [Parameter]
     public string Proceso { get; set; }
 
+    private Logs loguser = new Logs();
     protected override async Task OnInitializedAsync()
     {
+        await apiService.SetAuthHeaders();
+
+        await traerpro();
+    }
+
+    protected async Task  traerpro(){
+
         var response = await apiService.HttpClient.GetAsync($"ProcesoCompra/id?id={Proceso}");
         alerta.ProcesoCompraId = Proceso;
         try
@@ -88,8 +96,7 @@
             snackBar.Add($"{data.Message}", severity: Severity.Error);
         }
     }
-
-    protected async void agregarAlerta()
+    protected async Task agregarAlerta()
     {
 
 
@@ -111,6 +118,7 @@
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
             snackBar.Add("Alerta agregada!", Severity.Info);
+            await RegistroLogs();
             NavigateInicio();
 
         }
@@ -126,8 +134,25 @@
 
     }
 
-    private bool _procesando = false;
+  
+    private async Task RegistroLogs()
+    {
 
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = $"Agrego alerta en proceso con id ={Proceso}";
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
+    }
 
     void NavigateInicio()
     {

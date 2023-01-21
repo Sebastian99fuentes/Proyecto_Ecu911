@@ -33,7 +33,13 @@
     private string UsuarioId = null;
     private bool coerceText;
     private bool coerceValue;
+     private Logs loguser = new Logs();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await apiService.SetAuthHeaders();
+
+    }
     private async Task GetUsuarios()
     {
         var response = await apiService.HttpClient.GetAsync("/api/User");
@@ -64,4 +70,25 @@
             snackBar.Add($"{data.Message}", Severity.Error);
         }
     }
+
+     private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Elimino Usuario ="+ UsuarioId;
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
+    }
+
+    
 }

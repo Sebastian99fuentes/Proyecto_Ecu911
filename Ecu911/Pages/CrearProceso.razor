@@ -67,7 +67,20 @@
             <MudNumericField  @bind-Value="registro.cuatrimestre" Label="Cuatrimestre Planificado"  Min="0" Max="4" />
         </MudItem>
         <MudItem xs="6" sm="6" md="6">
-            <MudTextField T="string" @bind-Value="registro.mesPlanificado" Label="Mes Planificado" Variant="Variant.Text" Lines="1" />
+                <MudSelect T="string" Label="Mes Planificado" @bind-Value="registro.mesPlanificado" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("Enero")" />
+                    <MudSelectItem Value="@("Febrero")" />
+                    <MudSelectItem Value="@("Marzo")" />
+                      <MudSelectItem Value="@("Abril")" />
+                    <MudSelectItem Value="@("Mayo")" />
+                    <MudSelectItem Value="@("Junio")" />
+                    <MudSelectItem Value="@("Julio")" />
+                    <MudSelectItem Value="@("Agosto")" />
+                    <MudSelectItem Value="@("Septiembre")" />
+                      <MudSelectItem Value="@("Octubre")" />
+                    <MudSelectItem Value="@("Noviembre")" />
+                    <MudSelectItem Value="@("Diciembre")" />
+                </MudSelect>
         </MudItem>
         <MudItem xs="6" sm="6" md="6">
             <MudNumericField Immediate="false" HideSpinButtons="true" Label="Total (Incluye IVA)" Format="N2" T="decimal" @bind-Value="registro.total" />
@@ -122,9 +135,10 @@
     private List<Estado> estado = new();
     private List<ItemPresupuestario> itemspre = new();
 
-
+    private Logs loguser = new Logs();
 
     protected override async Task OnInitializedAsync(){
+        await apiService.SetAuthHeaders();
         await BuscarEstado();
         await BuscarEtapa();
         await BuscarItemPresupuestario();
@@ -214,13 +228,8 @@
 
         try 
         {
-
             registro.PlantaId = areaToken;
-
             response = await apiService.HttpClient.PostAsJsonAsync("ProcesoCompra", registro);
-
-
-
         }
         catch (HttpRequestException)
         {
@@ -231,7 +240,8 @@
         {
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
-            snackBar.Add("Proceso agregado!", Severity.Info);
+            snackBar.Add("Proceso Creado!", Severity.Info);
+            await RegistroLogs();
             NavigateInicio();
         }
         catch (HttpRequestException)
@@ -241,6 +251,25 @@
             snackBar.Add($"{data.Message}", Severity.Error);
         }
 
+    }
+
+     private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Se Creo proceso";
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
     }
     void NavigateInicio()
     {

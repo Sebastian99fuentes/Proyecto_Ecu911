@@ -16,12 +16,11 @@ namespace Ecu911.Servicios
         }
         public async Task SetAuthHeaders()
         {
-            var token = await _localStorageService.GetItemAsync<string>("Access-Token");
-            if (token != null)
+            var accessToken = await _localStorageService.GetItemAsync<string>("Access-Token");
+            if (accessToken != null)
             {
-                HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", await _localStorageService.GetItemAsync<string>("Access-Token"));
-                // HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await _localStorageService.GetItemAsync<string>("Access-Token"));
+
             }
         }
     }

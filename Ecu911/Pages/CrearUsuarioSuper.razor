@@ -54,10 +54,20 @@
     private List<string> Roles = new();
     private string newPassword;
 
+     private Logs loguser = new Logs();
+
     UserValidator<string> userNameValidator = new UserValidator<string>(x => x
         .NotEmpty().WithMessage("Ingrese un Nombre")
         .Matches(@"\A\S+\z").WithMessage("No ingrese espacios en blanco")
         .Length(3, 25));
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await apiService.SetAuthHeaders();
+      
+    }
 
 
     public class UserValidator<T> : AbstractValidator<T>
@@ -120,6 +130,7 @@
         try
         {
             response.EnsureSuccessStatusCode();
+            await RegistroLogs();
             registro.userName = "";
             registro.rol = "";
             registro.planta = "";
@@ -131,6 +142,24 @@
         {
             var data = await response.Content.ReadFromJsonAsync<ResponseModel>();
             snackBar.Add($"{data.Message}", MudBlazor.Severity.Error);
+        }
+    }
+     private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Se Creo Usuario"+ registro.userName+"roll"+ registro.rol;
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+           
         }
     }
 }

@@ -95,10 +95,15 @@
     public double? _valueEn = 0000.00;
     private Preparatoria procesos = new();
     private HttpResponseMessage? response = new();
-
+    private Logs loguser = new Logs();
     [Parameter]
     public string id { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await apiService.SetAuthHeaders();
 
+
+    }
     protected async void Subir()
     {
         try
@@ -118,6 +123,7 @@
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadFromJsonAsync<CreatedResponse>();
             snackBar.Add("Etapa  actualizada!!", Severity.Info);
+            await RegistroLogs();
             NavigateEstados();
         }
         catch (HttpRequestException)
@@ -127,6 +133,25 @@
         }
 
 
+    }
+
+    private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Etapa  actualizada Preparatoria "+ id;
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
     }
     void NavigateEstados()
     {

@@ -113,18 +113,42 @@
     private List<Unidad> unidad = new();
     private string fileNameRole;
     private List<Proceesofiltrocs> procesos = new();
+    private Logs loguser = new Logs();
 
     protected override async Task OnInitializedAsync()
     {
+
+        await apiService.SetAuthHeaders();
+
+        await RegistroLogs();
+       
         var cambio = await sessionStorage.GetItemAsync<string>("Cambio");
         if (cambio == "True")
         {
             CambiarPswUser();
-            cambio = "false";
+            //cambio = "false";
         }
 
         await BuscarProcesosArea();
 
+    }
+    private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Ingreso";
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
     }
 
 
@@ -223,7 +247,7 @@
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-        DialogService.Show<DialogTemplateExample_Dialog>("Alerta", parameters, options);
+        DialogService.Show<DialogIndex>("Alerta", parameters, options);
     }
 
     private void Confirm( string Descripcion)
@@ -235,6 +259,10 @@
 
         DialogService.Show<MudDialogos>("Descripción", parameters);
     }
+
+
+
+
 
 
     void NavigateActualizarEs(string id)

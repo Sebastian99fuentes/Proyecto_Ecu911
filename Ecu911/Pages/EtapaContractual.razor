@@ -48,8 +48,15 @@
     [Parameter]
     public string id { get; set; }
 
-    //[Parameter]
-    //public string Id { get; set; }
+
+    private Logs loguser = new Logs();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await apiService.SetAuthHeaders();
+
+
+    }
     protected async void Subir()
     {
         HttpResponseMessage? response = new();
@@ -80,6 +87,25 @@
         }
 
     }
+    private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Update etapa contractual "+ id;
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
+    }
+
     protected async void NavigateEstados()
     {
 

@@ -13,7 +13,7 @@
                 </MudMenu>
                 <MudText>Usuario:@context.User.Identity.Name</MudText>
                 <MudSpacer />
-                <MudButton Variant="Variant.Text" StartIcon="@Icons.Filled.Logout" Color="Color.Error" OnClick="@LogOut" Target="_blank">Salir</MudButton>
+                <MudButton Variant="Variant.Text" StartIcon="@Icons.Filled.Logout" Color="Color.Error" OnClick="@RegistroLogs" Target="_blank">Salir</MudButton>
             </MudAppBar>
             <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
                 <MudDrawerHeader>
@@ -40,13 +40,36 @@
 
 @code {
     bool _drawerOpen = true;
-
+    private Logs loguser = new Logs();
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
 
-    public void LogOut(){
+   
+    private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = "Salida programa";
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
+        LogOut();
+    }
+    public void LogOut()
+    {
+
         ((CustomAuthenticationStateProvider)authProvider).SetUserAsAuLoggedOut();
+
     }
 }

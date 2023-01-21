@@ -128,10 +128,10 @@
     [Parameter]
     public string ID { get; set; }
 
-
+    private Logs loguser = new Logs();
     protected override async Task OnInitializedAsync()
     {
-
+         await apiService.SetAuthHeaders();
         await BuscarProceeso();
         await BuscarEstado();
         await BuscarEtapa();
@@ -222,7 +222,6 @@
         {
             response.EnsureSuccessStatusCode();
             registro = await response.Content.ReadFromJsonAsync<ProcesoCompra>();
-            Console.WriteLine("sebas");
 
         }
         catch (HttpRequestException)
@@ -257,6 +256,7 @@
         {
             response = await apiService.HttpClient.PutAsJsonAsync($"ProcesoCompra/id?id={ID}", regisupdt);
             snackBar.Add("Proceso Actualizado!", Severity.Info);
+            await RegistroLogs();
             NavigateInicio();
         }
         catch (HttpRequestException)
@@ -267,6 +267,26 @@
  
 
     }
+
+    private async Task RegistroLogs()
+    {
+
+        HttpResponseMessage? response = new();
+
+        loguser.userName = await sessionStorage.GetItemAsync<string>("Id");
+        loguser.action = $"Realizo actualizacion en proceso con id ={ID}";
+        //logs
+        try
+        {
+            response = await apiService.HttpClient.PostAsJsonAsync("Logs", loguser);
+        }
+        catch (HttpRequestException)
+        {
+            var data2 = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            Console.WriteLine($"{data2.Message}", Severity.Error);
+        }
+    }
+
     void NavigateInicio()
     {
         navManager.NavigateTo($"/");
